@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { ProjectDtoMapper } from "@application/mappers/project-dto-mappers"
-import { createNewProject, fetchProject, deployProject, fetchProjects, archiveProject, updateProjectDetails, planTasksWithAI } from "@infrastructure/dependencies"
+import { createNewProject, fetchProject, fetchProjects, archiveProject, updateProjectDetails, planTasksWithAI } from "@infrastructure/dependencies"
 
 export class ProjectController {
 
@@ -64,19 +64,6 @@ export class ProjectController {
 			// TODO: Handle Project Not Found
 			console.error("Error changing project status:", error)
 			res.status(500).json({ message: "Error changing project status" })
-		}
-	}
-
-	async deployProject(req: Request, res: Response): Promise<void> {
-		try {
-			const { projectId } = req.body
-
-			const project = await deployProject.execute(projectId)
-			res.status(200).json(project)
-		} catch (error) {
-			// TODO: Handle Project Not Found
-			console.error("Error rebuilding project:", error)
-			res.status(500).json({ error: `Error rebuilding project: ${error}` })
 		}
 	}
 

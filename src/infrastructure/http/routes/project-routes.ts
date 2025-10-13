@@ -13,8 +13,6 @@ router.get("/fetch/:projectId", (req: Request, res: Response) => projectControll
 
 router.get("/fetch-all/:ownerId", (req: Request, res: Response) => projectController.fetchProjects(req, res))
 
-router.put("/deploy", (req: Request, res: Response) => projectController.deployProject(req, res))
-
 router.put("/archive", (req: Request, res: Response) => projectController.archiveProject(req, res))
 
 export { router as projectRouter }

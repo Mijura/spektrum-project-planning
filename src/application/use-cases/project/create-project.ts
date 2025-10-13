@@ -1,28 +1,16 @@
 import { Project } from "@domain/entities/project"
 import { CreateProject } from "@domain/use-cases/project/create-project"
 import { ProjectRepository } from "@domain/ports/repositories/project-repository"
-import { FileArtifacts } from "@jigjoy-io/file-artifacts"
-import { Template } from "@domain/ports/templates/template"
-import { VersionControlSystem } from "@domain/ports/version-control-system"
 
 export class CreateProjectUseCase implements CreateProject {
 	constructor(
-		private readonly projectRepository: ProjectRepository,
-		private readonly template: Template,
-		private readonly versionControlSystem: VersionControlSystem
+		private readonly projectRepository: ProjectRepository
 	) {}
 
 	async execute(owner: string): Promise<Project> {
 		try {
 			// Create a new project with a unique ID
-			const repositoryId: string = await this.versionControlSystem.createRepository()
 			const project: Project = Project.create("My Project", "Empty project...", owner)
-
-			const buildArtifact: FileArtifacts = await this.template.fetchPrebuiltFiles()
-			const sourceCode: FileArtifacts = await this.template.fetchSourceCode()
-
-			// save version
-			await this.versionControlSystem.commit(repositoryId, sourceCode)
 			
 			await this.projectRepository.save(project)
 
