@@ -4,16 +4,6 @@ import { createNewProject, fetchProject, fetchProjects, archiveProject, updatePr
 
 export class ProjectController {
 
-	async createProject(req: Request, res: Response): Promise<void> {
-		try {
-			const { owner } = req.body
-			const project = await createNewProject.execute(owner)
-			res.status(201).json(project)
-		} catch (error) {
-			console.error("Error creating project:", error)
-			res.status(500).json({ message: "Error creating project." })
-		}
-	}
 
 	async planTasksWithAI(req: Request, res: Response): Promise<void> {
 		try {

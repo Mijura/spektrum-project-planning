@@ -1,27 +1,28 @@
-import Responses from "@infrastructure/http/api-responses"
+import { createNewProject } from "@infrastructure/dependencies"
+import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { ValidationError } from "@infrastructure/http/error-handler/errors/validation-error"
-import { errorHandler } from "@infrastructure/http/error-handler"
-import { schemaValidator } from "@infrastructure/http/schema-validator"
 
 export async function createRepositoryHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
 		if (!body) throw new ValidationError("No page body")
 
 
-        schemaValidator(schema, commit)
+        //schemaValidator(schema, commit)
 
-		let repositoryId: string
+		const { owner } = JSON.parse(body)
+		
+		let project = null
 
 		try {
-			//repositoryId = await createRepositoryUseCase.execute()
+			project = await createNewProject.execute(owner)
 		} catch (error) {
-			throw new Error(`Failed to create repository: ${error}`)
+			console.error("Error creating project:", error)
+			throw new Error(`Failed to create project: ${error}`)
 		}
 
 		let response = {
-			statusCode: 202,
-			body: JSON.stringify({ repositoryId })
+			statusCode: 201,
+			body: JSON.stringify({ project })
 		}
 
 		return Responses._202(response)
