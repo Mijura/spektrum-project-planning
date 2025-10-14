@@ -12,7 +12,6 @@ import { UpdateProjectDetailsUseCase } from "@application/use-cases/project/upda
 import { ArchiveProjectUseCase } from "@application/use-cases/project/archive-project"
 
 import { TaskController } from "@infrastructure/http/controllers/task-controller"
-import { ProjectController } from "@infrastructure/http/controllers/project-controller"
 
 import { DynamoDBProjectRepository } from "@infrastructure/adapters/repositories/project-repository"
 import { DynamoDBTaskRepository } from "@infrastructure/adapters/repositories/task-repository"
@@ -45,7 +44,6 @@ import { Marketeer } from "@infrastructure/adapters/ai/openai/marketeer"
 import { Agent } from "@domain/agent"
 
 // Controllers
-export const projectController = new ProjectController()
 export const taskController = new TaskController()
 export const taskExecutionController = new TaskExecutionController()
 

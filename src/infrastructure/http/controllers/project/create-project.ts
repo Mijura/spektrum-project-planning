@@ -7,11 +7,9 @@ export async function createProjectHandler({ body }: APIGatewayProxyEvent): Prom
 		if (!body) throw new ValidationError("No page body")
 
 
-        //schemaValidator(schema, commit)
-
 		const { owner } = JSON.parse(body)
+        //schemaValidator(schema, commit)
 		
-
 		let response = null
 
 		try {

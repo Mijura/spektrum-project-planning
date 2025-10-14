@@ -6,18 +6,6 @@ import { Task } from "@domain/entities/task"
 
 export class TaskController {
 
-	async createTask(req: Request, res: Response): Promise<void> {
-		try {
-			const { projectId, title, description } = req.body
-			const task: Task = await createTask.execute(projectId, title, description)
-
-			res.status(201).json(task)
-		} catch (error) {
-			console.error("Error creating task:", error)
-			res.status(500).json({ message: "Error creating task." })
-		}
-	}
-
 	async updateTaskTitle(req: Request, res: Response): Promise<void> {
 		try {
 			const taskDto: TaskDto = req.body
