@@ -1,34 +1,9 @@
 import { TaskExecution } from "@domain/entities/task-execution"
 import { TaskExecutionHeatmap } from "@domain/value-objects/task-execution"
-import { fetchTimelineByAccountId, fetchTimelineByProjectId, fetchTaskExecutionsHeatmap } from "@infrastructure/dependencies"
+import { fetchTimelineByAccountId, fetchTaskExecutionsHeatmap } from "@infrastructure/dependencies"
 import { Request, Response } from "express"
 
 export class TaskExecutionController {
-
-    async fetchTimelineByProjectId(req: Request, res: Response): Promise<void> {
-        const projectId  = req.query.projectId as string
-        const page = req.query.page as string
-        const size = req.query.size as string
-        
-        if (!projectId || !page || !size) {
-            res.status(400).json({ error: "Missing required parameters" })
-            return
-        }
-        
-        const pagination = {
-            pageNumber: parseInt(page),
-            pageSize: parseInt(size)
-        }
-
-        try {
-            const activities: TaskExecution[] = await fetchTimelineByProjectId.execute(projectId, pagination)
-            res.json(activities)
-        } catch (error) {
-            console.error("Error during fetching timeline by projectId:", error)
-            res.status(500).json({ error: "Internal server error" })
-        }
-        
-    }
 
     async fetchTimelineByAccountId(req: Request, res: Response): Promise<void> {
         const accountId = req.query.accountId as string
