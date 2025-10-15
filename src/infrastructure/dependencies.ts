@@ -11,7 +11,6 @@ import { CreateProjectUseCase } from "@application/use-cases/project/create-proj
 import { UpdateProjectDetailsUseCase } from "@application/use-cases/project/update-details"
 import { ArchiveProjectUseCase } from "@application/use-cases/project/archive-project"
 
-import { TaskController } from "@infrastructure/http/controllers/task-controller"
 
 import { DynamoDBProjectRepository } from "@infrastructure/adapters/repositories/project-repository"
 import { DynamoDBTaskRepository } from "@infrastructure/adapters/repositories/task-repository"
@@ -26,7 +25,6 @@ import { UpdateTaskDescriptionUseCase } from "@application/use-cases/task/update
 import { UpdateTaskTitleUseCase } from "@application/use-cases/task/update-title"
 import { TaskExecutionRepository } from "@domain/ports/repositories/task-execution-repository"
 import { FetchTaskExecutionsTimeline } from "@domain/use-cases/task-execution/fetch-timeline"
-import { TaskExecutionController } from "./http/controllers/task-execution-controller"
 import { FetchTaskExecutionsHeatmap } from "@domain/use-cases/task-execution/fetch-heatmap"
 import { FetchTaskExecutionsHeatmapUseCase } from "@application/use-cases/task-execution/fetch-heatmap"
 import { FetchTimelineByProjectIdUseCase } from "@application/use-cases/task-execution/fetch-project-timeline"
@@ -42,10 +40,6 @@ import { DefaultMarketingService } from "@application/services/marketing-service
 import { ProductOwner } from "@infrastructure/adapters/ai/openai/product-owner"
 import { Marketeer } from "@infrastructure/adapters/ai/openai/marketeer"
 import { Agent } from "@domain/agent"
-
-// Controllers
-export const taskController = new TaskController()
-export const taskExecutionController = new TaskExecutionController()
 
 
 // Repositories
