@@ -1,19 +1,28 @@
 import { TaskExecution } from "@domain/entities/task-execution"
 import { fetchTimelineByProjectId } from "@infrastructure/dependencies"
-import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
+import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
-export async function fetchProjectTimelineHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function fetchProjectTimelineHandler( event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
-		if (!body) throw new ValidationError("No page body")
 
-        //TODO: Get from param from query instead of body
-        const { projectId, page, size } = JSON.parse(body)
-        //schemaValidator(schema, commit)
+        const qs = event.queryStringParameters || {}
+
+        const projectId = qs.projectId
+        const pageNumber = qs.page ? parseInt(qs.page, 10) : 1
+        const pageSize = qs.size ? parseInt(qs.size, 10) : 25
+
+        if (!projectId) {
+            throw new ValidationError("Missing required query param: projectId")
+        }
+
+        if (Number.isNaN(pageNumber) || Number.isNaN(pageSize)) {
+            throw new ValidationError("Invalid page or size query params")
+        }
 		
         const pagination = {
-            pageNumber: parseInt(page),
-            pageSize: parseInt(size)
+            pageNumber: pageNumber,
+            pageSize: pageSize
         }
 
 		let response = null

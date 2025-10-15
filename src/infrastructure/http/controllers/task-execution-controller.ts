@@ -5,30 +5,6 @@ import { Request, Response } from "express"
 
 export class TaskExecutionController {
 
-    async fetchTimelineByAccountId(req: Request, res: Response): Promise<void> {
-        const accountId = req.query.accountId as string
-        const page = req.query.page as string
-        const size = req.query.size as string
-
-        if (!accountId || !page || !size) {
-            res.status(400).json({ error: "Missing required parameters" })
-            return
-        }
-        
-        const pagination = {
-            pageNumber: parseInt(page),
-            pageSize: parseInt(size)
-        }
-        
-        try {
-            const activities: TaskExecution[] = await fetchTimelineByAccountId.execute(accountId, pagination)
-            res.json(activities)
-        } catch (error) {
-            console.error("Error during fetching timeline by accountId:", error)
-            res.status(500).json({ error: "Internal server error" })
-        }
-        
-    }
     async fetchHeatmap(req: Request, res: Response): Promise<void> {
         const accountId = req.query.accountId as string
         const startDate = req.query.startDate as string
