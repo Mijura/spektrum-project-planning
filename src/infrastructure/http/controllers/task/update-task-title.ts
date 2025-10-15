@@ -4,7 +4,7 @@ import { updateTaskTitle } from "@infrastructure/dependencies"
 import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
-export async function updateTaskDescriptionHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function updateTaskTitleHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
 		if (!body) throw new ValidationError("No page body")
 
