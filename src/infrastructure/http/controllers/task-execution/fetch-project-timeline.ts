@@ -3,7 +3,7 @@ import { fetchTimelineByProjectId } from "@infrastructure/dependencies"
 import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
-export async function fetchProjectHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function fetchProjectTimelineHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
 		if (!body) throw new ValidationError("No page body")
 

@@ -1,14 +1,13 @@
 import { ProjectDto, ProjectDtoMapper } from "@application/mappers/project-dto-mappers"
 import { fetchProjects } from "@infrastructure/dependencies"
-import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
+import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
-export async function fetchProjectsHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function fetchProjectsHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
-		if (!body) throw new ValidationError("No page body")
-
-        //TODO: Get from param from request instead of body
-        const { ownerId } = JSON.parse(body)
+        
+		const ownerId = event.pathParameters?.projectId
+		if (!ownerId) throw new ValidationError("Missing path parameter: ownerId")
         //schemaValidator(schema, commit)
 		
 		let response = null
