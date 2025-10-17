@@ -454,3 +454,10 @@ Resources:
               KeyType: RANGE
           Projection:
             ProjectionType: ALL
+
+Outputs:
+  ProjectApiGatewayUrl:
+    Description: "API Gateway URL for project management and planning"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Export:
+      Name: ProjectApiGatewayUrl
