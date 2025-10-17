@@ -20,7 +20,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /project/S
+            Path: /project/
             Method: POST
     Metadata:
       BuildMethod: esbuild
