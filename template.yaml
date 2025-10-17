@@ -2,6 +2,372 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
+
+  CreateProjectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/project/create-project.createProjectHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Create a new project
+      Environment:
+        Variables:
+          PROJECT_TABLE: !Ref ProjectTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project/S
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/project/create-project.ts
+
+  UpdateProjectDetailsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/project/update-project-details.updateProjectDetailsHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Update project details
+      Environment:
+        Variables:
+          PROJECT_TABLE: !Ref ProjectTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project/
+            Method: PUT
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/project/update-project-details.ts
+
+  FetchProjectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/project/fetch-project.fetchProjectHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Fetch a project by id
+      Environment:
+        Variables:
+          PROJECT_TABLE: !Ref ProjectTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project/fetch/{projectId}
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/project/fetch-project.ts
+
+  FetchProjectsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/project/fetch-projects.fetchProjectsHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Fetch all projects for an owner
+      Environment:
+        Variables:
+          PROJECT_TABLE: !Ref ProjectTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project/fetch-all/{ownerId}
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/project/fetch-projects.ts
+
+  ArchiveProjectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/project/archive-project.archiveProjectHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Archive a project
+      Environment:
+        Variables:
+          PROJECT_TABLE: !Ref ProjectTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project/archive
+            Method: PUT
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/project/archive-project.ts
+
+  PlanTasksWithAIFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/task/plan-tasks-with-ai.planTasksWithAIHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 256
+      Timeout: 120
+      Description: Plan tasks using AI for a project
+      Environment:
+        Variables:
+          PROJECT_TABLE: !Ref ProjectTable
+          TASK_TABLE: !Ref TaskTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /project/plan-tasks-with-ai
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/task/plan-tasks-with-ai.ts
+
+  CreateTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/task/create-task.createTaskHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Create a new task
+      Environment:
+        Variables:
+          TASK_TABLE: !Ref TaskTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /task
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/task/create-task.ts
+
+  UpdateTaskTitleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/task/update-task-title.updateTaskTitleHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Update task title
+      Environment:
+        Variables:
+          TASK_TABLE: !Ref TaskTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /task/title
+            Method: PUT
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/task/update-task-title.ts
+
+  UpdateTaskDescriptionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/task/update-task-description.updateTaskDescriptionHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Update task description
+      Environment:
+        Variables:
+          TASK_TABLE: !Ref TaskTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /task/description
+            Method: PUT
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/task/update-task-description.ts
+
+  FetchTasksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/task/fetch-tasks.fetchTasksHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Fetch tasks for a project
+      Environment:
+        Variables:
+          TASK_TABLE: !Ref TaskTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /task/fetch-all/{projectId}
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/task/fetch-tasks.ts
+
+  FetchProjectTimelineFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/task-execution/fetch-project-timeline.fetchProjectTimelineHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Fetch project timeline task executions
+      Environment:
+        Variables:
+          TASK_EXECUTION_TABLE: !Ref TaskExecutionTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /task-execution/project/timeline
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/task-execution/fetch-project-timeline.ts
+
+  FetchAccountTimelineFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/task-execution/fetch-account-timeline.fetchAccountTimelineHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Fetch account timeline task executions
+      Environment:
+        Variables:
+          TASK_EXECUTION_TABLE: !Ref TaskExecutionTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /task-execution/account/timeline
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/task-execution/fetch-account-timeline.ts
+
+  FetchHeatmapFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/controllers/task-execution/fetch-heatmap.fetchHeatmapHandler
+      Runtime: nodejs22.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Fetch heatmap of task executions
+      Environment:
+        Variables:
+          TASK_EXECUTION_TABLE: !Ref TaskExecutionTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /task-execution/heatmap
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/controllers/task-execution/fetch-heatmap.ts
+
   ProjectTable:
     Type: AWS::DynamoDB::Table
     Properties:
