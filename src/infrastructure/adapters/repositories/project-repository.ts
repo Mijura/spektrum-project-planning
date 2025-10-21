@@ -6,10 +6,7 @@ import { ProjectMapper } from "@infrastructure/mappers/project-mapper"
 import { ProjectRepository } from "@domain/ports/repositories/project-repository"
 import { ProjectRecord } from "@infrastructure/records/project"
 
-const client = new DynamoDBClient({
-	region: process.env.AWS_REGION,
-	profile: process.env.AWS_PROFILE,
-})
+const client = new DynamoDBClient()
 const ddbDocClient = DynamoDBDocumentClient.from(client)
 
 export class DynamoDBProjectRepository implements ProjectRepository {
@@ -72,7 +69,7 @@ export class DynamoDBProjectRepository implements ProjectRepository {
 
 	async getAllByStatus(ownerId: string, status: ProjectStatus): Promise<Project[]> {
 		const tableName = process.env.PROJECT_TABLE
-	  
+
 		const params = {
 		  KeyConditionExpression: "ownerId = :ownerId and #status = :status",  // Use #status to avoid conflict with reserved word
 		  IndexName: "ownerStatusGSI", // Use the GSI that indexes by ownerId and status
@@ -92,6 +89,6 @@ export class DynamoDBProjectRepository implements ProjectRepository {
 		console.log(`Found ${projects.length} projects with status ${status} for owner ${ownerId}.`)
 	  
 		return ProjectMapper.toDomains(projects)
-	  }
+	}
 	  
 }
