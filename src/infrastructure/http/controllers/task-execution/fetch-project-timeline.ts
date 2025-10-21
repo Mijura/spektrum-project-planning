@@ -25,21 +25,15 @@ export async function fetchProjectTimelineHandler( event: APIGatewayProxyEvent):
             pageSize: pageSize
         }
 
-		let response = null
-
         try {
             const activities: TaskExecution[] = await fetchTimelineByProjectId.execute(projectId, pagination)
-            response = {
-				statusCode: 200,
-				body: JSON.stringify({ activities })
-			}
+            return Responses._200(activities)
 		} catch (error) {
 			// TODO: Handle Project Not Found
 			console.error("Error fetching project timeline:", error)
 			throw new Error(`Error fetching project timeline.`)
 		}
 
-		return Responses._200(response)
 	} catch (error) {
 		return errorHandler(error)
 	}

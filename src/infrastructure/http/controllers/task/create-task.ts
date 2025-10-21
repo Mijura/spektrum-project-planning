@@ -11,22 +11,14 @@ export async function createTaskHandler({ body }: APIGatewayProxyEvent): Promise
         const { projectId, title, description } = JSON.parse(body)
         //schemaValidator(schema, commit)
 		
-		let response = null
-
 		try {
-			
 			const task: Task = await createTask.execute(projectId, title, description)
-
-			response = {
-				statusCode: 201,
-				body: JSON.stringify({ task })
-			}
+			return Responses._201(task)
 		} catch (error) {
 			console.error("Error creating task:", error)
 			throw new Error(`Error creating task.`)
 		}
 
-		return Responses._201(response)
 	} catch (error) {
 		return errorHandler(error)
 	}

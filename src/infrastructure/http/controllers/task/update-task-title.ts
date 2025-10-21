@@ -10,24 +10,17 @@ export async function updateTaskTitleHandler({ body }: APIGatewayProxyEvent): Pr
 
         const taskDto: TaskDto = JSON.parse(body)
         //schemaValidator(schema, commit)
-		
-		let response = null
 
         try {
 			
 			const updatedTask: Task = await updateTaskTitle.execute(taskDto)
-            response = {
-				statusCode: 200,
-				body: JSON.stringify({ updatedTask })
-			}
+            return Responses._200(updatedTask)
 		} catch (error) {
 			// TODO: Handle Task Not Found
 			console.error("Error updating task title:", error)
 			throw new Error("Error updating task title.")
 		}
 
-
-		return Responses._200(response)
 	} catch (error) {
 		return errorHandler(error)
 	}

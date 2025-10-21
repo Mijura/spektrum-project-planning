@@ -10,22 +10,16 @@ export async function updateTaskDescriptionHandler({ body }: APIGatewayProxyEven
 
         const taskDto: TaskDto = JSON.parse(body)
         //schemaValidator(schema, commit)
-		
-		let response = null
 
         try {
 			
 			const updatedTask: Task = await updateTaskDescription.execute(taskDto)
-            response = {
-				statusCode: 200,
-				body: JSON.stringify({ updatedTask })
-			}
+            return Responses._200(updatedTask)
 		} catch (error) {
 			console.error("Error updating task description:", error)
 			throw new Error("Error updating task description." )
 		}
 
-		return Responses._200(response)
 	} catch (error) {
 		return errorHandler(error)
 	}

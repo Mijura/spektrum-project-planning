@@ -9,23 +9,15 @@ export async function planTasksWithAIHandler({ body }: APIGatewayProxyEvent): Pr
 		const { projectId, projectDescription } = JSON.parse(body)
         //schemaValidator(schema, commit)
 
-        let response = null
-
         try {
             const tasks = await planTasksWithAI.execute(projectId, projectDescription)
 
-            response = {
-                statusCode: 200,
-                body: JSON.stringify({ tasks })
-            }
+            return Responses._200(tasks)
         } catch (error) {
             console.error("Error planning tasks with AI:", error)
 			throw new Error(`Error planning tasks with AI: ${error}`)
         }
 
-
-
-		return Responses._200(response)
 	} catch (error) {
 		return errorHandler(error)
 	}

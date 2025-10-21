@@ -16,21 +16,15 @@ export async function fetchHeatmapHandler( event: APIGatewayProxyEvent): Promise
             throw new ValidationError("Missing required query param")
         }
 
-		let response = null
-
         try {
             const heatmap: TaskExecutionHeatmap[] = await fetchTaskExecutionsHeatmap.execute(accountId, { startDate, endDate })
-            response = {
-				statusCode: 200,
-				body: JSON.stringify({ heatmap })
-			}
+            return Responses._200(heatmap)
 		} catch (error) {
 			// TODO: Handle Project Not Found
 			console.error("Error fetching heatmap:", error)
 			throw new Error(`Error fetching heatmap.`)
 		}
 
-		return Responses._200(response)
 	} catch (error) {
 		return errorHandler(error)
 	}
