@@ -7,23 +7,18 @@ export async function fetchProjectHandler(event: APIGatewayProxyEvent): Promise<
 	try {
 		const projectId = event.pathParameters?.projectId
 		if (!projectId) throw new ValidationError("Missing path parameter: projectId")
-		
-		let response = null
 
         try {
 			const project = await fetchProject.execute(projectId)
 			const projectDTO: ProjectDto = ProjectDtoMapper.toDto(project)
-            response = {
-				statusCode: 200,
-				body: JSON.stringify({ projectDTO })
-			}
+			console.log(projectDTO)
+			return Responses._200(projectDTO)
 		} catch (error) {
 			// TODO: Handle Project Not Found
 			console.error("Error fetching project:", error)
 			throw new Error(`Error fetching project.`)
 		}
 
-		return Responses._200(response)
 	} catch (error) {
 		return errorHandler(error)
 	}
