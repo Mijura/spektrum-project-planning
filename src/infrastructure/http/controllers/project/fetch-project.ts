@@ -11,7 +11,7 @@ export async function fetchProjectHandler(event: APIGatewayProxyEvent): Promise<
         try {
 			const project = await fetchProject.execute(projectId)
 			const projectDTO: ProjectDto = ProjectDtoMapper.toDto(project)
-			console.log(projectDTO)
+
 			return Responses._200(projectDTO)
 		} catch (error) {
 			// TODO: Handle Project Not Found

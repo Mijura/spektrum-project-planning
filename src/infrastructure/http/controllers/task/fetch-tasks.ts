@@ -9,23 +9,18 @@ export async function fetchTasksHandler(event: APIGatewayProxyEvent): Promise<AP
 	try {
 		const projectId = event.pathParameters?.projectId
 		if (!projectId) throw new ValidationError("Missing path parameter: projectId")
-		
-		let response = null
 
         try {
             console.log(`Fetching all tasks for project: ${projectId}`)
 			const tasks: Task[] = await fetchTasks.execute(projectId)
 			const taskDtos: TaskDto[] = TaskDtoMapper.toDtos(tasks)
-            response = {
-				statusCode: 200,
-				body: JSON.stringify({ taskDtos })
-			}
+            
+			return Responses._200(taskDtos)
 		} catch (error) {
 			console.error("Error fetching tasks:", error)
 			throw new Error(`Error fetching tasks.`)
 		}
 
-		return Responses._200(response)
 	} catch (error) {
 		return errorHandler(error)
 	}
