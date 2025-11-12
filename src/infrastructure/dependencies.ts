@@ -23,14 +23,7 @@ import { CreateTaskUseCase } from "@application/use-cases/task/create-task"
 import { FetchTasksUseCase } from "@application/use-cases/task/fetch-tasks"
 import { UpdateTaskDescriptionUseCase } from "@application/use-cases/task/update-description"
 import { UpdateTaskTitleUseCase } from "@application/use-cases/task/update-title"
-import { TaskExecutionRepository } from "@domain/ports/repositories/task-execution-repository"
-import { FetchTaskExecutionsTimeline } from "@domain/use-cases/task-execution/fetch-timeline"
-import { FetchTaskExecutionsHeatmap } from "@domain/use-cases/task-execution/fetch-heatmap"
-import { FetchTaskExecutionsHeatmapUseCase } from "@application/use-cases/task-execution/fetch-heatmap"
-import { FetchTimelineByProjectIdUseCase } from "@application/use-cases/task-execution/fetch-project-timeline"
-import { FetchTimelineByAccountIdUseCase } from "@application/use-cases/task-execution/fetch-account-timeline"
 
-import { DynamoDBTaskExecutionRepository } from "@infrastructure/adapters/repositories/dynamodb-task-execution-repository"
 import { PlanTasksWithAIUseCase } from "@application/use-cases/project/plan-tasks-with-ai"
 import { MarketingService } from "@domain/ports/services/marketing-service"
 
@@ -45,7 +38,6 @@ import { Agent } from "@domain/agent"
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
 export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
-export const taskExecutionRepository: TaskExecutionRepository = new DynamoDBTaskExecutionRepository()
 
 
 // Agents
@@ -66,6 +58,3 @@ export const fetchTasks: FetchTasks = new FetchTasksUseCase(taskRepository)
 export const updateTaskTitle: UpdateTaskTitle = new UpdateTaskTitleUseCase(taskRepository)
 export const updateTaskDescription: UpdateTaskDescription = new UpdateTaskDescriptionUseCase(taskRepository)
 export const updateProjectDetails: UpdateProjectDetails = new UpdateProjectDetailsUseCase(projectRepository)
-export const fetchTimelineByProjectId: FetchTaskExecutionsTimeline = new FetchTimelineByProjectIdUseCase(taskExecutionRepository)
-export const fetchTimelineByAccountId:  FetchTaskExecutionsTimeline = new FetchTimelineByAccountIdUseCase(taskExecutionRepository)
-export const fetchTaskExecutionsHeatmap: FetchTaskExecutionsHeatmap = new FetchTaskExecutionsHeatmapUseCase(taskExecutionRepository)

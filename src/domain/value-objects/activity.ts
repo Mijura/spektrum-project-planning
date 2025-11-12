@@ -36,13 +36,6 @@ export type Comment = {
     text: string
 }
 
-
-export enum TaskExecutionStatus {
-    RUNNING = 'Running',
-    SUCCEEDED = 'Succeeded',
-    FAILED = 'Failed'
-}
-
 export type ActivityMetadata = 
     CommentLeftMetadata | 
     TitleUpdatedMetadata | 
@@ -58,16 +51,6 @@ export enum ActivityType {
     DESCRIPTION_UPDATED = 'DescriptionUpdated',
     STARTED_WORK = 'StartedWork',
     FINISHED_WORK = 'FinishedWork'
-}
-
-export type PaginationData = {
-    pageNumber: number
-    pageSize: number
-}
-
-export const DefaultPagination: PaginationData = {
-    pageNumber: 1,
-    pageSize: 5,
 }
 
 export type ActivityData = {
