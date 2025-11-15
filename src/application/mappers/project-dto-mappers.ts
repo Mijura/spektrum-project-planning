@@ -9,7 +9,6 @@ export interface ProjectDto {
   created: string
   updated: string | null
   status: ProjectStatus
-  detailsUpdated: boolean
 }
 
 export class ProjectDtoMapper {
@@ -22,8 +21,7 @@ export class ProjectDtoMapper {
       description: project.description,
       created: project.created,
       updated: project.updated,
-      status: project.status,
-      detailsUpdated: project.detailsUpdated
+      status: project.status
     }
   }
 
