@@ -1,4 +1,4 @@
-# Planning Service
+# Project Planning Service
 
 Manages projects, tasks,and task executions, translating user intent into actionable development plans and coordinating execution across agents.
 
