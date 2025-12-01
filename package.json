@@ -5,8 +5,8 @@
   "scripts": {
     "build": "sam build --profile Development",
     "deploy": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND",
-    "serve": "sam local start-api --profile Development --port 3002 --region eu-west-1 --env-vars env.json",
-    "start": "sam local start-api --profile Development --port 3002 --region eu-west-1 --env-vars env.json",
+    "serve": "sam local start-api --profile Development --port 4000 --region eu-west-1 --env-vars env.json",
+    "start": "sam local start-api --profile Development --port 4000 --region eu-west-1 --env-vars env.json",
     "format": "prettier --write \"{src,packages}/**/*.{ts,tsx}\""
 },
   "keywords": [],
