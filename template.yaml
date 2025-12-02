@@ -1,8 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
+Description: >
+  project-planning
 
 Resources:
-
   CreateProjectFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -20,7 +21,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /project/
+            Path: /project/{ownerId}
             Method: POST
     Metadata:
       BuildMethod: esbuild

@@ -1,11 +1,14 @@
 version = 0.1
+
 [default.deploy.parameters]
-stack_name = "jigjoy-repositories"
+stack_name = "project-planning"
 resolve_s3 = true
-s3_prefix = "jigjoy-repositories"
+s3_prefix = "project-planning"
 region = "eu-west-1"
 profile = "Development"
 confirm_changeset = true
-capabilities = "CAPABILITY_IAM"
-disable_rollback = true
+capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 image_repositories = []
+
+[default.global.parameters]
+region = "eu-west-1"

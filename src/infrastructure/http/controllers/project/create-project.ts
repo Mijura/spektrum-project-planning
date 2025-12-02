@@ -1,19 +1,20 @@
 import { createNewProject } from "@infrastructure/dependencies"
-import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
+import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
-export async function createProjectHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+export async function createProjectHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
-		if (!body) throw new ValidationError("No page body")
 
+		const ownerId = event.pathParameters?.ownerId
+		
+		if (!ownerId) 
+			throw new ValidationError("Missing path parameter: ownerId")
 
-		const { owner } = JSON.parse(body)
-        //schemaValidator(schema, commit)
 		
 		let response = null
 
 		try {
-			const project = await createNewProject.execute(owner)
+			const project = await createNewProject.execute(ownerId)
 
 			response = {
 				statusCode: 201,

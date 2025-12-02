@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "sam build --profile Development",
-    "deploy": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND",
+    "deploy": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --guided",
     "serve": "sam local start-api --profile Development --port 4000 --region eu-west-1 --env-vars env.json",
     "start": "sam local start-api --profile Development --port 4000 --region eu-west-1 --env-vars env.json",
     "format": "prettier --write \"{src,packages}/**/*.{ts,tsx}\""
@@ -18,7 +18,7 @@
     "@aws-sdk/client-s3": "^3.817.0",
     "@aws-sdk/lib-dynamodb": "^3.398.0",
     "@aws-sdk/lib-storage": "^3.817.0",
-    "@jigjoy-io/file-artifacts": "^0.0.3",
+    "@jigjoy-io/file-artifacts": "^0.0.5",
     "@jigjoy-io/serverless-core": "^0.0.3",
     "openai": "^5.12.2",
     "socket.io": "^4.8.1",
