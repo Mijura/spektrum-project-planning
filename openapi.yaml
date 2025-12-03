@@ -1,0 +1,273 @@
+openapi: 3.0.1
+info:
+  title: Project Planning API
+  version: "1.0.0"
+  description: >
+    Microservice for project planning and task management:
+    projects, tasks, and AI-assisted planning.
+
+servers:
+  - url: http://localhost:4000
+    description: Local SAM API
+
+paths:
+  /project/{ownerId}:
+    post:
+      summary: Create project
+      description: Create a new project for the given owner.
+      operationId: createProject
+      parameters:
+        - in: path
+          name: ownerId
+          required: true
+          schema:
+            type: string
+          description: Owner identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+  /project/:
+    put:
+      summary: Update project details
+      description: Update project metadata such as name, description, status, etc.
+      operationId: updateProjectDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Project updated
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid input
+        '404':
+          description: Project not found
+        '500':
+          description: Internal server error
+
+  /project/fetch/{projectId}:
+    get:
+      summary: Fetch project
+      description: Fetch a project by its identifier.
+      operationId: fetchProject
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+          description: Project identifier
+      responses:
+        '200':
+          description: Project fetched
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '404':
+          description: Project not found
+        '500':
+          description: Internal server error
+
+  /project/fetch-all/{ownerId}:
+    get:
+      summary: Fetch projects for owner
+      description: Fetch all projects for a given owner.
+      operationId: fetchProjects
+      parameters:
+        - in: path
+          name: ownerId
+          required: true
+          schema:
+            type: string
+          description: Owner identifier
+      responses:
+        '200':
+          description: Projects fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '500':
+          description: Internal server error
+
+  /project/archive:
+    put:
+      summary: Archive project
+      description: Archive a project (e.g. mark as inactive).
+      operationId: archiveProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Project archived
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '404':
+          description: Project not found
+        '500':
+          description: Internal server error
+
+  /project/plan-tasks-with-ai:
+    post:
+      summary: Plan tasks with AI
+      description: Generate or update a task plan for a project using AI.
+      operationId: planTasksWithAI
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Planned tasks generated
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid input
+        '404':
+          description: Project not found
+        '500':
+          description: Internal server error
+
+  /task:
+    post:
+      summary: Create task
+      description: Create a new task.
+      operationId: createTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+
+  /task/title:
+    put:
+      summary: Update task title
+      description: Update the title of an existing task.
+      operationId: updateTaskTitle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Task title updated
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '404':
+          description: Task not found
+        '500':
+          description: Internal server error
+
+  /task/description:
+    put:
+      summary: Update task description
+      description: Update the description of an existing task.
+      operationId: updateTaskDescription
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Task description updated
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '404':
+          description: Task not found
+        '500':
+          description: Internal server error
+
+  /task/fetch-all/{projectId}:
+    get:
+      summary: Fetch tasks for project
+      description: Fetch all tasks for a given project.
+      operationId: fetchTasks
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+          description: Project identifier
+      responses:
+        '200':
+          description: Tasks fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '500':
+          description: Internal server error

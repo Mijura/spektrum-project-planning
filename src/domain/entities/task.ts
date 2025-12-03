@@ -81,7 +81,7 @@ export class Task {
 
 		const activity = FinishedWork.create(workerId, this, message)
 		const startedWorkActivity = this.activities.findIndex(activity => activity instanceof StartedWork)
-		if (startedWorkActivity) {
+		if (startedWorkActivity !== -1) {
 			this.activities.splice(startedWorkActivity, 1, activity)
 		}
 
