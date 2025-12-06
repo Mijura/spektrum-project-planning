@@ -1,36 +1,27 @@
 import { ProjectDetails } from "@domain/value-objects/project-details"
 import { Task } from "@domain/entities/task" 
 import { z } from "zod"
-import { OpenAIAgent, Model, ReasoningEffort } from "./agent"
+import { Agent as MosaicAgent, Command } from "@jigjoy-io/mosaic"
+import { Agent } from "@domain/agent"
 
-export class Marketeer extends OpenAIAgent {
+export class Marketeer implements Agent {
     
     name: string = "Marketeer"
 
-    model = Model.GPT_5_NANO
+    async execute(task: Task): Promise<ProjectDetails>{
 
-    reasoningEffort = ReasoningEffort.LOW
+        const outputSchema = z.object({
+            project: z.object({
+                name: z.string().describe("Short and concise title of the project."),
+                description: z.string().describe("Project description withtout technical details in single sentence.")}),
+        })
 
-    thoughtShape = z.object({
-        project: z.object({
-            name: z.string().describe("Short and concise title of the project."),
-            description: z.string().describe("Project description withtout technical details in single sentence.")}),
-    })
-
-    task!: Task
-
-    async preThought(task: Task): Promise<void> {
-        this.task = task
-        console.log('Marketeer is thinking about the project name and description...')
-    }
-
-    loadContext(): string {
-        return `
+        const prompt = `
                 
             ### **Your Task:**
             1) Based on the task details, create a project name and description.
     
-            ### **Task Details:** ${JSON.stringify(this.task)}
+            ### **Task Details:** ${JSON.stringify(task)}
 
 
             Important:
@@ -43,15 +34,16 @@ export class Marketeer extends OpenAIAgent {
                     "description": "A simple note-taking app that allows you to create, edit, and delete notes."
                 }
             }
-            
-            ### **Output Format** 
-            ${JSON.stringify(this.thoughtShape.shape)}
         `
-    }
 
-    async afterThought(thought: z.infer<typeof this.thoughtShape>): Promise<ProjectDetails> {
-        const { project } = thought
-        console.log('Marketeer finished generating the project name and description')
-        return project
+        const command: Command = {
+            model: 'gpt-5.1',
+            task: prompt,
+            structuredOutput: outputSchema
+        }
+
+        const agent = new MosaicAgent(command)
+        const projectDetails: ProjectDetails = await agent.act()
+        return projectDetails
     }
 }
