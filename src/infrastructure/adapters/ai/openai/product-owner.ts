@@ -1,16 +1,13 @@
+import { Agent } from "@domain/agent"
 import { Task } from "@domain/entities/task"
+import { Agent as MosaicAgent, Command } from "@jigjoy-io/mosaic"
 import z from "zod"
-import { OpenAIAgent, Model, ReasoningEffort } from "./agent"
 
-export class ProductOwner extends OpenAIAgent {
+export class ProductOwner implements Agent {
 
     name: string = "Product Owner"
 
-    model = Model.GPT_5_NANO
-
-    reasoningEffort = ReasoningEffort.LOW
-
-    thoughtShape = z.object({
+    outputSchema = z.object({
         tasks: z.array(
             z.object({
                 title: z.string().describe("Title of the task"),
@@ -21,15 +18,10 @@ export class ProductOwner extends OpenAIAgent {
         comment: z.string().describe("A comment to be added to the task")
     })
 
-    task!: Task
+    async execute(task: any): Promise<any> {
+        
 
-    async preThought(task: Task): Promise<void> {
-        this.task = task
-        console.log('Product Owner generating feature specs...')
-    }
-
-    loadContext(): string {
-        return `
+        const prompt =  `
         # 🛠️ System Prompt: Product Feature Creator Agent
 
         ## Role:
@@ -111,25 +103,31 @@ export class ProductOwner extends OpenAIAgent {
 
 
         ### Task Input:
-        ${JSON.stringify(this.task)}
+        ${JSON.stringify(task)}
 
         ---
         `
-    }
+        const command: Command = {
+            model: 'gpt-5.1',
+            task: prompt,
+            structuredOutput: this.outputSchema
 
-    async afterThought(thought: z.infer<typeof this.thoughtShape>): Promise<any> {
-        const { tasks, comment } = thought
+        }
 
-        this.task.leaveComment("Product Owner", comment)
+        const agent = new MosaicAgent(command)
+
+        const output = await agent.act()
+        task.leaveComment("Product Owner", output.comment)
         const createdTasks = []
-        for (const task of tasks) {
+        for (const task of output.tasks) {
             // TODO: Add priority to the task
-            const t = Task.create('Product Owner', this.task.projectId, task.title, task.description)
+            const t = Task.create('Product Owner', task.projectId, task.title, task.description)
             createdTasks.push(t)
         }
 
-        console.log('Product Owner finished generating feature specs')
         return createdTasks
     }
+
+
 
 }
