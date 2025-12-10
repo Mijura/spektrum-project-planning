@@ -1,7 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
 Description: >
   project-planning
+
+Transform:
+- AWS::Serverless-2016-10-31
+
+Globals:
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+      AllowHeaders: "'content-type'"
+      AllowOrigin: "'*'"
 
 Resources:
   CreateProjectFunction:
@@ -21,7 +30,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /project/{ownerId}
+            Path: /project
             Method: POST
     Metadata:
       BuildMethod: esbuild
@@ -49,7 +58,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /project/
+            Path: /project
             Method: PUT
     Metadata:
       BuildMethod: esbuild

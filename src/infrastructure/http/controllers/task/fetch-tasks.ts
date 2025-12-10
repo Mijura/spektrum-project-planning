@@ -8,20 +8,18 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 export async function fetchTasksHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 	try {
 		const projectId = event.pathParameters?.projectId
-		if (!projectId) throw new ValidationError("Missing path parameter: projectId")
+		
+		if (!projectId) 
+			throw new ValidationError("Missing path parameter: projectId")
 
-        try {
-            console.log(`Fetching all tasks for project: ${projectId}`)
-			const tasks: Task[] = await fetchTasks.execute(projectId)
-			const taskDtos: TaskDto[] = TaskDtoMapper.toDtos(tasks)
+		console.log(`Fetching all tasks for project: ${projectId}`)
+		const tasks: Task[] = await fetchTasks.execute(projectId)
+		const taskDtos: TaskDto[] = TaskDtoMapper.toDtos(tasks)
             
-			return Responses._200(taskDtos)
-		} catch (error) {
-			console.error("Error fetching tasks:", error)
-			throw new Error(`Error fetching tasks.`)
-		}
+		return Responses._200(taskDtos)
 
 	} catch (error) {
+		console.error("Error fetching tasks:", error)
 		return errorHandler(error)
 	}
 }

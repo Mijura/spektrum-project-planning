@@ -9,23 +9,13 @@ export async function updateProjectDetailsHandler({ body }: APIGatewayProxyEvent
 
         const { id, name, description }  = JSON.parse(body)
         //schemaValidator(schema, commit)
-		
-		let response = null
 
-        try {
-			const project = await updateProjectDetails.execute(id, name, description)
-			const projectDTO: ProjectDto = ProjectDtoMapper.toDto(project)
-            response = {
-				statusCode: 200,
-				body: JSON.stringify({ projectDTO })
-			}
-		} catch (error) {
-			console.error("Error updating project:", error)
-			throw new Error(`Error updating project details.`)
-		}
+		const project = await updateProjectDetails.execute(id, name, description)
+		const projectDTO: ProjectDto = ProjectDtoMapper.toDto(project)
 
-		return Responses._200(response)
+		return Responses._200(projectDTO)
 	} catch (error) {
+		console.error("Error updating project:", error)
 		return errorHandler(error)
 	}
 }

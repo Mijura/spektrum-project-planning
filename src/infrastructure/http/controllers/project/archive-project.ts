@@ -9,25 +9,13 @@ export async function archiveProjectHandler({ body }: APIGatewayProxyEvent): Pro
 
         const { projectId } = JSON.parse(body)
         //schemaValidator(schema, commit)
-		
-		let response = null
 
-        try {
-			
-			const project = await archiveProject.execute(projectId)
-			const projectDTO: ProjectDto = ProjectDtoMapper.toDto(project)
-            response = {
-				statusCode: 200,
-				body: JSON.stringify({ projectDTO })
-			}
-		} catch (error) {
-			// TODO: Handle Project Not Found
-			console.error("Error archiving project:", error)
-			throw new Error(`Error archiving project.`)
-		}
+		const project = await archiveProject.execute(projectId)
+		const projectDTO: ProjectDto = ProjectDtoMapper.toDto(project)
 
-		return Responses._200(response)
+		return Responses._200(projectDTO)
 	} catch (error) {
+		console.error("Error archiving project:", error)
 		return errorHandler(error)
 	}
 }

@@ -10,19 +10,13 @@ export async function fetchProjectsHandler(event: APIGatewayProxyEvent): Promise
 		if (!ownerId) throw new ValidationError("Missing path parameter: ownerId")
         //schemaValidator(schema, commit)
 
-        try {
-            console.log(`Fetching all projects for ${ownerId}`)
-			const projects = await fetchProjects.execute(ownerId)
-			const projectDtos: ProjectDto[] = ProjectDtoMapper.toDtos(projects)
-            return Responses._200(projectDtos)
-		} catch (error) {
-			// TODO: Handle Project Not Found
-			console.error("Error fetching projects:", error)
-			throw new Error(`Error fetching projects.`)
-		}
-
+		console.log(`Fetching all projects for ${ownerId}`)
+		const projects = await fetchProjects.execute(ownerId)
+		const projectDtos: ProjectDto[] = ProjectDtoMapper.toDtos(projects)
+		return Responses._200(projectDtos)
 		
 	} catch (error) {
+		console.error("Error fetching projects:", error)
 		return errorHandler(error)
 	}
 }
