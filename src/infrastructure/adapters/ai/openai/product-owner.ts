@@ -111,7 +111,6 @@ export class ProductOwner implements Agent {
             model: 'gpt-5.1',
             task: prompt,
             structuredOutput: this.outputSchema
-
         }
 
         const agent = new MosaicAgent(command)
