@@ -11,18 +11,11 @@ servers:
     description: Local SAM API
 
 paths:
-  /project/{ownerId}:
+  /project:
     post:
       summary: Create project
       description: Create a new project for the given owner.
       operationId: createProject
-      parameters:
-        - in: path
-          name: ownerId
-          required: true
-          schema:
-            type: string
-          description: Owner identifier
       requestBody:
         required: true
         content:
