@@ -11,7 +11,8 @@ servers:
     description: Local SAM API
 
 paths:
-  /project:
+
+  /project/:
     post:
       summary: Create project
       description: Create a new project for the given owner.
@@ -35,8 +36,6 @@ paths:
           description: Invalid input
         '500':
           description: Internal server error
-
-  /project/:
     put:
       summary: Update project details
       description: Update project metadata such as name, description, status, etc.
