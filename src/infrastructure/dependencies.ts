@@ -32,6 +32,8 @@ import { TaskRepository } from "@domain/ports/repositories/task-repository"
 import { DefaultMarketingService } from "@application/services/marketing-service"
 import { ProductOwner } from "@infrastructure/adapters/ai/openai/product-owner"
 import { Marketeer } from "@infrastructure/adapters/ai/openai/marketeer"
+import { AICodingClient } from "@jigjoy-io/ai-coding-client"
+import { ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
 import { Agent } from "@domain/agent"
 
 
@@ -47,8 +49,15 @@ export const marketeer: Agent = new Marketeer()
 
 export const marketingService: MarketingService = new DefaultMarketingService(marketeer, projectRepository)
 
+const aiCodingEndpoint = process.env.AI_CODING_ENDPOINT || ''
+const aiCodingClient = new AICodingClient(aiCodingEndpoint)
+
+const projectDeploymentEndpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT || ''
+
+const projectDeploymentClient = new ProjectDeploymentClient(projectDeploymentEndpoint)
+
 // Use Cases
-export const createNewProject: CreateProject = new CreateProjectUseCase(projectRepository)
+export const createNewProject: CreateProject = new CreateProjectUseCase(projectRepository, aiCodingClient, projectDeploymentClient)
 export const planTasksWithAI: PlanTasksWithAI = new PlanTasksWithAIUseCase(productOwner, marketingService, taskRepository)
 export const fetchProject: FetchProject = new FetchProjectUseCase(projectRepository)
 export const fetchProjects: FetchProjects = new FetchProjectsUseCase(projectRepository)

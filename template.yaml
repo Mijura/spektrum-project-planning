@@ -26,6 +26,8 @@ Resources:
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
+          AI_CODING_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:AiCodingEndpoint}}"
+          PROJECT_DEPLOYMENT_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:ProjectDeploymentEndpoint}}"
       Events:
         Api:
           Type: Api
