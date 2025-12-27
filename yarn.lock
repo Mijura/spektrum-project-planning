@@ -719,10 +719,10 @@
   resolved "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.12.tgz"
   integrity sha512-uqZMTLr/zR/ed4jIGnwSLkaHmPjOjJvnm6TVVitAa08SLS9Z0VM8wIRx7gWbJB5/J54YuIMInDquWyYvQLZkgw==
 
-"@jigjoy-io/ai-coding-client@^0.0.4":
-  version "0.0.4"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-io/ai-coding-client/0.0.4/eaa65896fa06c09326d04b2e6b59de4ad19e9cda"
-  integrity sha512-ZCZopu0MnKiUzpZHgYjD9nCpcVLNU+ZxkAX8JxQB/DYA2IkGtsIqZhDUw3nVCEmSlX5YMB+aCz2Ct8uzV1Yu5A==
+"@jigjoy-io/ai-coding-client@^0.0.5":
+  version "0.0.5"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-io/ai-coding-client/0.0.5/7529b75ff246fdd90b5b6cba35299d01e932b7dc"
+  integrity sha512-z05B1rWwcvsf+Z6goAFzrA2BA9Bgpp36GvhxyVE7j61/TljONloPkmsjJKdVuqX27FlYbebcdcqehP72IjWaGg==
   dependencies:
     axios "^1.13.2"
 
@@ -735,10 +735,10 @@
     openai "^6.9.1"
     zod "^4.1.13"
 
-"@jigjoy-io/project-deployment-client@^0.0.5":
-  version "0.0.5"
-  resolved "https://npm.pkg.github.com/download/@jigjoy-io/project-deployment-client/0.0.5/71e6bb688034f628686fe46aaff6f6bf5c42b464"
-  integrity sha512-wstgqhWIgb7G44lnXqHJ4YXTqasVXJA22cS/uLTAjwtSEMHOb/RhHrS4ZZjuaWHoX/8F7nJyPYO3gK9SR5ei2A==
+"@jigjoy-io/project-deployment-client@^0.0.7":
+  version "0.0.7"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-io/project-deployment-client/0.0.7/9f449b872881ad5b5b4f3f87848b35aae6b8d490"
+  integrity sha512-Y7B0wAR/h3QEaI7oPZKbwuWVASJjdAzELxIjwxYEZAiG3+wCMav89drFmmwDKkzfQt+mvFhG/DItmQf1tlx7kQ==
   dependencies:
     axios "^1.13.2"
 

@@ -1,8 +1,8 @@
 import { Project } from "@domain/entities/project"
 import { CreateProject } from "@domain/use-cases/project/create-project"
 import { ProjectRepository } from "@domain/ports/repositories/project-repository"
-import { AICodingClient, Module } from "@jigjoy-io/ai-coding-client"
-import { DeployModuleCommand, EnvironmentType, ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
+import { AICodingClient } from "@jigjoy-io/ai-coding-client"
+import { DeployModuleCommand, EnvironmentType, ModuleType, ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
 
 export class CreateProjectUseCase implements CreateProject {
 	constructor(
@@ -17,22 +17,23 @@ export class CreateProjectUseCase implements CreateProject {
 			const project: Project = Project.create("My Project", "Empty project...", owner)
 			
 			
-			const module = await this.aiCodingClient.initializeReactModule(project.id)
-			console.log(`MODULE: ${JSON.stringify(module)}`)
+			const initializedModulePromise = this.aiCodingClient.initializeReactModule(project.id)
+			const cloudProfilePromise = this.projectDeploymentClient.createCloudProfile(project.id)
+			const saveProjectPromise = this.projectRepository.save(project)
 
-			await this.projectDeploymentClient.createCloudProfile(project.id)
+			const [module, savedProject] = await Promise.all([initializedModulePromise, saveProjectPromise, cloudProfilePromise])
 
+ 
 			const deploymentRequest: DeployModuleCommand = {
 				projectId: project.id,
 				moduleId: module.id,
-				moduleType: module.moduleType,
+				moduleType: module.type,
 				versionControlId: module.repositoryId,
 				environmentType: EnvironmentType.DEV,
 				setAsEntryPoint: true
 			}
 
 			await this.projectDeploymentClient.deployModule(deploymentRequest)
-			const savedProject = await this.projectRepository.save(project)
 
 			return savedProject
 		} catch (error) {
