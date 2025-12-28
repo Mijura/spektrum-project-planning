@@ -1,4 +1,4 @@
-import { ProjectDto, ProjectDtoMapper } from "@application/mappers/project-dto-mappers"
+import { ProjectDto, ProjectDtoMapper } from "@application/mappers/project-mappers"
 import { archiveProject } from "@infrastructure/dependencies"
 import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"

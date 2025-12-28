@@ -1,6 +1,7 @@
 import { ActivityData } from "@domain/value-objects/activity"
 import { TaskStatus } from "@domain/value-objects/task"
-export interface TaskDto {
+
+export interface TaskDTO {
 	id: string
 	title: string
 	description: string

@@ -1,4 +1,5 @@
-import { ProjectDto, ProjectDtoMapper } from "@application/mappers/project-dto-mappers"
+import { ProjectDTO } from "@application/dto/project"
+import { ProjectDetails } from "@domain/value-objects/project"
 import { updateProjectDetails } from "@infrastructure/dependencies"
 import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
@@ -10,8 +11,11 @@ export async function updateProjectDetailsHandler({ body }: APIGatewayProxyEvent
         const { id, name, description }  = JSON.parse(body)
         //schemaValidator(schema, commit)
 
-		const project = await updateProjectDetails.execute(id, name, description)
-		const projectDTO: ProjectDto = ProjectDtoMapper.toDto(project)
+		const projectDetails: ProjectDetails = {
+			name,
+			description
+		}
+		const projectDTO: ProjectDTO = await updateProjectDetails.execute(id, projectDetails)
 
 		return Responses._200(projectDTO)
 	} catch (error) {

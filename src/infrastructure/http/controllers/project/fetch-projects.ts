@@ -1,4 +1,4 @@
-import { ProjectDto, ProjectDtoMapper } from "@application/mappers/project-dto-mappers"
+import { ProjectDTO } from "@application/dto/project"
 import { fetchProjects } from "@infrastructure/dependencies"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
@@ -11,9 +11,8 @@ export async function fetchProjectsHandler(event: APIGatewayProxyEvent): Promise
         //schemaValidator(schema, commit)
 
 		console.log(`Fetching all projects for ${ownerId}`)
-		const projects = await fetchProjects.execute(ownerId)
-		const projectDtos: ProjectDto[] = ProjectDtoMapper.toDtos(projects)
-		return Responses._200(projectDtos)
+		const projects: ProjectDTO[] = await fetchProjects.execute(ownerId)
+		return Responses._200(projects)
 		
 	} catch (error) {
 		console.error("Error fetching projects:", error)

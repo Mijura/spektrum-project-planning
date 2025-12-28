@@ -1,18 +1,16 @@
-
-import { ActivityMetadata } from "@domain/value-objects/activity"
 import { Activity } from "./activity"
 import { v4 as uuidv4 } from 'uuid'
 import { TaskCreatedActivity } from "./activities/task-created"
 import { CommentLeft } from "./activities/comment-left"
 import { TitleUpdated } from "./activities/title-updated"
 import { DescriptionUpdated } from "./activities/description-updated"
-import { Comment } from "@domain/value-objects/activity"
+import { Comment, ActivityMetadata } from "@domain/value-objects/activity"
 import { StartedWork } from "./activities/started-work"
 import { FinishedWork } from "./activities/finished-work"
 import { TaskStatus } from "@domain/value-objects/task"
-import { EmitTaskUpdate } from "@domain/events/emitters/task-update"
 
 export class Task {
+
 	public readonly id: string
     public readonly created: string
     public updated: string | null
@@ -42,21 +40,18 @@ export class Task {
 		this.activities = activities
 	}
 
-	@EmitTaskUpdate()
 	updateTitle(userId: string, newTitle: string){
 		this.title = newTitle
 		this.updated = new Date().toISOString()
 		this.activities.push(TitleUpdated.create(userId, this, newTitle))
 	}
 
-	@EmitTaskUpdate()
 	updateDescription(userId: string, newDescription: string){
 		this.description = newDescription
 		this.updated = new Date().toISOString()
 		this.activities.push(DescriptionUpdated.create(userId, this, newDescription))
 	}
 
-	@EmitTaskUpdate()
 	leaveComment(authorId: string, commentText: string) {
 		const comment: Comment = {
 			authorId: authorId, 
@@ -66,7 +61,6 @@ export class Task {
 		this.activities.push(commentActivity)
 	}
 
-	@EmitTaskUpdate()
 	startedWork(workerId: string, message: string): StartedWork {
 
 		const activity = StartedWork.create(workerId, this, message)
@@ -76,7 +70,6 @@ export class Task {
 		return activity as StartedWork
 	}
 
-	@EmitTaskUpdate()
 	finishedWork(workerId: string, message: string): FinishedWork {
 
 		const activity = FinishedWork.create(workerId, this, message)

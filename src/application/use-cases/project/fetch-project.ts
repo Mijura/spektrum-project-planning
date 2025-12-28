@@ -1,12 +1,16 @@
 
-import { FetchProject } from "@domain/use-cases/project/fetch-project"
-import { ProjectRepository } from "@domain/ports/repositories/project-repository"
+import { FetchProject } from "@application/ports/inbound/project/fetch-project"
+import { ProjectRepository } from "@application/ports/outbound/project-repository"
+import { ProjectDTO } from "@application/dto/project"
+import { ProjectMapper } from "@application/mappers/project-mappers"
 import { Project } from "@domain/entities/project"
 
 export class FetchProjectUseCase implements FetchProject {
+
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
-	async execute(projectId: string): Promise<Project> {
-		return await this.projectRepository.get(projectId)
+	async execute(projectId: string): Promise<ProjectDTO> {
+		const project: Project = await this.projectRepository.get(projectId)
+		return ProjectMapper.toResponse(project)
 	}
 }

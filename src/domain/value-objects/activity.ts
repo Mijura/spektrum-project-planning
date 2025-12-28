@@ -43,7 +43,7 @@ export type ActivityMetadata =
     TaskCreatedMetadata |
     StartedWorkMetadata |
     FinishedWorkMetadata
-
+    
 export enum ActivityType {
     TASK_CREATED = 'TaskCreated',
     COMMENT_LEFT = 'CommentLeft',

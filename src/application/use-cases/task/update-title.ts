@@ -1,14 +1,16 @@
+import { TaskDTO } from "@application/dto/task"
+import { TaskMapper } from "@application/mappers/task-mapper"
 import { Task } from "@domain/entities/task"
-import { TaskDto } from "@application/dto/task"
-import { TaskRepository } from "@domain/ports/repositories/task-repository"
-import { UpdateTaskTitle } from "@domain/use-cases/task/update-title"
+import { TaskRepository } from "@application/ports/outbound/task-repository"
+import { UpdateTaskTitle } from "@application/ports/inbound/task/update-title"
 
 export class UpdateTaskTitleUseCase implements UpdateTaskTitle{
+	
 	constructor(
 		private readonly taskRepository: TaskRepository
 	) {}
 
-	async execute(taskDto: TaskDto): Promise<Task> {
+	async execute(taskDto: TaskDTO): Promise<TaskDTO> {
 		try {
 			// fetch the old task and update it
 			console.log(`Updating task title for task ${taskDto.id} to ${taskDto.title}.`)
@@ -22,7 +24,8 @@ export class UpdateTaskTitleUseCase implements UpdateTaskTitle{
 			task.updateTitle("User", taskDto.title)
 
 			// Persist the task in the database
-			return await this.taskRepository.save(task)
+			const savedTask: Task = await this.taskRepository.save(task)
+			return TaskMapper.toDTO(savedTask)
 		} catch (error) {
 			console.error("Error during task title update:", error)
 			throw new Error("Failed to edit task title.")

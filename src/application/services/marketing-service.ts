@@ -1,8 +1,8 @@
 import { Task } from "@domain/entities/task"
 import { Agent } from "@domain/agent"
-import { ProjectRepository } from "@domain/ports/repositories/project-repository"
-import { MarketingService } from "@domain/ports/services/marketing-service"
-import { ProjectDetails } from "@domain/value-objects/project-details"
+import { ProjectRepository } from "@application/ports/outbound/project-repository"
+import { MarketingService } from "@application/ports/inbound/marketing-service"
+import { ProjectDetails } from "@domain/value-objects/project"
 
 export class DefaultMarketingService implements MarketingService {
 

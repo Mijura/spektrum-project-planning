@@ -1,3 +1,4 @@
+import { TaskDTO } from "@application/dto/task"
 import { planTasksWithAI } from "@infrastructure/dependencies"
 import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
@@ -9,7 +10,7 @@ export async function planTasksWithAIHandler({ body }: APIGatewayProxyEvent): Pr
 		const { projectId, projectDescription } = JSON.parse(body)
         //schemaValidator(schema, commit)
 
-        const tasks = await planTasksWithAI.execute(projectId, projectDescription)
+        const tasks: TaskDTO[] = await planTasksWithAI.execute(projectId, projectDescription)
 
         return Responses._200(tasks)
 

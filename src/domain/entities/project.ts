@@ -1,9 +1,5 @@
+import { ProjectStatus } from "@domain/value-objects/project"
 import { v4 as uuidv4 } from "uuid"
-
-export enum ProjectStatus {
-	ACTIVE = "Active",
-	ARCHIVED = "Archived"
-}
 
 export class Project {
 

@@ -1,8 +1,11 @@
-export interface ProjectDto {
+import { ProjectStatus } from "@domain/value-objects/project"
+
+export interface ProjectDTO {
 	id: string
+	ownerId: string
 	name: string
 	description: string
-	owner: string
-	created: Date
-    updated: Date
-}
+	created: string
+	updated: string | null
+	status: ProjectStatus
+  }

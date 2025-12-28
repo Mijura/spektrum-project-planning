@@ -1,4 +1,4 @@
-import { Task } from "@domain/entities/task"
+import { TaskDTO } from "@application/dto/task"
 import { createTask } from "@infrastructure/dependencies"
 import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
@@ -14,7 +14,7 @@ export async function createTaskHandler({ body }: APIGatewayProxyEvent): Promise
         const { projectId, title, description } = JSON.parse(body)
         //schemaValidator(schema, commit)
 		
-		const task: Task = await createTask.execute(projectId, title, description)
+		const task: TaskDTO = await createTask.execute(projectId, title, description)
 		return Responses._201(task)
 
 	} catch (error) {

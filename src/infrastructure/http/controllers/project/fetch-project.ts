@@ -1,4 +1,4 @@
-import { ProjectDto, ProjectDtoMapper } from "@application/mappers/project-dto-mappers"
+import { ProjectDTO } from "@application/dto/project"
 import { fetchProject } from "@infrastructure/dependencies"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
@@ -12,8 +12,7 @@ export async function fetchProjectHandler(event: APIGatewayProxyEvent): Promise<
 		if (!projectId) 
 			throw new ValidationError("Missing path parameter: projectId")
 
-		const project = await fetchProject.execute(projectId)
-		const projectDTO: ProjectDto = ProjectDtoMapper.toDto(project)
+		const projectDTO: ProjectDTO = await fetchProject.execute(projectId)
 
 		return Responses._200(projectDTO)
 
