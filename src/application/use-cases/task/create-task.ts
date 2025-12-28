@@ -1,9 +1,9 @@
-import { CreateTaskPort } from "@application/ports/inbound/task/create-task"
+import { CreateTaskPort } from "@application/ports/use-cases/task/create-task"
 import { Task } from "@domain/task/task"
-import { TaskRepository } from "@application/ports/outbound/task-repository"
+import { TaskRepository } from "@application/ports/repositories/task-repository"
 import { TaskMapper } from "@application/mappers/task-mapper"
 import { TaskDTO } from "@application/dto/task"
-import { AIAssistantServicePort } from "@application/ports/ai-asisstant-service"
+import { AIAssistantServicePort } from "@application/ports/services/ai-asisstant-service"
 
 export class CreateTaskUseCase implements CreateTaskPort {
 	

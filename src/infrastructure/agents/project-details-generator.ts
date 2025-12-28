@@ -1,7 +1,7 @@
 import { Task } from "@domain/task/task" 
 import { z } from "zod"
 import { Agent, Command } from "@jigjoy-io/mosaic"
-import { ProjectDetailsGeneratorPort } from "@application/service/agents/project-details-generator"
+import { ProjectDetailsGeneratorPort } from "@application/services/agents/project-details-generator"
 import { ProjectDetailsDTO } from "@application/dto/project-details"
 
 export class ProjectDetailsGenerator implements ProjectDetailsGeneratorPort {

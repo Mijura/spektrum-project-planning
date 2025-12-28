@@ -1,6 +1,6 @@
 
-import { ActivityPrimitives } from "@domain/task/activity/activity-primitives"
 import { TaskStatus } from "@domain/task/task-status"
+import { ActivityDTO } from "./activity"
 
 export interface TaskDTO {
 	id: string
@@ -10,5 +10,5 @@ export interface TaskDTO {
 	created: string
 	updated: string | null
 	status: TaskStatus
-	activities: ActivityPrimitives[]
+	activities: ActivityDTO[]
 }

@@ -2,9 +2,9 @@
 import { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb"
 import { Project } from "@domain/project/project"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
-import { ProjectMapper } from "@infrastructure/storage/mappers/project-mapper"
-import { ProjectRepository } from "@application/ports/outbound/project-repository"
-import { ProjectRecord, ProjectStatus } from "@infrastructure/storage/records/project"
+import { ProjectMapper } from "@infrastructure/repositories/mappers/project-mapper"
+import { ProjectRepository } from "@application/ports/repositories/project-repository"
+import { ProjectRecord, ProjectStatus } from "@infrastructure/repositories/records/project"
 
 const client = new DynamoDBClient()
 const ddbDocClient = DynamoDBDocumentClient.from(client)
@@ -25,7 +25,7 @@ export class DynamoDBProjectRepository implements ProjectRepository {
 
 		await ddbDocClient.send(new PutCommand(params))
 
-		return project
+		return ProjectMapper.toDomain(projectRecord)
 	}
 
 	async get(projectId: string): Promise<Project> {

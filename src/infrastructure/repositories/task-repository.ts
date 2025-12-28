@@ -1,9 +1,9 @@
 import { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
-import { TaskRepository } from "@application/ports/outbound/task-repository"
+import { TaskRepository } from "@application/ports/repositories/task-repository"
 import { Task } from "@domain/task/task"
-import { TaskRecord } from "@infrastructure/storage/records/task"
-import { TaskMapper } from "@infrastructure/storage/mappers/task-mapper"
+import { TaskRecord } from "@infrastructure/repositories/records/task"
+import { TaskMapper } from "@infrastructure/repositories/mappers/task-mapper"
 
 const client = new DynamoDBClient({
 	region: process.env.AWS_REGION,
@@ -28,7 +28,7 @@ export class DynamoDBTaskRepository implements TaskRepository {
 
 		await ddbDocClient.send(new PutCommand(params))
 
-		return task
+		return TaskMapper.toDomain(taskRecord)
 	}
 
 	async get(taskId: string): Promise<Task | null> {

@@ -1,4 +1,4 @@
-import { TaskPlannerPort } from "@application/service/agents/task-planner"
+import { TaskPlannerPort } from "@application/services/agents/task-planner"
 import { Task } from "@domain/task/task"
 import { Agent, Command } from "@jigjoy-io/mosaic"
 import z from "zod"

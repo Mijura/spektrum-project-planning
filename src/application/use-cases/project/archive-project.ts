@@ -1,6 +1,6 @@
 import { Project } from "@domain/project/project"
-import { ArchiveProjectPort } from "@application/ports/inbound/project/archive-project"
-import { ProjectRepository } from "@application/ports/outbound/project-repository"
+import { ArchiveProjectPort } from "@application/ports/use-cases/project/archive-project"
+import { ProjectRepository } from "@application/ports/repositories/project-repository"
 import { ProjectDTO } from "@application/dto/project"
 import { ProjectMapper } from "@application/mappers/project-mappers"
 

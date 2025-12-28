@@ -2,7 +2,6 @@
 import { v4 as uuidv4 } from "uuid"
 import { ActivityMetadata } from "./activities/activitiy-metadata"
 import { ActivityType } from "./activity-type"
-import { ActivityPrimitives } from "./activity-primitives"
 
 export class Activity<T> {
     constructor(
@@ -15,7 +14,15 @@ export class Activity<T> {
       public readonly occurredAt: string
     ) {}
     
-    static rehydrate(data: ActivityPrimitives): Activity<ActivityMetadata> {
+    static rehydrate(data: {
+        id: string
+        type: ActivityType
+        projectId: string
+        taskId: string
+        userId: string
+        metadata: ActivityMetadata
+        occurredAt: string
+    }): Activity<ActivityMetadata> {
         return new Activity(data.id, data.type, data.projectId, data.taskId, data.userId, data.metadata, data.occurredAt)
     }
 

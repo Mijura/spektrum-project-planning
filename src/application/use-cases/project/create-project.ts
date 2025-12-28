@@ -1,6 +1,6 @@
 import { Project } from "@domain/project/project"
-import { CreateProjectPort } from "@application/ports/inbound/project/create-project"
-import { ProjectRepository } from "@application/ports/outbound/project-repository"
+import { CreateProjectPort } from "@application/ports/use-cases/project/create-project"
+import { ProjectRepository } from "@application/ports/repositories/project-repository"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { DeployModuleCommand, EnvironmentType, ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
 import { CreateProjectDTO } from "@application/dto/create-project"
