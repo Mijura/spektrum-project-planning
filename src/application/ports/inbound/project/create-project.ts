@@ -1,6 +1,6 @@
 import { CreateProjectDTO } from "@application/dto/create-project"
 
-export interface CreateProject {
+export interface CreateProjectPort {
 
     /**
      * Creates a new project.
