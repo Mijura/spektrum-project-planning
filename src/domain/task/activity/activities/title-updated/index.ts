@@ -1,6 +1,7 @@
-import { ActivityType, TitleUpdatedMetadata } from "@domain/value-objects/activity"
-import { Activity } from "../activity"
-import { Task } from "../task"
+import { ActivityType } from "@domain/task/activity/activity-type"
+import { Activity } from "@domain/task/activity/activity"
+import { Task } from "@domain/task/task"
+import { TitleUpdatedMetadata } from "./metadata"
 
 export class TitleUpdated extends Activity<TitleUpdatedMetadata> {
 

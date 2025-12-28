@@ -1,5 +1,5 @@
 import { ProjectDTO } from "@application/dto/project"
-import { ProjectDetails } from "@domain/value-objects/project"
+import { ProjectDetailsDTO } from "@application/dto/project-details"
 
 export interface UpdateProjectDetails {
 
@@ -10,5 +10,5 @@ export interface UpdateProjectDetails {
      * @param description - The new description of the project.
      * @returns The updated ProjectDTO object.
      */
-    execute(projectId: string, projectDetails: ProjectDetails): Promise<ProjectDTO>
+    execute(projectId: string, projectDetails: ProjectDetailsDTO): Promise<ProjectDTO>
 } 

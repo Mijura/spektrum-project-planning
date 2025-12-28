@@ -1,4 +1,4 @@
-import { ProjectStatus } from "@domain/value-objects/project"
+import { ProjectStatus } from "@domain/project/project-status"
 
 export interface ProjectDTO {
 	id: string

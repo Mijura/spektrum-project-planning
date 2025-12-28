@@ -1,6 +1,8 @@
 
 import { v4 as uuidv4 } from "uuid"
-import { ActivityData, ActivityMetadata, ActivityType } from "@domain/value-objects/activity"
+import { ActivityMetadata } from "./activities/activitiy-metadata"
+import { ActivityType } from "./activity-type"
+import { ActivityPrimitives } from "./activity-primitives"
 
 export class Activity<T> {
     constructor(
@@ -13,7 +15,7 @@ export class Activity<T> {
       public readonly occurredAt: string
     ) {}
     
-    static rehydrate(data: ActivityData): Activity<ActivityMetadata> {
+    static rehydrate(data: ActivityPrimitives): Activity<ActivityMetadata> {
         return new Activity(data.id, data.type, data.projectId, data.taskId, data.userId, data.metadata, data.occurredAt)
     }
 

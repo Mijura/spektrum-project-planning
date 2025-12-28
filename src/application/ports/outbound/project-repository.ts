@@ -1,4 +1,5 @@
-import { Project, ProjectStatus } from "@domain/entities/project"
+import { Project } from "@domain/project/project"
+import { ProjectStatus } from "@domain/project/project-status"
 
 export interface ProjectRepository {
 	save(project: Project): Promise<Project>

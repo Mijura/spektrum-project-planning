@@ -1,5 +1,5 @@
 import { Agent } from "@domain/agent"
-import { Task } from "@domain/entities/task"
+import { Task } from "@domain/task/task"
 import { Agent as MosaicAgent, Command } from "@jigjoy-io/mosaic"
 import z from "zod"
 

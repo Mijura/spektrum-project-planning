@@ -1,6 +1,7 @@
-import { ActivityMetadata, ActivityType, StartedWorkMetadata } from "@domain/value-objects/activity"
-import { Activity } from "../activity"
-import { Task } from "../task"
+import { ActivityType } from "@domain/task/activity/activity-type"
+import { Activity } from "@domain/task/activity/activity"
+import { Task } from "@domain/task/task"
+import { StartedWorkMetadata } from "./metadata"
 
 export class StartedWork extends Activity<StartedWorkMetadata> {
     constructor(
@@ -15,7 +16,7 @@ export class StartedWork extends Activity<StartedWorkMetadata> {
         super(id, type, projectId, taskId, workerId, metadata, occurredAt)
     }
 
-    static create(workerId: string, task: Task, message: string): Activity<ActivityMetadata> {
+    static create(workerId: string, task: Task, message: string): Activity<StartedWorkMetadata> {
         const id = this.generateId()
         const type = ActivityType.STARTED_WORK
         const occurredAt = this.now()

@@ -1,10 +1,10 @@
-import { Project } from "@domain/entities/project"
-import { ProjectResponse } from "@application/dto/project"
+import { Project } from "@domain/project/project"
+import { ProjectDTO } from "@application/dto/project"
 
 export class ProjectMapper {
   
   /** Maps a single domain Project entity to a DTO */
-  static toResponse(project: Project): ProjectResponse {
+  static toResponse(project: Project): ProjectDTO {
     return {
       id: project.id,
       ownerId: project.ownerId,
@@ -17,7 +17,7 @@ export class ProjectMapper {
   }
 
   /** Maps an array of domain Project entities to DTOs */
-  static toDtos(projects: Project[]): ProjectResponse[] {
+  static toDtos(projects: Project[]): ProjectDTO[] {
     return projects.map(this.toResponse)
   }
 }

@@ -1,4 +1,4 @@
-import { Project } from "@domain/entities/project"
+import { Project } from "@domain/project/project"
 import { ProjectRecord } from "@infrastructure/storage/records/project"
 
 export class ProjectMapper {

@@ -1,5 +1,5 @@
 import { CreateTask } from "@application/ports/inbound/task/create-task"
-import { Task } from "@domain/entities/task"
+import { Task } from "@domain/task/task"
 import { TaskRepository } from "@application/ports/outbound/task-repository"
 import { MarketingService } from "@application/ports/inbound/marketing-service"
 import { TaskMapper } from "@application/mappers/task-mapper"

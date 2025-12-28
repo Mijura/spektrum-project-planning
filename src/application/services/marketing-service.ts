@@ -1,4 +1,4 @@
-import { Task } from "@domain/entities/task"
+import { Task } from "@domain/task/task"
 import { Agent } from "@domain/agent"
 import { ProjectRepository } from "@application/ports/outbound/project-repository"
 import { MarketingService } from "@application/ports/inbound/marketing-service"

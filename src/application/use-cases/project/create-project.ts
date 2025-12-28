@@ -1,4 +1,4 @@
-import { Project } from "@domain/entities/project"
+import { Project } from "@domain/project/project"
 import { CreateProject } from "@application/ports/inbound/project/create-project"
 import { ProjectRepository } from "@application/ports/outbound/project-repository"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"

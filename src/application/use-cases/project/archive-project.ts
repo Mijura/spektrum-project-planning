@@ -1,4 +1,4 @@
-import { Project } from "@domain/entities/project"
+import { Project } from "@domain/project/project"
 import { ArchiveProject } from "@application/ports/inbound/project/archive-project"
 import { ProjectRepository } from "@application/ports/outbound/project-repository"
 import { ProjectDTO } from "@application/dto/project"

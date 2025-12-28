@@ -1,5 +1,5 @@
 import { ProjectDTO } from "@application/dto/project"
-import { ProjectDetails } from "@domain/value-objects/project"
+import { ProjectDetailsDTO } from "@application/dto/project-details"
 import { updateProjectDetails } from "@infrastructure/dependencies"
 import { errorHandler, Responses, schemaValidator, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
@@ -11,7 +11,7 @@ export async function updateProjectDetailsHandler({ body }: APIGatewayProxyEvent
         const { id, name, description }  = JSON.parse(body)
         //schemaValidator(schema, commit)
 
-		const projectDetails: ProjectDetails = {
+		const projectDetails: ProjectDetailsDTO = {
 			name,
 			description
 		}

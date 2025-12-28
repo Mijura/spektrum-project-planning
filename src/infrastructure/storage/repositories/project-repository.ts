@@ -1,6 +1,6 @@
 
 import { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb"
-import { Project, ProjectStatus } from "@domain/entities/project"
+import { Project, ProjectStatus } from "@domain/project/project"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { ProjectMapper } from "@infrastructure/storage/mappers/project-mapper"
 import { ProjectRepository } from "@application/ports/outbound/project-repository"

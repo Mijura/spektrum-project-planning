@@ -1,4 +1,4 @@
-import { ProjectStatus } from "@domain/value-objects/project"
+import { ProjectStatus } from "@domain/project/project-status"
 import { v4 as uuidv4 } from "uuid"
 
 export class Project {

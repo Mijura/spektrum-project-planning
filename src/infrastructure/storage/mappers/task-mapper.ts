@@ -1,5 +1,5 @@
 import { TaskRecord } from "@infrastructure/storage/records/task"
-import { Task } from "@domain/entities/task"
+import { Task } from "@domain/task/task"
 
 
 export class TaskMapper {
