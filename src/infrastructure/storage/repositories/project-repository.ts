@@ -1,10 +1,10 @@
 
 import { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb"
-import { Project, ProjectStatus } from "@domain/project/project"
+import { Project } from "@domain/project/project"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { ProjectMapper } from "@infrastructure/storage/mappers/project-mapper"
 import { ProjectRepository } from "@application/ports/outbound/project-repository"
-import { ProjectRecord } from "@infrastructure/storage/records/project"
+import { ProjectRecord, ProjectStatus } from "@infrastructure/storage/records/project"
 
 const client = new DynamoDBClient()
 const ddbDocClient = DynamoDBDocumentClient.from(client)

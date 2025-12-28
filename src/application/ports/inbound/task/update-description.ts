@@ -1,7 +1,7 @@
 
 import { TaskDTO } from "@application/dto/task"
 
-export interface UpdateTaskDescription {
+export interface UpdateTaskDescriptionPort {
 
     /**
      * Updates the description of a task.

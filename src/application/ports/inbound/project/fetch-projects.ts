@@ -1,6 +1,6 @@
 import { ProjectDTO } from "@application/dto/project"
 
-export interface FetchProjects {
+export interface FetchProjectsPort {
 
     /**
      * Fetches all projects for a given owner ID.

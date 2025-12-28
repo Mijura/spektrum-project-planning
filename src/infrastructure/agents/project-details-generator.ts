@@ -1,14 +1,12 @@
-import { ProjectDetails } from "@domain/value-objects/project"
 import { Task } from "@domain/task/task" 
 import { z } from "zod"
-import { Agent as MosaicAgent, Command } from "@jigjoy-io/mosaic"
-import { Agent } from "@domain/agent"
+import { Agent, Command } from "@jigjoy-io/mosaic"
+import { ProjectDetailsGeneratorPort } from "@application/service/agents/project-details-generator"
+import { ProjectDetailsDTO } from "@application/dto/project-details"
 
-export class Marketeer implements Agent {
-    
-    name: string = "Marketeer"
+export class ProjectDetailsGenerator implements ProjectDetailsGeneratorPort {
 
-    async execute(task: Task): Promise<ProjectDetails>{
+    async generateProjectDetails(task: Task): Promise<ProjectDetailsDTO>{
 
         const outputSchema = z.object({
             project: z.object({
@@ -42,8 +40,8 @@ export class Marketeer implements Agent {
             structuredOutput: outputSchema
         }
 
-        const agent = new MosaicAgent(command)
-        const projectDetails: ProjectDetails = await agent.act()
+        const agent = new Agent(command)
+        const projectDetails: ProjectDetailsDTO = await agent.act()
         return projectDetails
     }
 }

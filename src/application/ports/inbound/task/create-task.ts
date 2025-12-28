@@ -1,7 +1,7 @@
 
 import { TaskDTO } from "@application/dto/task"
 
-export interface CreateTask {
+export interface CreateTaskPort {
 
     /**
      * Creates a new task.

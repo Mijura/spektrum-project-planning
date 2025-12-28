@@ -1,6 +1,6 @@
 import { ProjectDTO } from "@application/dto/project"
 
-export interface ArchiveProject {
+export interface ArchiveProjectPort {
 
     /**
      * Archives a project.

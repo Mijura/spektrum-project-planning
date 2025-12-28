@@ -1,6 +1,6 @@
 import { TaskDTO } from "@application/dto/task"
 
-export interface PlanTasksWithAI {
+export interface PlanTasksPort {
 
     /**
      * Plans tasks with AI for a given project.

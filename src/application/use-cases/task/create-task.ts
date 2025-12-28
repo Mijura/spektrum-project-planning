@@ -1,16 +1,15 @@
-import { CreateTask } from "@application/ports/inbound/task/create-task"
+import { CreateTaskPort } from "@application/ports/inbound/task/create-task"
 import { Task } from "@domain/task/task"
 import { TaskRepository } from "@application/ports/outbound/task-repository"
-import { MarketingService } from "@application/ports/inbound/marketing-service"
 import { TaskMapper } from "@application/mappers/task-mapper"
 import { TaskDTO } from "@application/dto/task"
+import { AIAssistantServicePort } from "@application/ports/ai-asisstant-service"
 
-export class CreateTaskUseCase implements CreateTask {
+export class CreateTaskUseCase implements CreateTaskPort {
 	
 	constructor(
+		private readonly aiAssistantService: AIAssistantServicePort,
 		private readonly taskRepository: TaskRepository,
-		private readonly marketingService: MarketingService,
-
 	) {}
 
 	async execute(projectId: string, title: string, description: string): Promise<TaskDTO> {
@@ -18,7 +17,7 @@ export class CreateTaskUseCase implements CreateTask {
 			// Create a new task
 			const task: Task = Task.create('User', projectId, title, description)
 
-			await this.marketingService.updateProjectDetails(task)
+			await this.aiAssistantService.updateProjectDetails(task)
 			// Persist the task in the database
 			const savedTask: Task = await this.taskRepository.save(task)
 

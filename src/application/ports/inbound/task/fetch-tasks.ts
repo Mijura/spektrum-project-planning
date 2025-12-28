@@ -1,6 +1,6 @@
 import { TaskDTO } from "@application/dto/task"
 
-export interface FetchTasks {
+export interface FetchTasksPort {
 
     /**
      * Fetches all tasks for a given project ID.

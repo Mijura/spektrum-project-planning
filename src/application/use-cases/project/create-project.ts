@@ -1,5 +1,5 @@
 import { Project } from "@domain/project/project"
-import { CreateProject } from "@application/ports/inbound/project/create-project"
+import { CreateProjectPort } from "@application/ports/inbound/project/create-project"
 import { ProjectRepository } from "@application/ports/outbound/project-repository"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { DeployModuleCommand, EnvironmentType, ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
@@ -8,7 +8,7 @@ import { ProjectDTO } from "@application/dto/project"
 import { ProjectMapper } from "@application/mappers/project-mappers"
 import { EntryPointDTO } from "@application/dto/entry-point"
 
-export class CreateProjectUseCase implements CreateProject {
+export class CreateProjectUseCase implements CreateProjectPort {
 	
 	constructor(
 		private readonly projectRepository: ProjectRepository,
@@ -39,7 +39,7 @@ export class CreateProjectUseCase implements CreateProject {
 			}
 
 			const entryPointDTO: EntryPointDTO = await this.projectDeploymentClient.deployModule(deploymentRequest)
-			const projectDTO: ProjectDTO = ProjectMapper.toResponse(project)
+			const projectDTO: ProjectDTO = ProjectMapper.toDto(project)
 
 			const createProjectDTO: CreateProjectDTO = {
 				project: projectDTO,

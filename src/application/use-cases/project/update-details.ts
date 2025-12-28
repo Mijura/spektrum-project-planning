@@ -1,11 +1,11 @@
 import { Project } from "@domain/project/project"
 import { ProjectRepository } from "@application/ports/outbound/project-repository"
-import { UpdateProjectDetails } from "@application/ports/inbound/project/update-details"
+import { UpdateProjectDetailsPort } from "@application/ports/inbound/project/update-details"
 import { ProjectMapper } from "@application/mappers/project-mappers"
 import { ProjectDTO } from "@application/dto/project"
 import { ProjectDetailsDTO } from "@application/dto/project-details"
 
-export class UpdateProjectDetailsUseCase implements UpdateProjectDetails {
+export class UpdateProjectDetailsUseCase implements UpdateProjectDetailsPort {
     
     constructor(
         private readonly projectRepository: ProjectRepository
@@ -27,7 +27,7 @@ export class UpdateProjectDetailsUseCase implements UpdateProjectDetails {
 
             // Persist the project in the database
             const updatedProject: Project = await this.projectRepository.save(project)
-            return ProjectMapper.toResponse(updatedProject)
+            return ProjectMapper.toDto(updatedProject)
         } catch (error) {
             console.error("Error during project details update:", error)
             throw new Error("Failed to update project details.")

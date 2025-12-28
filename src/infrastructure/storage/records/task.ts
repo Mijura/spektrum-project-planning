@@ -1,5 +1,6 @@
-import { ActivityMetadata, ActivityType } from "@domain/value-objects/activity-metadata"
-import { TaskStatus } from "@domain/value-objects/task"
+import { ActivityMetadata } from "@domain/task/activity/activities/activitiy-metadata"
+import { ActivityType } from "@domain/task/activity/activity-type"
+import { TaskStatus } from "@domain/task/task-status"
 
 export type ActivityRecord = {
 	id: string

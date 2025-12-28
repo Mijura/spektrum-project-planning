@@ -1,7 +1,7 @@
 import { ProjectDTO } from "@application/dto/project"
 import { ProjectDetailsDTO } from "@application/dto/project-details"
 
-export interface UpdateProjectDetails {
+export interface UpdateProjectDetailsPort {
 
     /**
      * Updates the details of a project.

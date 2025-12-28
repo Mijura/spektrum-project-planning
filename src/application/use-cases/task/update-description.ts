@@ -2,9 +2,9 @@ import { TaskDTO } from "@application/dto/task"
 import { TaskMapper } from "@application/mappers/task-mapper"
 import { Task } from "@domain/task/task"
 import { TaskRepository } from "@application/ports/outbound/task-repository"
-import { UpdateTaskDescription } from "@application/ports/inbound/task/update-description"
+import { UpdateTaskDescriptionPort } from "@application/ports/inbound/task/update-description"
 
-export class UpdateTaskDescriptionUseCase implements UpdateTaskDescription{
+export class UpdateTaskDescriptionUseCase implements UpdateTaskDescriptionPort{
 
 	constructor(
 		private readonly taskRepository: TaskRepository

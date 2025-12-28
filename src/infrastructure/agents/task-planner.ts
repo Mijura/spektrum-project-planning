@@ -1,9 +1,9 @@
-import { Agent } from "@domain/agent"
+import { TaskPlannerPort } from "@application/service/agents/task-planner"
 import { Task } from "@domain/task/task"
-import { Agent as MosaicAgent, Command } from "@jigjoy-io/mosaic"
+import { Agent, Command } from "@jigjoy-io/mosaic"
 import z from "zod"
 
-export class ProductOwner implements Agent {
+export class TaskPlanner implements TaskPlannerPort {
 
     name: string = "Product Owner"
 
@@ -18,7 +18,7 @@ export class ProductOwner implements Agent {
         comment: z.string().describe("A comment to be added to the task")
     })
 
-    async execute(task: any): Promise<any> {
+    async generateTasks(task: Task): Promise<Task[]> {
         
 
         const prompt =  `
@@ -113,7 +113,7 @@ export class ProductOwner implements Agent {
             structuredOutput: this.outputSchema
         }
 
-        const agent = new MosaicAgent(command)
+        const agent = new Agent(command)
 
         const output = await agent.act()
         task.leaveComment("Product Owner", output.comment)

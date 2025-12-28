@@ -1,6 +1,6 @@
 import { TaskDTO } from "@application/dto/task"
 
-export interface UpdateTaskTitle {
+export interface UpdateTaskTitlePort {
 
     /**
      * Updates the title of a task.

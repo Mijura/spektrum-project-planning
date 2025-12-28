@@ -4,7 +4,7 @@ import { ProjectDTO } from "@application/dto/project"
 export class ProjectMapper {
   
   /** Maps a single domain Project entity to a DTO */
-  static toResponse(project: Project): ProjectDTO {
+  static toDto(project: Project): ProjectDTO {
     return {
       id: project.id,
       ownerId: project.ownerId,
@@ -18,6 +18,6 @@ export class ProjectMapper {
 
   /** Maps an array of domain Project entities to DTOs */
   static toDtos(projects: Project[]): ProjectDTO[] {
-    return projects.map(this.toResponse)
+    return projects.map(this.toDto)
   }
 }
