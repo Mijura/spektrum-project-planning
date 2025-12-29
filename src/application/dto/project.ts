@@ -1,6 +1,6 @@
 import { ProjectStatus } from "@domain/project/project-status"
 
-export interface ProjectDTO {
+export type ProjectDTO = {
 	id: string
 	ownerId: string
 	name: string

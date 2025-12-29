@@ -1,7 +1,7 @@
 import { EntryPointDTO } from "./entry-point"
 import { ProjectDTO } from "./project"
 
-export interface CreateProjectDTO {
+export type CreateProjectDTO = {
 	project: ProjectDTO
     entryPoint: EntryPointDTO
 }

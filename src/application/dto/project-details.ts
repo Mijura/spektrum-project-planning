@@ -1,4 +1,4 @@
-export interface ProjectDetailsDTO {
+export type ProjectDetailsDTO = {
     name: string
     description: string
 }

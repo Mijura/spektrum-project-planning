@@ -2,7 +2,7 @@
 import { TaskStatus } from "@domain/task/task-status"
 import { ActivityDTO } from "./activity"
 
-export interface TaskDTO {
+export type TaskDTO = {
 	id: string
 	title: string
 	description: string
