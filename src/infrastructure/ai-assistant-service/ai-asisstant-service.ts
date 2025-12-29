@@ -1,17 +1,15 @@
 import { Task } from "@domain/task/task"
 import { ProjectRepository } from "@application/ports/repositories/project-repository"
 import { ProjectDetailsDTO } from "@application/dto/project-details"
-import { ProjectDetailsGeneratorPort } from "@application/services/agents/project-details-generator"
-import { TaskPlannerPort } from "@application/services/agents/task-planner"
 import { AIAssistantServicePort } from "@application/ports/services/ai-asisstant-service"
 import { TaskRepository } from "@application/ports/repositories/task-repository"
 import { Project } from "@domain/project/project"
+import { ProjectDetailsGenerator } from "@infrastructure/ai-assistant-service/project-details-generator"
+import { TaskPlanner } from "@infrastructure/ai-assistant-service/task-planner"
 
 export class AIAssistantService implements AIAssistantServicePort {
 
     constructor(
-        private readonly projectDetailsGenerator: ProjectDetailsGeneratorPort,   
-        private readonly taskPlanner: TaskPlannerPort,
         private readonly projectRepository: ProjectRepository,
         private readonly taskRepository: TaskRepository
     ) {}
@@ -23,7 +21,9 @@ export class AIAssistantService implements AIAssistantServicePort {
         }
 
         if (!project.detailsUpdated) {
-            const projectDetails: ProjectDetailsDTO = await this.projectDetailsGenerator.generateProjectDetails(task)
+
+            const projectDetailsGenerator = new ProjectDetailsGenerator()
+            const projectDetails: ProjectDetailsDTO = await projectDetailsGenerator.generateProjectDetails(task)
             console.log("Project details generated:", projectDetails)
             project.setDetails(projectDetails.name, projectDetails.description)
             return await this.projectRepository.save(project)
@@ -32,9 +32,11 @@ export class AIAssistantService implements AIAssistantServicePort {
         return project
     }
 
-    async planTasks(task: Task): Promise<Task[]> {
+    async planTasks(projectId: string, projectDescription: string): Promise<Task[]> {
+
+        const taskPlanner = new TaskPlanner()
         
-        const tasks = await this.taskPlanner.generateTasks(task)
+        const tasks = await taskPlanner.generateTasks(projectId, projectDescription)
         
         // Save all tasks
         const taskPromises = []

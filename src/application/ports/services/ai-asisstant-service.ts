@@ -14,5 +14,5 @@ export interface AIAssistantServicePort {
      * @param task The task to plan tasks for
      * @returns The planned tasks
      */
-    planTasks(task: Task): Promise<Task[]>
+    planTasks(projectId: string, projectDescription: string): Promise<Task[]>
 }
