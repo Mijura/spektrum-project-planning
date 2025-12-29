@@ -27,27 +27,18 @@ import { PlanTasksUseCase } from "@application/use-cases/task/plan-tasks"
 
 import { ProjectRepository } from "@application/ports/repositories/project-repository"
 import { TaskRepository } from "@application/ports/repositories/task-repository"
-import { AIAssistantService } from "@application/services/ai-asisstant-service"
-import { TaskPlanner } from "@infrastructure/agents/task-planner"
-import { ProjectDetailsGenerator } from "@infrastructure/agents/project-details-generator"
+import { AIAssistantService } from "@infrastructure/ai-assistant-service/ai-asisstant-service"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
-import { TaskPlannerPort } from "@application/services/agents/task-planner"
 import { AIAssistantServicePort } from "@application/ports/services/ai-asisstant-service"
-import { ProjectDetailsGeneratorPort } from "@application/services/agents/project-details-generator"
 
 
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
 export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
 
-
-// Agents
-const taskPlanner: TaskPlannerPort = new TaskPlanner()
-const projectDetailsGenerator: ProjectDetailsGeneratorPort = new ProjectDetailsGenerator()
-
 // Services
-const aiAssistantService: AIAssistantServicePort = new AIAssistantService(projectDetailsGenerator, taskPlanner, projectRepository, taskRepository)
+const aiAssistantService: AIAssistantServicePort = new AIAssistantService(projectRepository, taskRepository)
 
 // SDK Clients
 const aiCodingEndpoint = process.env.AI_CODING_ENDPOINT || ''
@@ -57,7 +48,7 @@ const projectDeploymentClient = new ProjectDeploymentClient(projectDeploymentEnd
 
 // Use Cases
 export const createNewProject: CreateProjectPort = new CreateProjectUseCase(projectRepository, aiCodingClient, projectDeploymentClient)
-export const planTasksWithAI: PlanTasksPort = new PlanTasksUseCase(aiAssistantService)
+export const planTasks: PlanTasksPort = new PlanTasksUseCase(aiAssistantService)
 export const fetchProject: FetchProjectPort = new FetchProjectUseCase(projectRepository)
 export const fetchProjects: FetchProjectsPort = new FetchProjectsUseCase(projectRepository)
 export const archiveProject: ArchiveProjectPort = new ArchiveProjectUseCase(projectRepository)

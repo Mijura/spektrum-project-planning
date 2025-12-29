@@ -137,11 +137,11 @@ paths:
         '500':
           description: Internal server error
 
-  /project/plan-tasks-with-ai:
+  /project/plan-tasks:
     post:
       summary: Plan tasks with AI
       description: Generate or update a task plan for a project using AI.
-      operationId: planTasksWithAI
+      operationId: planTasks
       requestBody:
         required: true
         content:

@@ -16,7 +16,7 @@ export class PlanTasksUseCase implements PlanTasksPort {
         const task = Task.create("Product Owner", projectId, "Plan Tasks", projectDescription)
         await this.aiAssistantService.updateProjectDetails(task)
 
-        const tasks = await this.aiAssistantService.planTasks(task)
+        const tasks = await this.aiAssistantService.planTasks(projectId, projectDescription)
 
         return TaskMapper.toDTOs(tasks)
     }

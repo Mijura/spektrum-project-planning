@@ -1,9 +1,8 @@
-import { TaskPlannerPort } from "@application/services/agents/task-planner"
 import { Task } from "@domain/task/task"
 import { Agent, Command } from "@jigjoy-io/mosaic"
 import z from "zod"
 
-export class TaskPlanner implements TaskPlannerPort {
+export class TaskPlanner {
 
     name: string = "Product Owner"
 
@@ -18,7 +17,7 @@ export class TaskPlanner implements TaskPlannerPort {
         comment: z.string().describe("A comment to be added to the task")
     })
 
-    async generateTasks(task: Task): Promise<Task[]> {
+    async generateTasks(projectId: string, projectDescription: string): Promise<Task[]> {
         
 
         const prompt =  `
@@ -103,7 +102,7 @@ export class TaskPlanner implements TaskPlannerPort {
 
 
         ### Task Input:
-        ${JSON.stringify(task)}
+        ${JSON.stringify(`Generate tasks for project: ${projectDescription}`)}
 
         ---
         `
@@ -116,11 +115,10 @@ export class TaskPlanner implements TaskPlannerPort {
         const agent = new Agent(command)
 
         const output = await agent.act()
-        task.leaveComment("Product Owner", output.comment)
         const createdTasks = []
-        for (const task of output.tasks) {
+        for (const generatedTask of output.tasks) {
             // TODO: Add priority to the task
-            const t = Task.create('Product Owner', task.projectId, task.title, task.description)
+            const t = Task.create('Product Owner', projectId, generatedTask.title, generatedTask.description)
             createdTasks.push(t)
         }
 

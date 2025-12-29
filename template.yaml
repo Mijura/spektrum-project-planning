@@ -155,10 +155,10 @@ Resources:
         EntryPoints:
           - src/infrastructure/http/controllers/project/archive-project.ts
 
-  PlanTasksWithAIFunction:
+  PlanTasksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/plan-tasks-with-ai.planTasksWithAIHandler
+      Handler: src/infrastructure/http/controllers/task/plan-tasks.planTasksHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -169,11 +169,13 @@ Resources:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
           TASK_TABLE: !Ref TaskTable
+          OPENAI_API_KEY: "{{resolve:secretsmanager:vars:SecretString:OpenAIAPIKey}}"
+          ANTHROPIC_API_KEY: "{{resolve:secretsmanager:vars:SecretString:AnthropicAPIKey}}"
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /project/plan-tasks-with-ai
+            Path: /project/plan-tasks
             Method: POST
     Metadata:
       BuildMethod: esbuild
@@ -182,7 +184,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/plan-tasks-with-ai.ts
+          - src/infrastructure/http/controllers/task/plan-tasks.ts
 
   CreateTaskFunction:
     Type: AWS::Serverless::Function
