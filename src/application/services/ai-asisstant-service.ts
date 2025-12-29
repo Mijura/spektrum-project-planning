@@ -5,6 +5,7 @@ import { ProjectDetailsGeneratorPort } from "@application/services/agents/projec
 import { TaskPlannerPort } from "@application/services/agents/task-planner"
 import { AIAssistantServicePort } from "@application/ports/services/ai-asisstant-service"
 import { TaskRepository } from "@application/ports/repositories/task-repository"
+import { Project } from "@domain/project/project"
 
 export class AIAssistantService implements AIAssistantServicePort {
 
@@ -15,7 +16,7 @@ export class AIAssistantService implements AIAssistantServicePort {
         private readonly taskRepository: TaskRepository
     ) {}
 
-    async updateProjectDetails(task: Task) {
+    async updateProjectDetails(task: Task): Promise<Project> {
         const project = await this.projectRepository.get(task.projectId)
         if (!project) {
             throw new Error("Project not found")
@@ -24,8 +25,9 @@ export class AIAssistantService implements AIAssistantServicePort {
         if (!project.detailsUpdated) {
             const projectDetails: ProjectDetailsDTO = await this.projectDetailsGenerator.generateProjectDetails(task)
             project.setDetails(projectDetails.name, projectDetails.description)
-            await this.projectRepository.save(project)
+            return await this.projectRepository.save(project)
         }
+        return project
     }
 
     async planTasks(task: Task): Promise<Task[]> {
