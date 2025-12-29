@@ -197,6 +197,9 @@ Resources:
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
+          PROJECT_TABLE: !Ref ProjectTable
+          OPENAI_API_KEY: "{{resolve:secretsmanager:vars:SecretString:OpenAIAPIKey}}"
+          ANTHROPIC_API_KEY: "{{resolve:secretsmanager:vars:SecretString:AnthropicAPIKey}}"
       Events:
         Api:
           Type: Api

@@ -9,9 +9,8 @@ export class ProjectDetailsGenerator implements ProjectDetailsGeneratorPort {
     async generateProjectDetails(task: Task): Promise<ProjectDetailsDTO>{
 
         const outputSchema = z.object({
-            project: z.object({
-                name: z.string().describe("Short and concise title of the project."),
-                description: z.string().describe("Project description withtout technical details in single sentence.")}),
+            name: z.string().describe("Short and concise title of the project."),
+            description: z.string().describe("Project description withtout technical details in single sentence.")
         })
 
         const prompt = `
@@ -27,10 +26,8 @@ export class ProjectDetailsGenerator implements ProjectDetailsGeneratorPort {
 
             ### **Output Example**
             {
-                "project": {
-                    "name": "Simple Note-taking app",
-                    "description": "A simple note-taking app that allows you to create, edit, and delete notes."
-                }
+                "name": "Simple Note-taking app",
+                "description": "A simple note-taking app that allows you to create, edit, and delete notes."
             }
         `
 

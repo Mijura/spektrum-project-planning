@@ -24,9 +24,11 @@ export class AIAssistantService implements AIAssistantServicePort {
 
         if (!project.detailsUpdated) {
             const projectDetails: ProjectDetailsDTO = await this.projectDetailsGenerator.generateProjectDetails(task)
+            console.log("Project details generated:", projectDetails)
             project.setDetails(projectDetails.name, projectDetails.description)
             return await this.projectRepository.save(project)
         }
+        
         return project
     }
 

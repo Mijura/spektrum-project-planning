@@ -46,14 +46,13 @@ export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
 const taskPlanner: TaskPlannerPort = new TaskPlanner()
 const projectDetailsGenerator: ProjectDetailsGeneratorPort = new ProjectDetailsGenerator()
 
-
+// Services
 const aiAssistantService: AIAssistantServicePort = new AIAssistantService(projectDetailsGenerator, taskPlanner, projectRepository, taskRepository)
 
+// SDK Clients
 const aiCodingEndpoint = process.env.AI_CODING_ENDPOINT || ''
 const aiCodingClient = new AICodingClient(aiCodingEndpoint)
-
 const projectDeploymentEndpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT || ''
-
 const projectDeploymentClient = new ProjectDeploymentClient(projectDeploymentEndpoint)
 
 // Use Cases
