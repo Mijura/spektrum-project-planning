@@ -16,7 +16,7 @@ Resources:
   CreateProjectFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/create-project.createProjectHandler
+      Handler: src/infrastructure/http/handlers/project/create-project.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -41,12 +41,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/create-project.ts
+          - src/infrastructure/http/handlers/project/create-project.ts
 
   UpdateProjectDetailsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/update-project-details.updateProjectDetailsHandler
+      Handler: src/infrastructure/http/handlers/project/update-project-details.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -69,12 +69,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/update-project-details.ts
+          - src/infrastructure/http/handlers/project/update-project-details.ts
 
   FetchProjectFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/fetch-project.fetchProjectHandler
+      Handler: src/infrastructure/http/handlers/project/fetch-project.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -97,12 +97,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/fetch-project.ts
+          - src/infrastructure/http/handlers/project/fetch-project.ts
 
   FetchProjectsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/fetch-projects.fetchProjectsHandler
+      Handler: src/infrastructure/http/handlers/project/fetch-projects.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -125,12 +125,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/fetch-projects.ts
+          - src/infrastructure/http/handlers/project/fetch-projects.ts
 
   ArchiveProjectFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/archive-project.archiveProjectHandler
+      Handler: src/infrastructure/http/handlers/project/archive-project.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -153,12 +153,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/archive-project.ts
+          - src/infrastructure/http/handlers/project/archive-project.ts
 
   PlanTasksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/plan-tasks.planTasksHandler
+      Handler: src/infrastructure/http/handlers/task/plan-tasks.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -184,12 +184,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/plan-tasks.ts
+          - src/infrastructure/http/handlers/task/plan-tasks.ts
 
   CreateTaskFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/create-task.createTaskHandler
+      Handler: src/infrastructure/http/handlers/task/create-task.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -215,12 +215,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/create-task.ts
+          - src/infrastructure/http/handlers/task/create-task.ts
 
   UpdateTaskTitleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/update-task-title.updateTaskTitleHandler
+      Handler: src/infrastructure/http/handlers/task/update-task-title.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -243,12 +243,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/update-task-title.ts
+          - src/infrastructure/http/handlers/task/update-task-title.ts
 
   UpdateTaskDescriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/update-task-description.updateTaskDescriptionHandler
+      Handler: src/infrastructure/http/handlers/task/update-task-description.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -271,12 +271,12 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/update-task-description.ts
+          - src/infrastructure/http/handlers/task/update-task-description.ts
 
   FetchTasksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/fetch-tasks.fetchTasksHandler
+      Handler: src/infrastructure/http/handlers/task/fetch-tasks.handler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -299,7 +299,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/fetch-tasks.ts
+          - src/infrastructure/http/handlers/task/fetch-tasks.ts
 
   ProjectTable:
     Type: AWS::DynamoDB::Table
