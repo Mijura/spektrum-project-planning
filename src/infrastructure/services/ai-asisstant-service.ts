@@ -4,8 +4,8 @@ import { ProjectDetailsDTO } from "@application/dto/project-details"
 import { AIAssistantServicePort } from "@application/ports/services/ai-asisstant-service"
 import { TaskRepository } from "@application/ports/repositories/task-repository"
 import { Project } from "@domain/project/project"
-import { ProjectDetailsGenerator } from "@infrastructure/ai-assistant-service/project-details-generator"
-import { TaskPlanner } from "@infrastructure/ai-assistant-service/task-planner"
+import { ProjectDetailsGenerator } from "@infrastructure/services/project-details-generator"
+import { TaskPlanner } from "@infrastructure/services/task-planner"
 
 export class AIAssistantService implements AIAssistantServicePort {
 

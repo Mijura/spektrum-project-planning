@@ -7,8 +7,8 @@ export async function fetchProjectsHandler(event: APIGatewayProxyEvent): Promise
 	try {
         
 		const ownerId = event.pathParameters?.ownerId
-		if (!ownerId) throw new ValidationError("Missing path parameter: ownerId")
-        //schemaValidator(schema, commit)
+		if (!ownerId) 
+			throw new ValidationError("Missing path parameter: ownerId")
 
 		console.log(`Fetching all projects for ${ownerId}`)
 		const projects: ProjectDTO[] = await fetchProjects.execute(ownerId)

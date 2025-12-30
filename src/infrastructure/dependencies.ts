@@ -27,7 +27,7 @@ import { PlanTasksUseCase } from "@application/use-cases/task/plan-tasks"
 
 import { ProjectRepository } from "@application/ports/repositories/project-repository"
 import { TaskRepository } from "@application/ports/repositories/task-repository"
-import { AIAssistantService } from "@infrastructure/ai-assistant-service/ai-asisstant-service"
+import { AIAssistantService } from "@infrastructure/services/ai-asisstant-service"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
 import { AIAssistantServicePort } from "@application/ports/services/ai-asisstant-service"
