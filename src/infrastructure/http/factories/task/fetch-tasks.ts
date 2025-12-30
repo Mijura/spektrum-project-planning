@@ -6,7 +6,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createFetchTasksHandler(fetchTasks: FetchTasksPort) {
 
-	return async function fetchTasksHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+	return async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 		try {
 			const projectId = event.pathParameters?.projectId
 			

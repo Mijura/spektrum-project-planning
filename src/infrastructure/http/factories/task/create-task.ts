@@ -6,7 +6,8 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createCreateTaskHandler(createTask: CreateTaskPort) {
 
-	return async function createTaskHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+	return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+		
 		try {
 			if (!body) 
 				throw new ValidationError("No page body")

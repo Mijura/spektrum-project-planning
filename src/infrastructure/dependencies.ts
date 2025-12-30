@@ -31,6 +31,8 @@ import { AIAssistantService } from "@infra/services/ai-asisstant-service"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
 import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
+import { LeaveCommentUseCase } from "@app/use-cases/task/leave-comment"
+import { LeaveCommentPort } from "@app/ports/use-cases/task/leave-comment"
 
 
 // Repositories
@@ -57,3 +59,4 @@ export const fetchTasks: FetchTasksPort = new FetchTasksUseCase(taskRepository)
 export const updateTaskTitle: UpdateTaskTitlePort = new UpdateTaskTitleUseCase(taskRepository)
 export const updateTaskDescription: UpdateTaskDescriptionPort = new UpdateTaskDescriptionUseCase(taskRepository)
 export const updateProjectDetails: UpdateProjectDetailsPort = new UpdateProjectDetailsUseCase(projectRepository)
+export const leaveComment: LeaveCommentPort = new LeaveCommentUseCase(taskRepository)

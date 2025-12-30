@@ -6,9 +6,10 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createPlanTasksHandler(planTasks: PlanTasksPort) {
 
-	return async function planTasksHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+	return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+		
 		try {
-			if (!body) throw new ValidationError("No page body")
+			if (!body) throw new ValidationError("No request body provided")
 
 			const { projectId, projectDescription } = JSON.parse(body)
 

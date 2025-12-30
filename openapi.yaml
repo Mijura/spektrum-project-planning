@@ -263,3 +263,28 @@ paths:
                   additionalProperties: true
         '500':
           description: Internal server error
+
+  /task/leave-comment:
+    post:
+      summary: Leave a comment on a task
+      description: Leave a comment on a task.
+      operationId: leaveComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Comment left
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error

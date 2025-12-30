@@ -115,7 +115,7 @@ export class TaskPlanner {
         const agent = new Agent(command)
 
         const output = await agent.act()
-        const createdTasks = []
+        const createdTasks: Task[] = []
         for (const generatedTask of output.tasks) {
             // TODO: Add priority to the task
             const t = Task.create('Product Owner', projectId, generatedTask.title, generatedTask.description)
