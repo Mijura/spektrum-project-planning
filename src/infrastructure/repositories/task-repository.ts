@@ -1,9 +1,9 @@
 import { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
-import { TaskRepository } from "@application/ports/repositories/task-repository"
+import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { Task } from "@domain/task/task"
-import { TaskRecord } from "@infrastructure/repositories/records/task"
-import { TaskMapper } from "@infrastructure/repositories/mappers/task-mapper"
+import { TaskRecord } from "@infra/repositories/records/task"
+import { TaskMapper } from "@infra/repositories/mappers/task-mapper"
 
 const client = new DynamoDBClient({
 	region: process.env.AWS_REGION,

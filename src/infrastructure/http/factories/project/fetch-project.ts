@@ -1,5 +1,5 @@
-import { ProjectDTO } from "@application/dto/project"
-import { FetchProjectPort } from "@application/ports/use-cases/project/fetch-project"
+import { ProjectDTO } from "@app/dto/project"
+import { FetchProjectPort } from "@app/ports/use-cases/project/fetch-project"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 

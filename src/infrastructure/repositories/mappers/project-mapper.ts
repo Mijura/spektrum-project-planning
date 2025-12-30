@@ -1,5 +1,5 @@
 import { Project } from "@domain/project/project"
-import { ProjectRecord } from "@infrastructure/repositories/records/project"
+import { ProjectRecord } from "@infra/repositories/records/project"
 
 export class ProjectMapper {
 

@@ -1,6 +1,6 @@
 
-import { ProjectDTO } from "@application/dto/project"
-import { ArchiveProjectPort } from "@application/ports/use-cases/project/archive-project"
+import { ProjectDTO } from "@app/dto/project"
+import { ArchiveProjectPort } from "@app/ports/use-cases/project/archive-project"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 

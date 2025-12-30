@@ -1,5 +1,5 @@
-import { CreateProjectDTO } from "@application/dto/create-project"
-import { CreateProjectPort } from "@application/ports/use-cases/project/create-project"
+import { CreateProjectDTO } from "@app/dto/create-project"
+import { CreateProjectPort } from "@app/ports/use-cases/project/create-project"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 

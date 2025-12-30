@@ -1,5 +1,5 @@
-import { ProjectDTO } from "@application/dto/project"
-import { ProjectDetailsDTO } from "@application/dto/project-details"
+import { ProjectDTO } from "@app/dto/project"
+import { ProjectDetailsDTO } from "@app/dto/project-details"
 
 export interface UpdateProjectDetailsPort {
 

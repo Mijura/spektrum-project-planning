@@ -1,4 +1,4 @@
-import { createFetchProjectsHandler } from "@infrastructure/http/factories/project/fetch-projects"
-import { fetchProjects } from "@infrastructure/dependencies"
+import { createFetchProjectsHandler } from "@infra/http/factories/project/fetch-projects"
+import { fetchProjects } from "@infra/dependencies"
 
 export const handler = createFetchProjectsHandler(fetchProjects)

@@ -1,4 +1,4 @@
-import { createArchiveProjectHandler } from "@infrastructure/http/factories/project/archive-project"
-import { archiveProject } from "@infrastructure/dependencies"
+import { createArchiveProjectHandler } from "@infra/http/factories/project/archive-project"
+import { archiveProject } from "@infra/dependencies"
 
 export const handler = createArchiveProjectHandler(archiveProject)

@@ -1,4 +1,4 @@
-import { CreateProjectDTO } from "@application/dto/create-project"
+import { CreateProjectDTO } from "@app/dto/create-project"
 
 export interface CreateProjectPort {
 

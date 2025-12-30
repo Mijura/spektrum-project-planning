@@ -1,12 +1,12 @@
 import { Project } from "@domain/project/project"
-import { CreateProjectPort } from "@application/ports/use-cases/project/create-project"
-import { ProjectRepository } from "@application/ports/repositories/project-repository"
+import { CreateProjectPort } from "@app/ports/use-cases/project/create-project"
+import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { DeployModuleCommand, EnvironmentType, ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
-import { CreateProjectDTO } from "@application/dto/create-project"
-import { ProjectDTO } from "@application/dto/project"
-import { ProjectMapper } from "@application/mappers/project-mappers"
-import { EntryPointDTO } from "@application/dto/entry-point"
+import { CreateProjectDTO } from "@app/dto/create-project"
+import { ProjectDTO } from "@app/dto/project"
+import { ProjectMapper } from "@app/mappers/project-mappers"
+import { EntryPointDTO } from "@app/dto/entry-point"
 
 export class CreateProjectUseCase implements CreateProjectPort {
 	

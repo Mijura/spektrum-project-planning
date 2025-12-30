@@ -1,8 +1,8 @@
 import { Project } from "@domain/project/project"
-import { FetchProjectsPort } from "@application/ports/use-cases/project/fetch-projects"
-import { ProjectRepository } from "@application/ports/repositories/project-repository"
-import { ProjectDTO } from "@application/dto/project"
-import { ProjectMapper } from "@application/mappers/project-mappers"
+import { FetchProjectsPort } from "@app/ports/use-cases/project/fetch-projects"
+import { ProjectRepository } from "@app/ports/repositories/project-repository"
+import { ProjectDTO } from "@app/dto/project"
+import { ProjectMapper } from "@app/mappers/project-mappers"
 import { ProjectStatus } from "@domain/project/project-status"
 
 export class FetchProjectsUseCase implements FetchProjectsPort {

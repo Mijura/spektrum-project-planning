@@ -1,8 +1,8 @@
-import { PlanTasksPort } from "@application/ports/use-cases/task/plan-tasks"
-import { TaskDTO } from "@application/dto/task"
-import { TaskMapper } from "@application/mappers/task-mapper"
+import { PlanTasksPort } from "@app/ports/use-cases/task/plan-tasks"
+import { TaskDTO } from "@app/dto/task"
+import { TaskMapper } from "@app/mappers/task-mapper"
 import { Task } from "@domain/task/task"
-import { AIAssistantServicePort } from "@application/ports/services/ai-asisstant-service"
+import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
 
 export class PlanTasksUseCase implements PlanTasksPort {
 	

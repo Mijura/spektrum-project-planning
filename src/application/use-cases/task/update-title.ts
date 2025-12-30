@@ -1,8 +1,8 @@
-import { TaskDTO } from "@application/dto/task"
-import { TaskMapper } from "@application/mappers/task-mapper"
+import { TaskDTO } from "@app/dto/task"
+import { TaskMapper } from "@app/mappers/task-mapper"
 import { Task } from "@domain/task/task"
-import { TaskRepository } from "@application/ports/repositories/task-repository"
-import { UpdateTaskTitlePort } from "@application/ports/use-cases/task/update-title"
+import { TaskRepository } from "@app/ports/repositories/task-repository"
+import { UpdateTaskTitlePort } from "@app/ports/use-cases/task/update-title"
 
 export class UpdateTaskTitleUseCase implements UpdateTaskTitlePort {
 	

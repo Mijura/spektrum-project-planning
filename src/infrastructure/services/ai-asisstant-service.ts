@@ -1,11 +1,11 @@
 import { Task } from "@domain/task/task"
-import { ProjectRepository } from "@application/ports/repositories/project-repository"
-import { ProjectDetailsDTO } from "@application/dto/project-details"
-import { AIAssistantServicePort } from "@application/ports/services/ai-asisstant-service"
-import { TaskRepository } from "@application/ports/repositories/task-repository"
+import { ProjectRepository } from "@app/ports/repositories/project-repository"
+import { ProjectDetailsDTO } from "@app/dto/project-details"
+import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
+import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { Project } from "@domain/project/project"
-import { ProjectDetailsGenerator } from "@infrastructure/services/project-details-generator"
-import { TaskPlanner } from "@infrastructure/services/task-planner"
+import { ProjectDetailsGenerator } from "@infra/services/project-details-generator"
+import { TaskPlanner } from "@infra/services/task-planner"
 
 export class AIAssistantService implements AIAssistantServicePort {
 

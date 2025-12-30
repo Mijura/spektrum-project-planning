@@ -1,6 +1,6 @@
-import { ProjectDTO } from "@application/dto/project"
-import { ProjectDetailsDTO } from "@application/dto/project-details"
-import { UpdateProjectDetailsPort } from "@application/ports/use-cases/project/update-details"
+import { ProjectDTO } from "@app/dto/project"
+import { ProjectDetailsDTO } from "@app/dto/project-details"
+import { UpdateProjectDetailsPort } from "@app/ports/use-cases/project/update-details"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 

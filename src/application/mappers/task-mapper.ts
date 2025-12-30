@@ -1,5 +1,5 @@
 import { Task } from "@domain/task/task"
-import { TaskDTO } from "@application/dto/task"
+import { TaskDTO } from "@app/dto/task"
 
 export class TaskMapper {
 

@@ -1,8 +1,8 @@
 import { Project } from "@domain/project/project"
-import { ArchiveProjectPort } from "@application/ports/use-cases/project/archive-project"
-import { ProjectRepository } from "@application/ports/repositories/project-repository"
-import { ProjectDTO } from "@application/dto/project"
-import { ProjectMapper } from "@application/mappers/project-mappers"
+import { ArchiveProjectPort } from "@app/ports/use-cases/project/archive-project"
+import { ProjectRepository } from "@app/ports/repositories/project-repository"
+import { ProjectDTO } from "@app/dto/project"
+import { ProjectMapper } from "@app/mappers/project-mappers"
 
 export class ArchiveProjectUseCase implements ArchiveProjectPort {
 	

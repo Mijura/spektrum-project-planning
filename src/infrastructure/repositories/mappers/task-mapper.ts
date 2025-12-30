@@ -1,4 +1,4 @@
-import { TaskRecord } from "@infrastructure/repositories/records/task"
+import { TaskRecord } from "@infra/repositories/records/task"
 import { Task } from "@domain/task/task"
 
 

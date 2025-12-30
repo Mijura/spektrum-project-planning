@@ -1,4 +1,4 @@
-import { TaskDTO } from "@application/dto/task"
+import { TaskDTO } from "@app/dto/task"
 
 export interface PlanTasksPort {
 

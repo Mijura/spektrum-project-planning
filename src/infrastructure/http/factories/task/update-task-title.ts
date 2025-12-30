@@ -1,5 +1,5 @@
-import { TaskDTO } from "@application/dto/task"
-import { UpdateTaskTitlePort } from "@application/ports/use-cases/task/update-title"
+import { TaskDTO } from "@app/dto/task"
+import { UpdateTaskTitlePort } from "@app/ports/use-cases/task/update-title"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 

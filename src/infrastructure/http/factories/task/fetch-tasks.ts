@@ -1,5 +1,5 @@
-import { TaskDTO } from "@application/dto/task"
-import { FetchTasksPort } from "@application/ports/use-cases/task/fetch-tasks"
+import { TaskDTO } from "@app/dto/task"
+import { FetchTasksPort } from "@app/ports/use-cases/task/fetch-tasks"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 

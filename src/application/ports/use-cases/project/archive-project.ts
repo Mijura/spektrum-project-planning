@@ -1,4 +1,4 @@
-import { ProjectDTO } from "@application/dto/project"
+import { ProjectDTO } from "@app/dto/project"
 
 export interface ArchiveProjectPort {
 
