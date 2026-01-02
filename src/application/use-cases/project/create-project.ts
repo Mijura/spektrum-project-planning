@@ -3,7 +3,7 @@ import { CreateProjectPort } from "@app/ports/use-cases/project/create-project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { DeployModuleCommand, EnvironmentType, ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
-import { CreateProjectDTO } from "@app/dto/create-project"
+import { CreateProjectResponseDTO } from "@app/dto/create-project-response"
 import { ProjectDTO } from "@app/dto/project"
 import { ProjectMapper } from "@app/mappers/project-mappers"
 import { EntryPointDTO } from "@app/dto/entry-point"
@@ -16,7 +16,7 @@ export class CreateProjectUseCase implements CreateProjectPort {
 		private readonly projectDeploymentClient: ProjectDeploymentClient
 	) {}
 
-	async execute(owner: string): Promise<CreateProjectDTO> {
+	async execute(owner: string): Promise<CreateProjectResponseDTO> {
 		try {
 			// Create a new project with a unique ID
 			const project: Project = Project.create("My Project", "Empty project...", owner)
@@ -41,12 +41,12 @@ export class CreateProjectUseCase implements CreateProjectPort {
 			const entryPointDTO: EntryPointDTO = await this.projectDeploymentClient.deployModule(deploymentRequest)
 			const projectDTO: ProjectDTO = ProjectMapper.toDto(project)
 
-			const createProjectDTO: CreateProjectDTO = {
+			const createProjectResponseDTO: CreateProjectResponseDTO = {
 				project: projectDTO,
 				entryPoint: entryPointDTO
 			}
 
-			return createProjectDTO
+			return createProjectResponseDTO
 		} catch (error) {
 			console.error("Error creating new project:", error)
 			throw new Error("Failed to create new project.")

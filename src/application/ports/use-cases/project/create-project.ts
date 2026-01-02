@@ -1,4 +1,4 @@
-import { CreateProjectDTO } from "@app/dto/create-project"
+import { CreateProjectResponseDTO } from "@app/dto/create-project-response"
 
 export interface CreateProjectPort {
 
@@ -7,5 +7,5 @@ export interface CreateProjectPort {
      * @param owner - The owner of the project.
      * @returns The created CreateProjectDTO object.
      */
-    execute(owner: string): Promise<CreateProjectDTO>
+    execute(owner: string): Promise<CreateProjectResponseDTO>
 }

@@ -1,4 +1,4 @@
-import { CreateProjectDTO } from "@app/dto/create-project"
+import { CreateProjectResponseDTO } from "@app/dto/create-project-response"
 import { CreateProjectPort } from "@app/ports/use-cases/project/create-project"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
@@ -15,9 +15,9 @@ export function createCreateProjectHandler(createNewProject: CreateProjectPort) 
 			if (!owner) 
 				throw new ValidationError("Missing path parameter: owner")
 
-			const createProjectDTO: CreateProjectDTO = await createNewProject.execute(owner)
+			const createProjectResponseDTO: CreateProjectResponseDTO = await createNewProject.execute(owner)
 
-			return Responses._201(createProjectDTO)
+			return Responses._201(createProjectResponseDTO)
 
 		} catch (error) {
 			console.error("Error creating project:", error)
