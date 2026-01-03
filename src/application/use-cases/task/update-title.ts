@@ -1,5 +1,3 @@
-import { TaskDTO } from "@jigjoy-io/task-contracts"
-import { TaskMapper } from "@infra/http/mappers/task-mapper"
 import { Task } from "@domain/task/task"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { UpdateTaskTitlePort } from "@app/ports/use-cases/task/update-title"

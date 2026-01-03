@@ -3,7 +3,7 @@ import { TaskMapper } from "@infra/http/mappers/task-mapper"
 import { UpdateTaskTitlePort } from "@app/ports/use-cases/task/update-title"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { TaskDTO } from "@jigjoy-io/task-contracts"
+import { Task as TaskDTO } from "@jigjoy-io/task-contracts"
 
 
 export function createUpdateTaskTitleHandler(updateTaskTitle: UpdateTaskTitlePort) {

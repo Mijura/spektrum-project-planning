@@ -1,5 +1,5 @@
 import { Task } from "@domain/task/task"
-import { TaskDTO } from "@jigjoy-io/task-contracts"
+import { Task as TaskDTO } from "@jigjoy-io/task-contracts"
 import { ActivityMapper } from "./activity-mapper"
 
 export class TaskMapper {
