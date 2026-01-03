@@ -1,5 +1,7 @@
-import { ProjectDTO } from "@app/dto/project"
+import { ProjectDTO } from "@infra/http/dto/project"
+import { ProjectMapper } from "@infra/http/mappers/project-mapper"
 import { FetchProjectsPort } from "@app/ports/use-cases/project/fetch-projects"
+import { Project } from "@domain/project/project"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
@@ -13,8 +15,11 @@ export function createFetchProjectsHandler(fetchProjects: FetchProjectsPort) {
 				throw new ValidationError("Missing path parameter: ownerId")
 
 			console.log(`Fetching all projects for ${ownerId}`)
-			const projects: ProjectDTO[] = await fetchProjects.execute(ownerId)
-			return Responses._200(projects)
+			
+			const projects: Project[] = await fetchProjects.execute(ownerId)
+			const projectDTOs: ProjectDTO[] = ProjectMapper.toDtos(projects)
+			
+			return Responses._200(projectDTOs)
 			
 		} catch (error) {
 			console.error("Error fetching projects:", error)

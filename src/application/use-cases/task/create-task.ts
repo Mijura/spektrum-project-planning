@@ -1,8 +1,6 @@
 import { CreateTaskPort } from "@app/ports/use-cases/task/create-task"
 import { Task } from "@domain/task/task"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { TaskMapper } from "@app/mappers/task-mapper"
-import { TaskDTO } from "@app/dto/task"
 import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
 
 export class CreateTaskUseCase implements CreateTaskPort {
@@ -12,7 +10,7 @@ export class CreateTaskUseCase implements CreateTaskPort {
 		private readonly taskRepository: TaskRepository,
 	) {}
 
-	async execute(projectId: string, title: string, description: string): Promise<TaskDTO> {
+	async execute(projectId: string, title: string, description: string): Promise<Task> {
 		try {
 			// Create a new task
 			const task: Task = Task.create('User', projectId, title, description)
@@ -21,7 +19,7 @@ export class CreateTaskUseCase implements CreateTaskPort {
 			// Persist the task in the database
 			const savedTask: Task = await this.taskRepository.save(task)
 
-			return TaskMapper.toDTO(savedTask)
+			return savedTask
 		} catch (error) {
 			console.error("Error creating new task:", error)
 			throw new Error("Failed to create new task.")

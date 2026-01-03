@@ -1,11 +1,12 @@
-import { TaskDTO } from "@app/dto/task"
+import { Task } from "@domain/task/task"
 
 export interface UpdateTaskTitlePort {
 
     /**
      * Updates the title of a task.
-     * @param task - The task to update.
-     * @returns The updated TaskDTO object.
+     * @param taskId - The ID of the task to update.
+     * @param newTitle - The new title of the task.
+     * @returns The updated Task object.
      */
-    execute(task: TaskDTO): Promise<TaskDTO>
+    execute(taskId: string, newTitle: string): Promise<Task>
 }

@@ -1,6 +1,7 @@
-import { ProjectDTO } from "@app/dto/project"
-import { ProjectDetailsDTO } from "@app/dto/project-details"
+import { ProjectDTO } from "@infra/http/dto/project"
+import { ProjectMapper } from "@infra/http/mappers/project-mapper"
 import { UpdateProjectDetailsPort } from "@app/ports/use-cases/project/update-details"
+import { Project } from "@domain/project/project"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
@@ -13,11 +14,9 @@ export function createUpdateProjectDetailsHandler(updateProjectDetails: UpdatePr
 
 			const { id, name, description } = JSON.parse(body)
 
-			const projectDetails: ProjectDetailsDTO = {
-				name,
-				description
-			}
-			const projectDTO: ProjectDTO = await updateProjectDetails.execute(id, projectDetails)
+
+			const project: Project = await updateProjectDetails.execute(id, name, description)
+			const projectDTO: ProjectDTO = ProjectMapper.toDto(project)
 
 			return Responses._200(projectDTO)
 		} catch (error) {

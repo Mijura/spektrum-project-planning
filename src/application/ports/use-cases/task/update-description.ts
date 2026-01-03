@@ -1,12 +1,12 @@
-
-import { TaskDTO } from "@app/dto/task"
+import { Task } from "@domain/task/task"
 
 export interface UpdateTaskDescriptionPort {
 
     /**
      * Updates the description of a task.
-     * @param task - The task to update.
-     * @returns The updated TaskDTO object.
+     * @param taskId - The ID of the task to update.
+     * @param newDescription - The new description of the task.
+     * @returns The updated Task object.
      */
-    execute(task: TaskDTO): Promise<TaskDTO>
+    execute(taskId: string, newDescription: string): Promise<Task>
 }

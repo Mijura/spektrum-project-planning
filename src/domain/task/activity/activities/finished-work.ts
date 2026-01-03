@@ -1,7 +1,6 @@
-import { ActivityType } from "@domain/task/activity/activity-type"
+import { ActivityType, FinishedWorkMetadata } from "@jigjoy-io/task-contracts"
 import { Activity } from "@domain/task/activity/activity"
 import { Task } from "@domain/task/task"
-import { FinishedWorkMetadata } from "./metadata"
 
 export class FinishedWork extends Activity<FinishedWorkMetadata> {
     constructor(

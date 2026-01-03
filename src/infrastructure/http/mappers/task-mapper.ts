@@ -1,8 +1,8 @@
 import { Task } from "@domain/task/task"
-import { TaskDTO } from "@app/dto/task"
+import { TaskDTO } from "@jigjoy-io/task-contracts"
+import { ActivityMapper } from "./activity-mapper"
 
 export class TaskMapper {
-
 
 	/** Convert Task entity → marshalled task for storage/transfer */
 	static toDTO(task: Task): TaskDTO {
@@ -15,17 +15,7 @@ export class TaskMapper {
 			status: task.status,
 			created: task.created,
 			updated: task.updated,
-			activities: task.getActivityLog().map(activity => {
-                return {
-                    id: activity.id,
-                    type: activity.type,
-                    projectId: activity.projectId,
-                    taskId: activity.taskId,
-                    userId: activity.userId,
-                    metadata: activity.metadata,
-                    occurredAt: activity.occurredAt,
-                }
-            })
+			activities: ActivityMapper.toDTOs(task.getActivityLog())
 		}
 	}
 

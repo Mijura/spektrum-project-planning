@@ -1,5 +1,4 @@
-import { ProjectDTO } from "@app/dto/project"
-import { ProjectDetailsDTO } from "@app/dto/project-details"
+import { Project } from "@domain/project/project"
 
 export interface UpdateProjectDetailsPort {
 
@@ -8,7 +7,7 @@ export interface UpdateProjectDetailsPort {
      * @param projectId - The ID of the project to update.
      * @param name - The new name of the project.
      * @param description - The new description of the project.
-     * @returns The updated ProjectDTO object.
+     * @returns The updated Project object.
      */
-    execute(projectId: string, projectDetails: ProjectDetailsDTO): Promise<ProjectDTO>
+    execute(projectId: string, newName: string, newDescription: string): Promise<Project>
 } 

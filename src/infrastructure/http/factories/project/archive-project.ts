@@ -1,6 +1,8 @@
 
-import { ProjectDTO } from "@app/dto/project"
+import { ProjectDTO } from "@infra/http/dto/project"
+import { ProjectMapper } from "@infra/http/mappers/project-mapper"
 import { ArchiveProjectPort } from "@app/ports/use-cases/project/archive-project"
+import { Project } from "@domain/project/project"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
@@ -16,8 +18,9 @@ export function createArchiveProjectHandler(archiveProject: ArchiveProjectPort) 
             if (!projectId) 
                 throw new ValidationError("Missing path parameter: projectId")
     
-            const projectDTO: ProjectDTO = await archiveProject.execute(projectId)
-    
+            const project: Project = await archiveProject.execute(projectId)
+            const projectDTO: ProjectDTO = ProjectMapper.toDto(project)
+
             return Responses._200(projectDTO)
         } catch (error) {
             console.error("Error archiving project:", error)

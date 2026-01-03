@@ -1,6 +1,8 @@
-import { TaskDTO } from "@app/dto/task"
 import { FetchTasksPort } from "@app/ports/use-cases/task/fetch-tasks"
+import { Task } from "@domain/task/task"
+import { TaskMapper } from "@infra/http/mappers/task-mapper"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { TaskDTO } from "@jigjoy-io/task-contracts"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 
@@ -14,9 +16,11 @@ export function createFetchTasksHandler(fetchTasks: FetchTasksPort) {
 				throw new ValidationError("Missing path parameter: projectId")
 
 			console.log(`Fetching all tasks for project: ${projectId}`)
-			const taskDtos: TaskDTO[] = await fetchTasks.execute(projectId)
-				
-			return Responses._200(taskDtos)
+			
+			const tasks: Task[] = await fetchTasks.execute(projectId)
+			const taskDTOs: TaskDTO[] = TaskMapper.toDTOs(tasks)
+			
+			return Responses._200(taskDTOs)
 
 		} catch (error) {
 			console.error("Error fetching tasks:", error)

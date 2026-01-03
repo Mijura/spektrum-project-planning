@@ -8,4 +8,4 @@ export type ProjectDTO = {
 	created: string
 	updated: string | null
 	status: ProjectStatus
-  }
+}

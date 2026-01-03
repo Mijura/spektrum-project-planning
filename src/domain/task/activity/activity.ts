@@ -1,9 +1,8 @@
 
 import { v4 as uuidv4 } from "uuid"
-import { ActivityMetadata } from "./activities/activitiy-metadata"
-import { ActivityType } from "./activity-type"
+import { ActivityMetadata, ActivityType } from "@jigjoy-io/task-contracts"
 
-export class Activity<T> {
+export class Activity<T extends ActivityMetadata> {
     constructor(
       public readonly id: string,
       public readonly type: ActivityType,

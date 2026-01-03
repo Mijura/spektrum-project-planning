@@ -1,32 +1,30 @@
-import { TaskDTO } from "@app/dto/task"
-import { TaskMapper } from "@app/mappers/task-mapper"
 import { Task } from "@domain/task/task"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { UpdateTaskDescriptionPort } from "@app/ports/use-cases/task/update-description"
 
-export class UpdateTaskDescriptionUseCase implements UpdateTaskDescriptionPort{
+export class UpdateTaskDescriptionUseCase implements UpdateTaskDescriptionPort {
 
 	constructor(
 		private readonly taskRepository: TaskRepository
 	) {}
 
-	async execute(taskDto: TaskDTO): Promise<TaskDTO> {
+	async execute(taskId: string, newDescription: string): Promise<Task> {
 		try {
 			// fetch the old task and update it
-			console.log(`Updating task description for task ${taskDto.id} to ${taskDto.description}.`)
-            const task: Task | null = await this.taskRepository.get(taskDto.id)
+			console.log(`Updating task description for task ${taskId} to ${newDescription}.`)
+            const task: Task | null = await this.taskRepository.get(taskId)
 
             if (!task) {
                 throw new Error("Task not found.")
             }
 
 			// TODO: Get the user id from the context
-            task.updateDescription("User", taskDto.description)
+            task.updateDescription("User", newDescription)
 
 
 			// Persist the task in the database
 			const savedTask: Task = await this.taskRepository.save(task)
-			return TaskMapper.toDTO(savedTask)
+			return savedTask
 		} catch (error) {
 			console.error("Error during task description update:", error)
 			throw new Error("Failed to edit task description.")

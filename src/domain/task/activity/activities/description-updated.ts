@@ -1,7 +1,6 @@
-import { ActivityType } from "@domain/task/activity/activity-type"
+import { ActivityType, DescriptionUpdatedMetadata } from "@jigjoy-io/task-contracts"
 import { Activity } from "@domain/task/activity/activity"
 import { Task } from "@domain/task/task"
-import { DescriptionUpdatedMetadata } from "./metadata"
 
 export class DescriptionUpdated extends Activity<DescriptionUpdatedMetadata> {
 

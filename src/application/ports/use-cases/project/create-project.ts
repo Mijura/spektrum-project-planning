@@ -1,11 +1,12 @@
-import { CreateProjectResponseDTO } from "@app/dto/create-project-response"
+import { Project } from "@domain/project/project"
+import { EntryPoint } from "@jigjoy-io/project-deployment-client"
 
 export interface CreateProjectPort {
 
     /**
      * Creates a new project.
      * @param owner - The owner of the project.
-     * @returns The created CreateProjectDTO object.
+     * @returns The created project and entry point.
      */
-    execute(owner: string): Promise<CreateProjectResponseDTO>
+    execute(owner: string): Promise<{ project: Project, entryPoint: EntryPoint }>
 }

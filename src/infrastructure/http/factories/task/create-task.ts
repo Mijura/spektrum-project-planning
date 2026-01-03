@@ -1,6 +1,8 @@
-import { TaskDTO } from "@app/dto/task"
 import { CreateTaskPort } from "@app/ports/use-cases/task/create-task"
+import { Task } from "@domain/task/task"
+import { TaskMapper } from "@infra/http/mappers/task-mapper"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { TaskDTO } from "@jigjoy-io/task-contracts"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 
@@ -14,8 +16,10 @@ export function createCreateTaskHandler(createTask: CreateTaskPort) {
 
 			const { projectId, title, description } = JSON.parse(body)
 			
-			const task: TaskDTO = await createTask.execute(projectId, title, description)
-			return Responses._201(task)
+			const task: Task = await createTask.execute(projectId, title, description)
+
+			const taskDTO: TaskDTO = TaskMapper.toDTO(task)
+			return Responses._201(taskDTO)
 
 		} catch (error) {
 			console.error("Error creating task:", error)

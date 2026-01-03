@@ -1,5 +1,4 @@
-
-import { TaskDTO } from "@app/dto/task"
+import { Task } from "@domain/task/task"
 
 export interface CreateTaskPort {
 
@@ -8,7 +7,7 @@ export interface CreateTaskPort {
      * @param projectId - The ID of the project to create the task for.
      * @param title - The title of the task.
      * @param description - The description of the task.
-     * @returns The created TaskDTO object.
+     * @returns The created Task object.
      */
-    execute(projectId: string, title: string, description: string): Promise<TaskDTO>
+    execute(projectId: string, title: string, description: string): Promise<Task>
 }

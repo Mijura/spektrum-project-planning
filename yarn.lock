@@ -750,6 +750,11 @@
     ajv "^8.17.1"
     ajv-formats "^3.0.1"
 
+"@jigjoy-io/task-contracts@^0.0.1":
+  version "0.0.1"
+  resolved "https://npm.pkg.github.com/download/@jigjoy-io/task-contracts/0.0.1/955690b51e46d2eb71c4897a07673c28997a237c"
+  integrity sha512-p5WXzTbkAerqQUNBDy4DLdFlUx5h9v6aDba4L87HooSu9loGAJtotjHf+wunwV8gtgHNRJKMGiaZQJjuFEJtfQ==
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.2"
   resolved "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.2.tgz"

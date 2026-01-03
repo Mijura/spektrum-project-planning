@@ -1,6 +1,4 @@
 import { PlanTasksPort } from "@app/ports/use-cases/task/plan-tasks"
-import { TaskDTO } from "@app/dto/task"
-import { TaskMapper } from "@app/mappers/task-mapper"
 import { Task } from "@domain/task/task"
 import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
 
@@ -10,7 +8,7 @@ export class PlanTasksUseCase implements PlanTasksPort {
         private readonly aiAssistantService: AIAssistantServicePort
 	) {}
     
-    async execute(projectId: string, projectDescription: string): Promise<TaskDTO[]> {
+    async execute(projectId: string, projectDescription: string): Promise<Task[]> {
 
         console.log("Planning tasks with AI")
         const task = Task.create("Product Owner", projectId, "Plan Tasks", projectDescription)
@@ -18,7 +16,7 @@ export class PlanTasksUseCase implements PlanTasksPort {
 
         const tasks = await this.aiAssistantService.planTasks(projectId, projectDescription)
 
-        return TaskMapper.toDTOs(tasks)
+        return tasks
     }
     
 }

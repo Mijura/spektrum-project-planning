@@ -1,7 +1,6 @@
-import { ActivityType } from "@domain/task/activity/activity-type"
+import { ActivityType, CommentLeftMetadata } from "@jigjoy-io/task-contracts"
 import { Activity } from "@domain/task/activity/activity"
 import { Task } from "@domain/task/task"
-import { CommentLeftMetadata } from "./metadata"
 
 export class CommentLeft extends Activity<CommentLeftMetadata> {
 
