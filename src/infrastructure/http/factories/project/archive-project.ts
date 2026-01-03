@@ -1,5 +1,5 @@
 
-import { ProjectDTO } from "@infra/http/dto/project"
+import { ProjectDTO } from "@infra/http/dtos/project"
 import { ProjectMapper } from "@infra/http/mappers/project-mapper"
 import { ArchiveProjectPort } from "@app/ports/use-cases/project/archive-project"
 import { Project } from "@domain/project/project"

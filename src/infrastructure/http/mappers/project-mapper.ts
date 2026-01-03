@@ -1,5 +1,5 @@
 import { Project } from "@domain/project/project"
-import { ProjectDTO } from "@infra/http/dto/project"
+import { ProjectDTO } from "@infra/http/dtos/project"
 
 export class ProjectMapper {
   

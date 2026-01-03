@@ -1,4 +1,4 @@
-import { ProjectDTO } from "@infra/http/dto/project"
+import { ProjectDTO } from "@infra/http/dtos/project"
 import { ProjectMapper } from "@infra/http/mappers/project-mapper"
 import { FetchProjectsPort } from "@app/ports/use-cases/project/fetch-projects"
 import { Project } from "@domain/project/project"
