@@ -1,11 +1,10 @@
 import { Task } from "@domain/task/task" 
 import { z } from "zod"
 import { Agent, Command } from "@jigjoy-io/mosaic"
-import { ProjectDetailsDTO } from "@app/dto/project-details"
 
 export class ProjectDetailsGenerator {
 
-    async generateProjectDetails(task: Task): Promise<ProjectDetailsDTO>{
+    async generateProjectDetails(task: Task): Promise<{ name: string, description: string }>{
 
         const outputSchema = z.object({
             name: z.string().describe("Short and concise title of the project."),
@@ -37,7 +36,7 @@ export class ProjectDetailsGenerator {
         }
 
         const agent = new Agent(command)
-        const projectDetails: ProjectDetailsDTO = await agent.act()
+        const projectDetails: { name: string, description: string } = await agent.act()
         return projectDetails
     }
 }

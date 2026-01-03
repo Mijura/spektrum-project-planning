@@ -1,6 +1,5 @@
 import { Task } from "@domain/task/task"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
-import { ProjectDetailsDTO } from "@app/dto/project-details"
 import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { Project } from "@domain/project/project"
@@ -23,7 +22,7 @@ export class AIAssistantService implements AIAssistantServicePort {
         if (!project.detailsUpdated) {
 
             const projectDetailsGenerator = new ProjectDetailsGenerator()
-            const projectDetails: ProjectDetailsDTO = await projectDetailsGenerator.generateProjectDetails(task)
+            const projectDetails: { name: string, description: string } = await projectDetailsGenerator.generateProjectDetails(task)
             console.log("Project details generated:", projectDetails)
             project.setDetails(projectDetails.name, projectDetails.description)
             return await this.projectRepository.save(project)
