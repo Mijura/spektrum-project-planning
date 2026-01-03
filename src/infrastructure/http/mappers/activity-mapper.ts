@@ -5,7 +5,7 @@ import { StartedWork } from "@domain/task/activity/activities/started-work"
 import { TaskCreated } from "@domain/task/activity/activities/task-created"
 import { TitleUpdated } from "@domain/task/activity/activities/title-updated"
 import { Activity } from "@domain/task/activity/activity"
-import { ActivityDTO, ActivityMetadata, ActivityType } from "@jigjoy-io/task-contracts"
+import { Activity as ActivityDTO, ActivityMetadata, ActivityType } from "@jigjoy-io/task-contracts"
 
 export class ActivityMapper {
 

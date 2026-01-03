@@ -2,7 +2,7 @@ import { CreateTaskPort } from "@app/ports/use-cases/task/create-task"
 import { Task } from "@domain/task/task"
 import { TaskMapper } from "@infra/http/mappers/task-mapper"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
-import { TaskDTO } from "@jigjoy-io/task-contracts"
+import { Task as TaskDTO } from "@jigjoy-io/task-contracts"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 
