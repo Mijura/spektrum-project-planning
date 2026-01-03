@@ -1,6 +1,6 @@
 import { Activity } from "./activity/activity"
 import { v4 as uuidv4 } from 'uuid'
-import { TaskCreatedActivity } from "./activity/activities/task-created"
+import { TaskCreated } from "./activity/activities/task-created"
 import { CommentLeft } from "./activity/activities/comment-left"
 import { TitleUpdated } from "./activity/activities/title-updated"
 import { DescriptionUpdated } from "./activity/activities/description-updated"
@@ -101,7 +101,7 @@ export class Task {
 		const id = uuidv4()
 		const created = new Date().toISOString()
 		const task = new Task(id, created, projectId, title, description, TaskStatus.TODO, null, [])
-		task.activities.push(TaskCreatedActivity.create(userId, task))
+		task.activities.push(TaskCreated.create(userId, task))
 		return task
 	}
 

@@ -2,7 +2,7 @@ import { CommentLeft } from "@domain/task/activity/activities/comment-left"
 import { DescriptionUpdated } from "@domain/task/activity/activities/description-updated"
 import { FinishedWork } from "@domain/task/activity/activities/finished-work"
 import { StartedWork } from "@domain/task/activity/activities/started-work"
-import { TaskCreatedActivity } from "@domain/task/activity/activities/task-created"
+import { TaskCreated } from "@domain/task/activity/activities/task-created"
 import { TitleUpdated } from "@domain/task/activity/activities/title-updated"
 import { Activity } from "@domain/task/activity/activity"
 import { ActivityDTO, ActivityMetadata, ActivityType } from "@jigjoy-io/task-contracts"
@@ -75,7 +75,7 @@ export class ActivityMapper {
                 }
             }
             case ActivityType.TASK_CREATED: {
-                const a = activity as TaskCreatedActivity
+                const a = activity as TaskCreated
                 return {
                     id: a.id,
                     type: ActivityType.TASK_CREATED,
@@ -132,7 +132,7 @@ export class ActivityMapper {
                 return StartedWork.rehydrate(data)
             }
             case ActivityType.TASK_CREATED: {
-                return TaskCreatedActivity.rehydrate(data)
+                return TaskCreated.rehydrate(data)
             }
             case ActivityType.TITLE_UPDATED: {
                 return TitleUpdated.rehydrate(data)

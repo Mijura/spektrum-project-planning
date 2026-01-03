@@ -2,7 +2,7 @@ import { ActivityType, TaskCreatedMetadata } from "@jigjoy-io/task-contracts"
 import { Activity } from "@domain/task/activity/activity"
 import { Task } from "@domain/task/task"
 
-export class TaskCreatedActivity extends Activity<TaskCreatedMetadata> {
+export class TaskCreated extends Activity<TaskCreatedMetadata> {
 	
     constructor(
         id: string,
@@ -29,6 +29,6 @@ export class TaskCreatedActivity extends Activity<TaskCreatedMetadata> {
 			description: task.description
 		}
 	
-		return new TaskCreatedActivity(id, type, task.projectId, task.id, userId, metadata, occurredAt)
+		return new TaskCreated(id, type, task.projectId, task.id, userId, metadata, occurredAt)
     }
 }
