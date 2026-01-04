@@ -11,7 +11,6 @@ import { CreateProjectUseCase } from "@app/use-cases/project/create-project"
 import { UpdateProjectDetailsUseCase } from "@app/use-cases/project/update-details"
 import { ArchiveProjectUseCase } from "@app/use-cases/project/archive-project"
 
-
 import { DynamoDBProjectRepository } from "@infra/repositories/project-repository"
 import { DynamoDBTaskRepository } from "@infra/repositories/task-repository"
 
@@ -34,7 +33,6 @@ import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service
 import { LeaveCommentUseCase } from "@app/use-cases/task/leave-comment"
 import { LeaveCommentPort } from "@app/ports/use-cases/task/leave-comment"
 
-
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
 export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
@@ -43,13 +41,17 @@ export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
 const aiAssistantService: AIAssistantServicePort = new AIAssistantService(projectRepository, taskRepository)
 
 // SDK Clients
-const aiCodingEndpoint = process.env.AI_CODING_ENDPOINT || ''
+const aiCodingEndpoint = process.env.AI_CODING_ENDPOINT || ""
 const aiCodingClient = new AICodingClient(aiCodingEndpoint)
-const projectDeploymentEndpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT || ''
+const projectDeploymentEndpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT || ""
 const projectDeploymentClient = new ProjectDeploymentClient(projectDeploymentEndpoint)
 
 // Use Cases
-export const createNewProject: CreateProjectPort = new CreateProjectUseCase(projectRepository, aiCodingClient, projectDeploymentClient)
+export const createNewProject: CreateProjectPort = new CreateProjectUseCase(
+	projectRepository,
+	aiCodingClient,
+	projectDeploymentClient,
+)
 export const planTasks: PlanTasksPort = new PlanTasksUseCase(aiAssistantService)
 export const fetchProject: FetchProjectPort = new FetchProjectUseCase(projectRepository)
 export const fetchProjects: FetchProjectsPort = new FetchProjectsUseCase(projectRepository)

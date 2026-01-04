@@ -1,41 +1,42 @@
 {
-  "name": "project-planning",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "build": "sam build --profile Development",
-    "deploy": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND",
-    "serve": "sam local start-api --profile Development --port 4000 --region eu-west-1 --env-vars env.json",
-    "docs": "npx swagger-ui-watcher openapi.yaml --port 4040",
-    "dev": "npm-run-all --parallel serve docs",
-    "format": "prettier --write \"{src,packages}/**/*.{ts,tsx}\""
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.398.0",
-    "@aws-sdk/client-s3": "^3.817.0",
-    "@aws-sdk/lib-dynamodb": "^3.398.0",
-    "@aws-sdk/lib-storage": "^3.817.0",
-    "@jigjoy-io/ai-coding-client": "^0.0.5",
-    "@jigjoy-io/mosaic": "^0.4.0",
-    "@jigjoy-io/project-deployment-client": "^0.0.8",
-    "@jigjoy-io/serverless-core": "^0.0.3",
-    "@jigjoy-io/task-contracts": "^0.0.2",
-    "socket.io": "^4.8.1",
-    "uuid": "^11.1.0",
-    "zod": "^4.1.13"
-  },
-  "devDependencies": {
-    "@types/aws-lambda": "^8.10.155",
-    "@types/node": "^22.13.4",
-    "esbuild": "^0.25.10",
-    "npm-run-all": "^4.1.5",
-    "swagger-ui-watcher": "^2.1.14",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3"
-  }
+	"name": "project-planning",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"build": "sam build --profile Development",
+		"deploy": "sam deploy --profile Development --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND",
+		"serve": "sam local start-api --profile Development --port 4000 --region eu-west-1 --env-vars env.json",
+		"docs": "npx swagger-ui-watcher openapi.yaml --port 4040",
+		"dev": "npm-run-all --parallel serve docs",
+		"format": "prettier --write \"src/**/*.{ts,tsx}\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"@aws-sdk/client-dynamodb": "^3.398.0",
+		"@aws-sdk/client-s3": "^3.817.0",
+		"@aws-sdk/lib-dynamodb": "^3.398.0",
+		"@aws-sdk/lib-storage": "^3.817.0",
+		"@jigjoy-io/ai-coding-client": "^0.0.5",
+		"@jigjoy-io/mosaic": "^0.4.0",
+		"@jigjoy-io/project-deployment-client": "^0.0.8",
+		"@jigjoy-io/serverless-core": "^0.0.3",
+		"@jigjoy-io/task-contracts": "^0.0.2",
+		"socket.io": "^4.8.1",
+		"uuid": "^11.1.0",
+		"zod": "^4.1.13"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.155",
+		"@types/node": "^22.13.4",
+		"esbuild": "^0.25.10",
+		"npm-run-all": "^4.1.5",
+		"prettier": "^3.7.4",
+		"swagger-ui-watcher": "^2.1.14",
+		"ts-node": "^10.9.2",
+		"tsconfig-paths": "^4.2.0",
+		"typescript": "^5.7.3"
+	}
 }

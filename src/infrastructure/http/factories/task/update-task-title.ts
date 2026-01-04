@@ -5,9 +5,7 @@ import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Task as TaskDTO } from "@jigjoy-io/task-contracts"
 
-
 export function createUpdateTaskTitleHandler(updateTaskTitle: UpdateTaskTitlePort) {
-
 	return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 		try {
 			if (!body) throw new ValidationError("No page body")
@@ -20,11 +18,9 @@ export function createUpdateTaskTitleHandler(updateTaskTitle: UpdateTaskTitlePor
 			const updatedTask: Task = await updateTaskTitle.execute(taskId, newTitle)
 			const updatedTaskDTO: TaskDTO = TaskMapper.toDTO(updatedTask)
 			return Responses._200(updatedTaskDTO)
-
 		} catch (error) {
 			console.error("Error updating task title:", error)
 			return errorHandler(error)
 		}
 	}
 }
-

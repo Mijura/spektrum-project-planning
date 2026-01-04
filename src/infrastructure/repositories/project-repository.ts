@@ -1,4 +1,3 @@
-
 import { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb"
 import { Project } from "@domain/project/project"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
@@ -10,7 +9,6 @@ const client = new DynamoDBClient()
 const ddbDocClient = DynamoDBDocumentClient.from(client)
 
 export class DynamoDBProjectRepository implements ProjectRepository {
-
 	async save(project: Project): Promise<Project> {
 		const tableName = process.env.PROJECT_TABLE
 
@@ -47,7 +45,6 @@ export class DynamoDBProjectRepository implements ProjectRepository {
 	}
 
 	async getAll(ownerId: string): Promise<Project[]> {
-
 		const tableName = process.env.PROJECT_TABLE
 
 		const params = {
@@ -58,37 +55,34 @@ export class DynamoDBProjectRepository implements ProjectRepository {
 			},
 			TableName: tableName,
 		}
-	  
+
 		const result = await ddbDocClient.send(new QueryCommand(params))
 		const projects: ProjectRecord[] = result.Items as ProjectRecord[]
-	
+
 		return ProjectMapper.toDomains(projects)
 	}
-
-
 
 	async getAllByStatus(ownerId: string, status: ProjectStatus): Promise<Project[]> {
 		const tableName = process.env.PROJECT_TABLE
 
 		const params = {
-		  KeyConditionExpression: "ownerId = :ownerId and #status = :status",  // Use #status to avoid conflict with reserved word
-		  IndexName: "ownerStatusGSI", // Use the GSI that indexes by ownerId and status
-		  ExpressionAttributeNames: {
-			"#status": "status"
-		  },
-		  ExpressionAttributeValues: {
-			":ownerId": ownerId, 
-			":status": status,  
-		  },
-		  TableName: tableName,
+			KeyConditionExpression: "ownerId = :ownerId and #status = :status", // Use #status to avoid conflict with reserved word
+			IndexName: "ownerStatusGSI", // Use the GSI that indexes by ownerId and status
+			ExpressionAttributeNames: {
+				"#status": "status",
+			},
+			ExpressionAttributeValues: {
+				":ownerId": ownerId,
+				":status": status,
+			},
+			TableName: tableName,
 		}
-	  
+
 		const result = await ddbDocClient.send(new QueryCommand(params))
 		const projects: ProjectRecord[] = result.Items as ProjectRecord[]
 
 		console.log(`Found ${projects.length} projects with status ${status} for owner ${ownerId}.`)
-	  
+
 		return ProjectMapper.toDomains(projects)
 	}
-	  
 }

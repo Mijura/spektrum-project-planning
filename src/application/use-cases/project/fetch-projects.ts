@@ -4,7 +4,6 @@ import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { ProjectStatus } from "@domain/project/project-status"
 
 export class FetchProjectsUseCase implements FetchProjectsPort {
-
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
 	async execute(ownerId: string): Promise<Project[]> {

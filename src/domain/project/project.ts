@@ -2,7 +2,6 @@ import { ProjectStatus } from "@domain/project/project-status"
 import { v4 as uuidv4 } from "uuid"
 
 export class Project {
-
 	public readonly id: string
 	public readonly created: string // ISO String
 	public updated: string | null // ISO String
@@ -20,7 +19,7 @@ export class Project {
 		created: string,
 		updated: string | null,
 		status: ProjectStatus,
-		detailsUpdated: boolean
+		detailsUpdated: boolean,
 	) {
 		this.id = id
 		this.ownerId = ownerId
@@ -43,7 +42,7 @@ export class Project {
 		this.updated = new Date().toISOString()
 	}
 
-	setDescription(description: string) {	
+	setDescription(description: string) {
 		if (this.description === description) {
 			return
 		}
@@ -57,11 +56,10 @@ export class Project {
 		this.detailsUpdated = true
 		this.updated = new Date().toISOString()
 	}
-	
+
 	// Factory method to create a new project
 	static create(name: string, description: string, owner: string): Project {
-
-		if(owner === "") {
+		if (owner === "") {
 			throw new Error("Owner cannot be empty")
 		}
 
@@ -72,9 +70,9 @@ export class Project {
 
 	archive() {
 		this.status = ProjectStatus.ARCHIVED
-    }
+	}
 
-		/** Restore method to rehydrate a project from persisted data */
+	/** Restore method to rehydrate a project from persisted data */
 	static rehydrate(data: {
 		id: string
 		ownerId: string
@@ -85,6 +83,15 @@ export class Project {
 		status: ProjectStatus
 		detailsUpdated: boolean
 	}): Project {
-		return new Project(data.id, data.ownerId, data.name, data.description, data.created, data.updated, data.status, data.detailsUpdated)
+		return new Project(
+			data.id,
+			data.ownerId,
+			data.name,
+			data.description,
+			data.created,
+			data.updated,
+			data.status,
+			data.detailsUpdated,
+		)
 	}
 }

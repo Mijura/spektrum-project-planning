@@ -2,7 +2,6 @@ import { Project } from "@domain/project/project"
 import { ProjectRecord } from "@infra/repositories/records/project"
 
 export class ProjectMapper {
-
 	/** Converts a Project domain entity to a raw DTO */
 	static toRecord(project: Project): ProjectRecord {
 		return {
@@ -13,7 +12,7 @@ export class ProjectMapper {
 			created: project.created,
 			updated: project.updated,
 			status: project.status,
-			detailsUpdated: project.detailsUpdated
+			detailsUpdated: project.detailsUpdated,
 		}
 	}
 
@@ -27,15 +26,15 @@ export class ProjectMapper {
 			created: record.created,
 			updated: record.updated,
 			status: record.status,
-			detailsUpdated: record.detailsUpdated
+			detailsUpdated: record.detailsUpdated,
 		})
 	}
 
 	static toDomains(items: ProjectRecord[]): Project[] {
-			let projects: Project[] = []
-			for (const project of items) {
-				projects.push(this.toDomain(project))
-			}
-			return projects
+		let projects: Project[] = []
+		for (const project of items) {
+			projects.push(this.toDomain(project))
+		}
+		return projects
 	}
 }

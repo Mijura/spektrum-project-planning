@@ -5,11 +5,8 @@ import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { Task as TaskDTO } from "@jigjoy-io/task-contracts"
 
-
 export function createPlanTasksHandler(planTasks: PlanTasksPort) {
-
 	return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-		
 		try {
 			if (!body) throw new ValidationError("No request body provided")
 
@@ -19,11 +16,9 @@ export function createPlanTasksHandler(planTasks: PlanTasksPort) {
 			const taskDTOs: TaskDTO[] = TaskMapper.toDTOs(tasks)
 
 			return Responses._200(taskDTOs)
-
 		} catch (error) {
 			console.error("Error planning tasks with AI:", error)
 			return errorHandler(error)
 		}
 	}
 }
-

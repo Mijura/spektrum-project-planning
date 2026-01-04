@@ -3,7 +3,6 @@ import { ArchiveProjectPort } from "@app/ports/use-cases/project/archive-project
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 
 export class ArchiveProjectUseCase implements ArchiveProjectPort {
-	
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
 	async execute(projectId: string): Promise<Project> {

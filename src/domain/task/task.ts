@@ -1,5 +1,5 @@
 import { Activity } from "./activity/activity"
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from "uuid"
 import { TaskCreated } from "./activity/activities/task-created"
 import { CommentLeft } from "./activity/activities/comment-left"
 import { TitleUpdated } from "./activity/activities/title-updated"
@@ -9,17 +9,16 @@ import { StartedWork } from "./activity/activities/started-work"
 import { FinishedWork } from "./activity/activities/finished-work"
 
 export class Task {
-
 	public readonly id: string
-    public readonly created: string
-    public updated: string | null
-    public title: string
-    public description: string
-    public projectId: string
-    public status: TaskStatus
+	public readonly created: string
+	public updated: string | null
+	public title: string
+	public description: string
+	public projectId: string
+	public status: TaskStatus
 	private activities: Activity<ActivityMetadata>[]
 
-    private constructor(
+	private constructor(
 		id: string,
 		created: string,
 		projectId: string,
@@ -27,7 +26,7 @@ export class Task {
 		description: string,
 		status: TaskStatus,
 		updated: string | null,
-		activities: Activity<ActivityMetadata>[]
+		activities: Activity<ActivityMetadata>[],
 	) {
 		this.id = id
 		this.projectId = projectId
@@ -39,37 +38,34 @@ export class Task {
 		this.activities = activities
 	}
 
-	updateTitle(userId: string, newTitle: string){
+	updateTitle(userId: string, newTitle: string) {
 		this.title = newTitle
 		this.updated = new Date().toISOString()
 		this.activities.push(TitleUpdated.create(userId, this, newTitle))
 	}
 
-	updateDescription(userId: string, newDescription: string){
+	updateDescription(userId: string, newDescription: string) {
 		this.description = newDescription
 		this.updated = new Date().toISOString()
 		this.activities.push(DescriptionUpdated.create(userId, this, newDescription))
 	}
 
 	leaveComment(authorId: string, commentText: string) {
-
 		const commentActivity = CommentLeft.create(this, authorId, commentText)
 		this.activities.push(commentActivity)
 	}
 
 	startedWork(workerId: string, message: string): StartedWork {
-
 		const activity = StartedWork.create(workerId, this, message)
-		
+
 		this.activities.push(activity)
 		this.status = TaskStatus.WORK_IN_PROGRESS
 		return activity as StartedWork
 	}
 
 	finishedWork(workerId: string, message: string): FinishedWork {
-
 		const activity = FinishedWork.create(workerId, this, message)
-		const startedWorkActivity = this.activities.findIndex(activity => activity instanceof StartedWork)
+		const startedWorkActivity = this.activities.findIndex((activity) => activity instanceof StartedWork)
 		if (startedWorkActivity !== -1) {
 			this.activities.splice(startedWorkActivity, 1, activity)
 		}
@@ -82,18 +78,26 @@ export class Task {
 	}
 
 	/** Rehydrate an task from persisted data */
-	static rehydrate( data: {
-			id: string, 
-			created: string, 
-			projectId: string, 
-			title: string, 
-			description: string, 
-			status: TaskStatus, 
-			updated: string | null, 
-			activities: Activity<ActivityMetadata>[]
-		}
-	): Task {
-		return new Task(data.id, data.created, data.projectId, data.title, data.description, data.status, data.updated, data.activities)
+	static rehydrate(data: {
+		id: string
+		created: string
+		projectId: string
+		title: string
+		description: string
+		status: TaskStatus
+		updated: string | null
+		activities: Activity<ActivityMetadata>[]
+	}): Task {
+		return new Task(
+			data.id,
+			data.created,
+			data.projectId,
+			data.title,
+			data.description,
+			data.status,
+			data.updated,
+			data.activities,
+		)
 	}
 
 	/** Create a new task */
@@ -104,5 +108,4 @@ export class Task {
 		task.activities.push(TaskCreated.create(userId, task))
 		return task
 	}
-
 }

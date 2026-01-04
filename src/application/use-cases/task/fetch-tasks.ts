@@ -3,7 +3,6 @@ import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { FetchTasksPort } from "@app/ports/use-cases/task/fetch-tasks"
 
 export class FetchTasksUseCase implements FetchTasksPort {
-	
 	constructor(private readonly taskRepository: TaskRepository) {}
 
 	async execute(projectId: string): Promise<Task[]> {

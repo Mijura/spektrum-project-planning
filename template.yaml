@@ -1,389 +1,389 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Description: >
-  project-planning
+    project-planning
 
 Transform:
-- AWS::Serverless-2016-10-31
+    - AWS::Serverless-2016-10-31
 
 Globals:
-  Api:
-    Cors:
-      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
-      AllowHeaders: "'content-type'"
-      AllowOrigin: "'*'"
+    Api:
+        Cors:
+            AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+            AllowHeaders: "'content-type'"
+            AllowOrigin: "'*'"
 
 Resources:
-  CreateProjectFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/project/create-project.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Create a new project
-      Environment:
-        Variables:
-          PROJECT_TABLE: !Ref ProjectTable
-          AI_CODING_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:AiCodingEndpoint}}"
-          PROJECT_DEPLOYMENT_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:ProjectDeploymentEndpoint}}"
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project
-            Method: POST
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/project/create-project.ts
+    CreateProjectFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/project/create-project.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Create a new project
+            Environment:
+                Variables:
+                    PROJECT_TABLE: !Ref ProjectTable
+                    AI_CODING_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:AiCodingEndpoint}}"
+                    PROJECT_DEPLOYMENT_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:ProjectDeploymentEndpoint}}"
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /project
+                        Method: POST
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/project/create-project.ts
 
-  UpdateProjectDetailsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/project/update-project-details.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Update project details
-      Environment:
-        Variables:
-          PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project
-            Method: PUT
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/project/update-project-details.ts
+    UpdateProjectDetailsFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/project/update-project-details.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Update project details
+            Environment:
+                Variables:
+                    PROJECT_TABLE: !Ref ProjectTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /project
+                        Method: PUT
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/project/update-project-details.ts
 
-  FetchProjectFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/project/fetch-project.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Fetch a project by id
-      Environment:
-        Variables:
-          PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/fetch/{projectId}
-            Method: GET
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/project/fetch-project.ts
+    FetchProjectFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/project/fetch-project.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Fetch a project by id
+            Environment:
+                Variables:
+                    PROJECT_TABLE: !Ref ProjectTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /project/fetch/{projectId}
+                        Method: GET
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/project/fetch-project.ts
 
-  FetchProjectsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/project/fetch-projects.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Fetch all projects for an owner
-      Environment:
-        Variables:
-          PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/fetch-all/{ownerId}
-            Method: GET
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/project/fetch-projects.ts
+    FetchProjectsFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/project/fetch-projects.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Fetch all projects for an owner
+            Environment:
+                Variables:
+                    PROJECT_TABLE: !Ref ProjectTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /project/fetch-all/{ownerId}
+                        Method: GET
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/project/fetch-projects.ts
 
-  ArchiveProjectFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/project/archive-project.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Archive a project
-      Environment:
-        Variables:
-          PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/archive
-            Method: PUT
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/project/archive-project.ts
+    ArchiveProjectFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/project/archive-project.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Archive a project
+            Environment:
+                Variables:
+                    PROJECT_TABLE: !Ref ProjectTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /project/archive
+                        Method: PUT
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/project/archive-project.ts
 
-  PlanTasksFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/task/plan-tasks.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 256
-      Timeout: 120
-      Description: Plan tasks using AI for a project
-      Environment:
-        Variables:
-          PROJECT_TABLE: !Ref ProjectTable
-          TASK_TABLE: !Ref TaskTable
-          OPENAI_API_KEY: "{{resolve:secretsmanager:vars:SecretString:OpenAIAPIKey}}"
-          ANTHROPIC_API_KEY: "{{resolve:secretsmanager:vars:SecretString:AnthropicAPIKey}}"
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/plan-tasks
-            Method: POST
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/task/plan-tasks.ts
+    PlanTasksFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/task/plan-tasks.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 256
+            Timeout: 120
+            Description: Plan tasks using AI for a project
+            Environment:
+                Variables:
+                    PROJECT_TABLE: !Ref ProjectTable
+                    TASK_TABLE: !Ref TaskTable
+                    OPENAI_API_KEY: "{{resolve:secretsmanager:vars:SecretString:OpenAIAPIKey}}"
+                    ANTHROPIC_API_KEY: "{{resolve:secretsmanager:vars:SecretString:AnthropicAPIKey}}"
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /project/plan-tasks
+                        Method: POST
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/task/plan-tasks.ts
 
-  CreateTaskFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/task/create-task.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Create a new task
-      Environment:
-        Variables:
-          TASK_TABLE: !Ref TaskTable
-          PROJECT_TABLE: !Ref ProjectTable
-          OPENAI_API_KEY: "{{resolve:secretsmanager:vars:SecretString:OpenAIAPIKey}}"
-          ANTHROPIC_API_KEY: "{{resolve:secretsmanager:vars:SecretString:AnthropicAPIKey}}"
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task
-            Method: POST
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/task/create-task.ts
+    CreateTaskFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/task/create-task.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Create a new task
+            Environment:
+                Variables:
+                    TASK_TABLE: !Ref TaskTable
+                    PROJECT_TABLE: !Ref ProjectTable
+                    OPENAI_API_KEY: "{{resolve:secretsmanager:vars:SecretString:OpenAIAPIKey}}"
+                    ANTHROPIC_API_KEY: "{{resolve:secretsmanager:vars:SecretString:AnthropicAPIKey}}"
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /task
+                        Method: POST
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/task/create-task.ts
 
-  UpdateTaskTitleFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/task/update-task-title.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Update task title
-      Environment:
-        Variables:
-          TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task/title
-            Method: PUT
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/task/update-task-title.ts
+    UpdateTaskTitleFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/task/update-task-title.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Update task title
+            Environment:
+                Variables:
+                    TASK_TABLE: !Ref TaskTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /task/title
+                        Method: PUT
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/task/update-task-title.ts
 
-  UpdateTaskDescriptionFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/task/update-task-description.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Update task description
-      Environment:
-        Variables:
-          TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task/description
-            Method: PUT
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/task/update-task-description.ts
+    UpdateTaskDescriptionFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/task/update-task-description.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Update task description
+            Environment:
+                Variables:
+                    TASK_TABLE: !Ref TaskTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /task/description
+                        Method: PUT
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/task/update-task-description.ts
 
-  FetchTasksFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/task/fetch-tasks.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Fetch tasks for a project
-      Environment:
-        Variables:
-          TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task/fetch-all/{projectId}
-            Method: GET
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/task/fetch-tasks.ts
+    FetchTasksFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/task/fetch-tasks.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Fetch tasks for a project
+            Environment:
+                Variables:
+                    TASK_TABLE: !Ref TaskTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /task/fetch-all/{projectId}
+                        Method: GET
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/task/fetch-tasks.ts
 
-  LeaveCommentFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/infrastructure/http/handlers/task/leave-comment.handler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
-      Description: Leave a comment on a task
-      Environment:
-        Variables:
-          TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task/leave-comment
-            Method: POST
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - src/infrastructure/http/handlers/task/leave-comment.ts
+    LeaveCommentFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: src/infrastructure/http/handlers/task/leave-comment.handler
+            Runtime: nodejs22.x
+            Architectures:
+                - x86_64
+            MemorySize: 128
+            Timeout: 100
+            Description: Leave a comment on a task
+            Environment:
+                Variables:
+                    TASK_TABLE: !Ref TaskTable
+            Events:
+                Api:
+                    Type: Api
+                    Properties:
+                        Path: /task/leave-comment
+                        Method: POST
+        Metadata:
+            BuildMethod: esbuild
+            BuildProperties:
+                Minify: true
+                Target: "es2020"
+                Sourcemap: true
+                EntryPoints:
+                    - src/infrastructure/http/handlers/task/leave-comment.ts
 
-  ProjectTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Project
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-        - AttributeName: ownerId
-          AttributeType: S
-        - AttributeName: status
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      GlobalSecondaryIndexes:
-        - IndexName: ownerGSI
-          KeySchema:
-            - AttributeName: ownerId
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-        - IndexName: ownerStatusGSI
-          KeySchema:
-            - AttributeName: ownerId
-              KeyType: HASH
-            - AttributeName: status
-              KeyType: RANGE
-          Projection:
-            ProjectionType: ALL
+    ProjectTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+            TableName: Project
+            BillingMode: PAY_PER_REQUEST
+            AttributeDefinitions:
+                - AttributeName: id
+                  AttributeType: S
+                - AttributeName: ownerId
+                  AttributeType: S
+                - AttributeName: status
+                  AttributeType: S
+            KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+            GlobalSecondaryIndexes:
+                - IndexName: ownerGSI
+                  KeySchema:
+                      - AttributeName: ownerId
+                        KeyType: HASH
+                  Projection:
+                      ProjectionType: ALL
+                - IndexName: ownerStatusGSI
+                  KeySchema:
+                      - AttributeName: ownerId
+                        KeyType: HASH
+                      - AttributeName: status
+                        KeyType: RANGE
+                  Projection:
+                      ProjectionType: ALL
 
-  TaskTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Task
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-        - AttributeName: projectId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      GlobalSecondaryIndexes:
-        - IndexName: projectGSI
-          KeySchema:
-            - AttributeName: projectId
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
+    TaskTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+            TableName: Task
+            BillingMode: PAY_PER_REQUEST
+            AttributeDefinitions:
+                - AttributeName: id
+                  AttributeType: S
+                - AttributeName: projectId
+                  AttributeType: S
+            KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+            GlobalSecondaryIndexes:
+                - IndexName: projectGSI
+                  KeySchema:
+                      - AttributeName: projectId
+                        KeyType: HASH
+                  Projection:
+                      ProjectionType: ALL
 
 Outputs:
-  ProjectApiGatewayUrl:
-    Description: "API Gateway URL for project management and planning"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-    Export:
-      Name: ProjectApiGatewayUrl
+    ProjectApiGatewayUrl:
+        Description: "API Gateway URL for project management and planning"
+        Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+        Export:
+            Name: ProjectApiGatewayUrl

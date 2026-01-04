@@ -3,10 +3,8 @@ import { Task as TaskDTO } from "@jigjoy-io/task-contracts"
 import { ActivityMapper } from "./activity-mapper"
 
 export class TaskMapper {
-
 	/** Convert Task entity → marshalled task for storage/transfer */
 	static toDTO(task: Task): TaskDTO {
-
 		return {
 			id: task.id,
 			projectId: task.projectId,
@@ -15,7 +13,7 @@ export class TaskMapper {
 			status: task.status,
 			created: task.created,
 			updated: task.updated,
-			activities: ActivityMapper.toDTOs(task.getActivityLog())
+			activities: ActivityMapper.toDTOs(task.getActivityLog()),
 		}
 	}
 
@@ -25,16 +23,15 @@ export class TaskMapper {
 
 	/** Convert marshalled task (e.g., from DB) → Task entity */
 	static toDomain(data: TaskDTO): Task {
-
 		return Task.rehydrate({
-			id: data.id, 
-			created: data.created, 
-			projectId: data.projectId, 
-			title: data.title, 
-			description: data.description, 
-			status: data.status, 
+			id: data.id,
+			created: data.created,
+			projectId: data.projectId,
+			title: data.title,
+			description: data.description,
+			status: data.status,
 			updated: data.updated,
-			activities: data.activities
+			activities: data.activities,
 		})
 	}
 

@@ -12,8 +12,6 @@ const client = new DynamoDBClient({
 const ddbDocClient = DynamoDBDocumentClient.from(client)
 
 export class DynamoDBTaskRepository implements TaskRepository {
-
-
 	async save(task: Task): Promise<Task> {
 		const tableName = process.env.TASK_TABLE
 
@@ -50,7 +48,6 @@ export class DynamoDBTaskRepository implements TaskRepository {
 	}
 
 	async getAll(projectId: string): Promise<Task[]> {
-
 		const tableName = process.env.TASK_TABLE
 
 		console.log(`Fetching all tasks for project with ${projectId} from dynamodb table ${tableName}.`)
@@ -58,14 +55,14 @@ export class DynamoDBTaskRepository implements TaskRepository {
 			KeyConditionExpression: "projectId = :projectId",
 			IndexName: "projectGSI",
 			ExpressionAttributeValues: {
-				":projectId": projectId
+				":projectId": projectId,
 			},
 			TableName: tableName,
 		}
-	
+
 		const data = await ddbDocClient.send(new QueryCommand(params))
 		const items = data.Items as TaskRecord[]
-	
+
 		return TaskMapper.toDomains(items)
 	}
 }

@@ -3,24 +3,23 @@ import { Agent, Command } from "@jigjoy-io/mosaic"
 import z from "zod"
 
 export class TaskPlanner {
+	name: string = "Product Owner"
 
-    name: string = "Product Owner"
+	outputSchema = z.object({
+		tasks: z
+			.array(
+				z.object({
+					title: z.string().describe("Title of the task"),
+					description: z.string().describe("Detailed explanation of the task"),
+					priority: z.number().describe("Priority of the task, 1 is highest, 10 is lowest"),
+				}),
+			)
+			.describe("A list of clearly defined tasks needed to implement the product."),
+		comment: z.string().describe("A comment to be added to the task"),
+	})
 
-    outputSchema = z.object({
-        tasks: z.array(
-            z.object({
-                title: z.string().describe("Title of the task"),
-                description: z.string().describe("Detailed explanation of the task"),
-                priority: z.number().describe("Priority of the task, 1 is highest, 10 is lowest")
-            })
-        ).describe("A list of clearly defined tasks needed to implement the product."),
-        comment: z.string().describe("A comment to be added to the task")
-    })
-
-    async generateTasks(projectId: string, projectDescription: string): Promise<Task[]> {
-        
-
-        const prompt =  `
+	async generateTasks(projectId: string, projectDescription: string): Promise<Task[]> {
+		const prompt = `
         # 🛠️ System Prompt: Product Feature Creator Agent
 
         ## Role:
@@ -106,25 +105,22 @@ export class TaskPlanner {
 
         ---
         `
-        const command: Command = {
-            model: 'gpt-5.1',
-            task: prompt,
-            structuredOutput: this.outputSchema
-        }
+		const command: Command = {
+			model: "gpt-5.1",
+			task: prompt,
+			structuredOutput: this.outputSchema,
+		}
 
-        const agent = new Agent(command)
+		const agent = new Agent(command)
 
-        const output = await agent.act()
-        const createdTasks: Task[] = []
-        for (const generatedTask of output.tasks) {
-            // TODO: Add priority to the task
-            const t = Task.create('Product Owner', projectId, generatedTask.title, generatedTask.description)
-            createdTasks.push(t)
-        }
+		const output = await agent.act()
+		const createdTasks: Task[] = []
+		for (const generatedTask of output.tasks) {
+			// TODO: Add priority to the task
+			const t = Task.create("Product Owner", projectId, generatedTask.title, generatedTask.description)
+			createdTasks.push(t)
+		}
 
-        return createdTasks
-    }
-
-
-
+		return createdTasks
+	}
 }

@@ -3,20 +3,17 @@ import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { UpdateTaskTitlePort } from "@app/ports/use-cases/task/update-title"
 
 export class UpdateTaskTitleUseCase implements UpdateTaskTitlePort {
-	
-	constructor(
-		private readonly taskRepository: TaskRepository
-	) {}
+	constructor(private readonly taskRepository: TaskRepository) {}
 
 	async execute(taskId: string, newTitle: string): Promise<Task> {
 		try {
 			// fetch the old task and update it
 			console.log(`Updating task title for task ${taskId} to ${newTitle}.`)
-            const task: Task | null = await this.taskRepository.get(taskId)
+			const task: Task | null = await this.taskRepository.get(taskId)
 
-            if (!task) {
-                throw new Error("Task not found.")
-            }
+			if (!task) {
+				throw new Error("Task not found.")
+			}
 
 			// TODO: Get the user id from the context
 			task.updateTitle("User", newTitle)
