@@ -32,6 +32,8 @@ import { ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
 import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
 import { LeaveCommentUseCase } from "@app/use-cases/task/leave-comment"
 import { LeaveCommentPort } from "@app/ports/use-cases/task/leave-comment"
+import { RecordWorkPort } from "@app/ports/use-cases/task/record-work"
+import { RecordWorkUseCase } from "@app/use-cases/task/record-work"
 
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
@@ -62,3 +64,4 @@ export const updateTaskTitle: UpdateTaskTitlePort = new UpdateTaskTitleUseCase(t
 export const updateTaskDescription: UpdateTaskDescriptionPort = new UpdateTaskDescriptionUseCase(taskRepository)
 export const updateProjectDetails: UpdateProjectDetailsPort = new UpdateProjectDetailsUseCase(projectRepository)
 export const leaveComment: LeaveCommentPort = new LeaveCommentUseCase(taskRepository)
+export const recordWork: RecordWorkPort = new RecordWorkUseCase(taskRepository)
