@@ -4,7 +4,7 @@ import { TaskCreated } from "./activity/activities/task-created"
 import { CommentLeft } from "./activity/activities/comment-left"
 import { TitleUpdated } from "./activity/activities/title-updated"
 import { DescriptionUpdated } from "./activity/activities/description-updated"
-import { TaskStatus, ActivityMetadata } from "@jigjoy-io/task-contracts"
+import { TaskStatus, ActivityMetadata, ActivityType } from "@jigjoy-io/task-contracts"
 import { StartedWork } from "./activity/activities/started-work"
 import { FinishedWork } from "./activity/activities/finished-work"
 
@@ -52,6 +52,7 @@ export class Task {
 
 	leaveComment(authorId: string, commentText: string) {
 		const commentActivity = CommentLeft.create(this, authorId, commentText)
+		this.updated = new Date().toISOString()
 		this.activities.push(commentActivity)
 	}
 
@@ -60,16 +61,19 @@ export class Task {
 
 		this.activities.push(activity)
 		this.status = TaskStatus.WORK_IN_PROGRESS
+		this.updated = new Date().toISOString()
 		return activity as StartedWork
 	}
 
 	finishedWork(workerId: string, message: string): FinishedWork {
 		const activity = FinishedWork.create(workerId, this, message)
-		const startedWorkActivity = this.activities.findIndex((activity) => activity instanceof StartedWork)
+		const startedWorkActivity = this.activities.findIndex((a) =>  a.type === ActivityType.STARTED_WORK)
 		if (startedWorkActivity !== -1) {
 			this.activities.splice(startedWorkActivity, 1, activity)
 		}
 
+		this.status = TaskStatus.DONE
+		this.updated = new Date().toISOString()
 		return activity as FinishedWork
 	}
 
