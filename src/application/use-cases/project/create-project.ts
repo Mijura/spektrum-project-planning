@@ -12,22 +12,17 @@ export class CreateProject implements CreateProjectUseCase {
 	) {}
 
 	async execute(owner: string): Promise<{ project: Project; entryPoint: EntryPoint }> {
-		try {
-			// Create a new project with a unique ID
-			const project: Project = Project.create("My Project", "Empty project...", owner)
+		// Create a new project with a unique ID
+		const project: Project = Project.create("My Project", "Empty project...", owner)
 
-			const initializedModulePromise = this.aiCodingService.initializeReactModule(project.id)
-			const cloudProfilePromise = this.projectDeploymentService.createCloudProfile(project.id)
-			const saveProjectPromise = this.projectRepository.save(project)
+		const initializedModulePromise = this.aiCodingService.initializeReactModule(project.id)
+		const cloudProfilePromise = this.projectDeploymentService.createCloudProfile(project.id)
+		const saveProjectPromise = this.projectRepository.save(project)
 
-			const [module] = await Promise.all([initializedModulePromise, saveProjectPromise, cloudProfilePromise])
+		const [module] = await Promise.all([initializedModulePromise, saveProjectPromise, cloudProfilePromise])
 
-			const entryPoint: EntryPoint = await this.projectDeploymentService.deployModule(project.id, module)
+		const entryPoint: EntryPoint = await this.projectDeploymentService.deployModule(project.id, module)
 
-			return { project, entryPoint }
-		} catch (error) {
-			console.error("Error creating new project:", error)
-			throw new Error("Failed to create new project.")
-		}
+		return { project, entryPoint }
 	}
 }
