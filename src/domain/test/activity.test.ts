@@ -69,7 +69,7 @@ describe("Activity", () => {
 				taskId: "task-123",
 				userId: "user-456",
 				metadata: {
-					message: "user-456 changed title to \"New Title\"",
+					message: 'user-456 changed title to "New Title"',
 					oldTitle: "Old Title",
 					newTitle: "New Title",
 				} as ActivityMetadata,

@@ -10,16 +10,10 @@ export class CreateTask implements CreateTaskUseCase {
 	) {}
 
 	async execute(projectId: string, title: string, description: string): Promise<Task> {
-		try {
-			// Create a new task
-			const task: Task = Task.create("User", projectId, title, description)
+		const task: Task = Task.create("User", projectId, title, description)
 
-			await this.projectDetailsService.ensureProjectDetailsFromTask(task)
+		await this.projectDetailsService.ensureProjectDetailsFromTask(task)
 
-			return await this.taskRepository.save(task)
-		} catch (error) {
-			console.error("Error creating new task:", error)
-			throw new Error("Failed to create new task.")
-		}
+		return await this.taskRepository.save(task)
 	}
 }

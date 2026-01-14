@@ -57,7 +57,7 @@ const projectDeploymentService: ProjectDeploymentService = new JigJoyProjectDepl
 export const createNewProject: CreateProjectUseCase = new CreateProject(
 	projectRepository,
 	aiCodingService,
-	projectDeploymentService
+	projectDeploymentService,
 )
 export const planTasks: PlanTasksUseCase = new PlanTasks(projectDetailsService, taskRepository, taskGenerator)
 export const fetchProject: FetchProjectUseCase = new FetchProject(projectRepository)

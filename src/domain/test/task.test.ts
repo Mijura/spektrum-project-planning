@@ -544,9 +544,7 @@ describe("Task", () => {
 			const task = Task.create("user-123", "project-456", "Title", "Description")
 			task.startedWork("worker-123", "First start")
 			task.startedWork("worker-456", "Second start")
-			const startedWorkCount = task
-				.getActivityLog()
-				.filter((a) => a.type === ActivityType.STARTED_WORK).length
+			const startedWorkCount = task.getActivityLog().filter((a) => a.type === ActivityType.STARTED_WORK).length
 			expect(startedWorkCount).toBe(2)
 
 			// Act
@@ -612,7 +610,10 @@ describe("Task", () => {
 	describe("rehydrate", () => {
 		it("should rehydrate Task with all provided data", () => {
 			// Arrange
-			const taskCreated = TaskCreated.create("user-123", Task.create("user-123", "project-456", "Title", "Description"))
+			const taskCreated = TaskCreated.create(
+				"user-123",
+				Task.create("user-123", "project-456", "Title", "Description"),
+			)
 			const data = {
 				id: "test-id-123",
 				created: "2024-01-01T00:00:00.000Z",
@@ -640,7 +641,10 @@ describe("Task", () => {
 
 		it("should rehydrate Task with null updated timestamp", () => {
 			// Arrange
-			const taskCreated = TaskCreated.create("user-123", Task.create("user-123", "project-456", "Title", "Description"))
+			const taskCreated = TaskCreated.create(
+				"user-123",
+				Task.create("user-123", "project-456", "Title", "Description"),
+			)
 			const data = {
 				id: "test-id-456",
 				created: "2024-01-01T00:00:00.000Z",
@@ -663,7 +667,10 @@ describe("Task", () => {
 
 		it("should rehydrate Task with DONE status", () => {
 			// Arrange
-			const taskCreated = TaskCreated.create("user-123", Task.create("user-123", "project-456", "Title", "Description"))
+			const taskCreated = TaskCreated.create(
+				"user-123",
+				Task.create("user-123", "project-456", "Title", "Description"),
+			)
 			const data = {
 				id: "test-id-789",
 				created: "2024-01-01T00:00:00.000Z",
@@ -713,7 +720,10 @@ describe("Task", () => {
 
 		it("should create a rehydrated Task that can be modified", () => {
 			// Arrange
-			const taskCreated = TaskCreated.create("user-123", Task.create("user-123", "project-456", "Title", "Description"))
+			const taskCreated = TaskCreated.create(
+				"user-123",
+				Task.create("user-123", "project-456", "Title", "Description"),
+			)
 			const data = {
 				id: "test-id-xyz",
 				created: "2024-01-01T00:00:00.000Z",
@@ -739,7 +749,10 @@ describe("Task", () => {
 
 		it("should preserve all fields exactly as provided", () => {
 			// Arrange
-			const taskCreated = TaskCreated.create("user-123", Task.create("user-123", "project-456", "Title", "Description"))
+			const taskCreated = TaskCreated.create(
+				"user-123",
+				Task.create("user-123", "project-456", "Title", "Description"),
+			)
 			const data = {
 				id: "preserved-id",
 				created: "2023-12-31T23:59:59.999Z",
