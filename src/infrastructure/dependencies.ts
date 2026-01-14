@@ -32,8 +32,10 @@ import { ProjectDetailsGenerator } from "@app/ports/generators/project-details-g
 import { TaskGenerator } from "@app/ports/generators/task-generator"
 import { MosaicProjectDetailsGenerator } from "./generators/project-details-generator"
 import { MosaicTaskGenerator } from "@infra/generators/task-generator"
-import { AICodingService } from "@app/ports/ai-coding-service/ai-coding-service"
+import { AICodingService } from "@app/ports/services/ai-coding-service"
 import { JigJoyAICodingService } from "@infra/services/ai-coding-service"
+import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
+import { JigJoyProjectDeploymentService } from "./services/project-deployment-service"
 
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
@@ -42,15 +44,21 @@ export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
 // Generators
 const projectDetailsGenerator: ProjectDetailsGenerator = new MosaicProjectDetailsGenerator()
 const taskGenerator: TaskGenerator = new MosaicTaskGenerator()
+
 // Services
-const projectDetailsService: ProjectDetailsService = new ProjectDetailsService(projectRepository, projectDetailsGenerator)
+const projectDetailsService: ProjectDetailsService = new ProjectDetailsService(
+	projectRepository,
+	projectDetailsGenerator,
+)
 const aiCodingService: AICodingService = new JigJoyAICodingService()
-// SDK Clients
-const projectDeploymentEndpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT || ""
-const projectDeploymentClient = new ProjectDeploymentClient(projectDeploymentEndpoint)
+const projectDeploymentService: ProjectDeploymentService = new JigJoyProjectDeploymentService()
 
 // Use Cases
-export const createNewProject: CreateProjectUseCase = new CreateProject(projectRepository, aiCodingService, projectDeploymentClient)
+export const createNewProject: CreateProjectUseCase = new CreateProject(
+	projectRepository,
+	aiCodingService,
+	projectDeploymentService
+)
 export const planTasks: PlanTasksUseCase = new PlanTasks(projectDetailsService, taskRepository, taskGenerator)
 export const fetchProject: FetchProjectUseCase = new FetchProject(projectRepository)
 export const fetchProjects: FetchProjectsUseCase = new FetchProjects(projectRepository)

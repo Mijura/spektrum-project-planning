@@ -6,10 +6,10 @@ import { TaskRepository } from "@app/ports/repositories/task-repository"
 
 export class PlanTasks implements PlanTasksUseCase {
 	constructor(
-		private readonly projectDetailsService: ProjectDetailsService, 
-		private readonly taskRepository: TaskRepository, 
-		private readonly taskGenerator: TaskGenerator) 
-	{}
+		private readonly projectDetailsService: ProjectDetailsService,
+		private readonly taskRepository: TaskRepository,
+		private readonly taskGenerator: TaskGenerator,
+	) {}
 
 	async execute(projectId: string, projectDescription: string): Promise<Task[]> {
 		console.log("Planning tasks with AI")

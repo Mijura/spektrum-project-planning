@@ -1,9 +1,9 @@
 declare enum ModuleType {
-    FRONTEND = "FRONTEND"
+	FRONTEND = "FRONTEND",
 }
 
 type Module = {
-    id: string
-    repositoryId: string
-    type: ModuleType
+	id: string
+	repositoryId: string
+	type: ModuleType
 }

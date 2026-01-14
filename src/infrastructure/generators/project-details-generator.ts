@@ -1,5 +1,4 @@
 import { ProjectDetailsGenerator } from "@app/ports/generators/project-details-generator"
-import { ProjectDetails } from "@app/types/project-details"
 import { Agent, Command } from "@jigjoy-io/mosaic"
 import { Task } from "@domain/task/task"
 import z from "zod"

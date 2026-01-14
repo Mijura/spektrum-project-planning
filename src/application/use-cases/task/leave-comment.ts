@@ -12,7 +12,6 @@ export class LeaveComment implements LeaveCommentUseCase {
 		}
 		task.leaveComment(authorId, commentText)
 
-		const savedTask: Task = await this.taskRepository.save(task)
-		return savedTask
+		return await this.taskRepository.save(task)
 	}
 }

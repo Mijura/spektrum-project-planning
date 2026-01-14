@@ -15,10 +15,8 @@ export class CreateTask implements CreateTaskUseCase {
 			const task: Task = Task.create("User", projectId, title, description)
 
 			await this.projectDetailsService.ensureProjectDetailsFromTask(task)
-			// Persist the task in the database
-			const savedTask: Task = await this.taskRepository.save(task)
 
-			return savedTask
+			return await this.taskRepository.save(task)
 		} catch (error) {
 			console.error("Error creating new task:", error)
 			throw new Error("Failed to create new task.")

@@ -18,9 +18,7 @@ export class UpdateProjectDetails implements UpdateProjectDetailsUseCase {
 			project.setName(newName)
 			project.setDescription(newDescription)
 
-			// Persist the project in the database
-			const updatedProject: Project = await this.projectRepository.save(project)
-			return updatedProject
+			return await this.projectRepository.save(project)
 		} catch (error) {
 			console.error("Error during project details update:", error)
 			throw new Error("Failed to update project details.")
