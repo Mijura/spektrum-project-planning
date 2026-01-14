@@ -14,3 +14,4 @@ dist
 .yarnrc.yml
 
 env.json
+.env.test

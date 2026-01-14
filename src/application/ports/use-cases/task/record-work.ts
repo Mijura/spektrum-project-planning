@@ -10,5 +10,10 @@ export interface RecordWorkPort {
 	 * @param type - The type of work to record.
 	 * @returns The task with the recorded activity.
 	 */
-	execute(taskId: string, workerId: string, message: string, type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK): Promise<Task>
+	execute(
+		taskId: string,
+		workerId: string,
+		message: string,
+		type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK,
+	): Promise<Task>
 }

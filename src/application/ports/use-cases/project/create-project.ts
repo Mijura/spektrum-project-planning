@@ -1,7 +1,7 @@
 import { Project } from "@domain/project/project"
 import { EntryPoint } from "@jigjoy-io/project-deployment-client"
 
-export interface CreateProjectPort {
+export interface CreateProject {
 	/**
 	 * Creates a new project.
 	 * @param owner - The owner of the project.

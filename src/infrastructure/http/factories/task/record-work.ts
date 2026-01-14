@@ -6,13 +6,22 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { RecordWorkPort } from "@app/ports/use-cases/task/record-work"
 
 export function createRecordWorkHandler(recordWork: RecordWorkPort) {
-    return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+	return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 		try {
 			if (!body) throw new ValidationError("No request body provided")
 
 			const { taskId, workerId, message, type } = JSON.parse(body)
 
-			console.log("Recording work for task:", taskId, "by worker:", workerId, "with message:", message, "and type:", type)
+			console.log(
+				"Recording work for task:",
+				taskId,
+				"by worker:",
+				workerId,
+				"with message:",
+				message,
+				"and type:",
+				type,
+			)
 			const task: Task = await recordWork.execute(taskId, workerId, message, type)
 			const taskDTO: TaskDTO = TaskMapper.toDTO(task)
 
