@@ -27,37 +27,34 @@ import { UpdateTaskDescriptionUseCase } from "@app/ports/use-cases/task/update-d
 import { UpdateProjectDetailsUseCase } from "@app/ports/use-cases/project/update-details"
 import { LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
 import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
-import { AIAssistantService } from "@app/services/ai-assistant-service"
-import { ProjectDetailsGenerator } from "@app/ports/ai-assistant-service/project-details-generator"
-import { AITaskGenerator } from "@app/ports/ai-assistant-service/ai-task-generator"
-import { JigJoyProjectDetailsGenerator } from "./services/ai-assistant-service/project-details-generator"
-import { MosaicTaskGenerator } from "@infra/services/ai-assistant-service/mosaic-task-generator"
+import { ProjectDetailsService } from "@app/services/project-details-service"
+import { ProjectDetailsGenerator } from "@app/ports/generators/project-details-generator"
+import { TaskGenerator } from "@app/ports/generators/task-generator"
+import { MosaicProjectDetailsGenerator } from "./generators/project-details-generator"
+import { MosaicTaskGenerator } from "@infra/generators/task-generator"
 import { AICodingService } from "@app/ports/ai-coding-service/ai-coding-service"
-import { JigJoyAICodingService } from "@infra/services/ai-coding-service/jigjoy-ai-coding-service"
+import { JigJoyAICodingService } from "@infra/services/coding-service"
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
 export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
 
+// Generators
+const projectDetailsGenerator: ProjectDetailsGenerator = new MosaicProjectDetailsGenerator()
+const taskGenerator: TaskGenerator = new MosaicTaskGenerator()
 // Services
-const projectDetailsGenerator: ProjectDetailsGenerator = new JigJoyProjectDetailsGenerator()
-const aiTaskGenerator: AITaskGenerator = new MosaicTaskGenerator()
-const aiAssistantService: AIAssistantService = new AIAssistantService(projectRepository, projectDetailsGenerator)
+const projectDetailsService: ProjectDetailsService = new ProjectDetailsService(projectRepository, projectDetailsGenerator)
 const aiCodingService: AICodingService = new JigJoyAICodingService()
 // SDK Clients
 const projectDeploymentEndpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT || ""
 const projectDeploymentClient = new ProjectDeploymentClient(projectDeploymentEndpoint)
 
 // Use Cases
-export const createNewProject: CreateProjectUseCase = new CreateProject(
-	projectRepository,
-	aiCodingService,
-	projectDeploymentClient,
-)
-export const planTasks: PlanTasksUseCase = new PlanTasks(aiAssistantService, taskRepository, aiTaskGenerator)
+export const createNewProject: CreateProjectUseCase = new CreateProject(projectRepository, aiCodingService, projectDeploymentClient)
+export const planTasks: PlanTasksUseCase = new PlanTasks(projectDetailsService, taskRepository, taskGenerator)
 export const fetchProject: FetchProjectUseCase = new FetchProject(projectRepository)
 export const fetchProjects: FetchProjectsUseCase = new FetchProjects(projectRepository)
 export const archiveProject: ArchiveProjectUseCase = new ArchiveProject(projectRepository)
-export const createTask: CreateTaskUseCase = new CreateTask(aiAssistantService, taskRepository)
+export const createTask: CreateTaskUseCase = new CreateTask(projectDetailsService, taskRepository)
 export const fetchTasks: FetchTasksUseCase = new FetchTasks(taskRepository)
 export const updateTaskTitle: UpdateTaskTitleUseCase = new UpdateTaskTitle(taskRepository)
 export const updateTaskDescription: UpdateTaskDescriptionUseCase = new UpdateTaskDescription(taskRepository)

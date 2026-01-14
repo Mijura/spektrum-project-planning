@@ -1,19 +1,22 @@
-import { AIAssistantService } from "@app/services/ai-assistant-service"
+import { ProjectDetailsService } from "@app/services/project-details-service"
 import { PlanTasksUseCase } from "@app/ports/use-cases/task/plan-tasks"
 import { Task } from "@domain/task/task"
-import { AITaskGenerator } from "@app/ports/ai-assistant-service/ai-task-generator"
+import { TaskGenerator } from "@app/ports/generators/task-generator"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 
 export class PlanTasks implements PlanTasksUseCase {
-	constructor(private readonly aiAssistantService: AIAssistantService, private readonly taskRepository: TaskRepository, private readonly aiTaskGenerator: AITaskGenerator) {}
+	constructor(
+		private readonly projectDetailsService: ProjectDetailsService, 
+		private readonly taskRepository: TaskRepository, 
+		private readonly taskGenerator: TaskGenerator) 
+	{}
 
 	async execute(projectId: string, projectDescription: string): Promise<Task[]> {
 		console.log("Planning tasks with AI")
 		const task = Task.create("Product Owner", projectId, "Plan Tasks", projectDescription)
-		await this.aiAssistantService.updateProjectDetails(task)
+		await this.projectDetailsService.ensureProjectDetailsFromTask(task)
 
-		// Generate tasks with AI
-		const tasks: Task[] = await this.aiTaskGenerator.generateTaskList(projectId, projectDescription)
+		const tasks: Task[] = await this.taskGenerator.generateTaskList(projectId, projectDescription)
 
 		// Save all tasks
 		const taskPromises = []

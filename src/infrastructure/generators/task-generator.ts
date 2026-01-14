@@ -1,11 +1,9 @@
-import { AITaskGenerator } from "@app/ports/ai-assistant-service/ai-task-generator"
+import { TaskGenerator } from "@app/ports/generators/task-generator"
 import { Agent, Command } from "@jigjoy-io/mosaic"
 import { Task } from "@domain/task/task"
 import z from "zod"
 
-export class MosaicTaskGenerator implements AITaskGenerator {
-	name: string = "Product Owner"
-
+export class MosaicTaskGenerator implements TaskGenerator {
 	outputSchema = z.object({
 		tasks: z
 			.array(

@@ -1,16 +1,16 @@
-import { ProjectDetailsGenerator } from "@app/ports/ai-assistant-service/project-details-generator"
+import { ProjectDetailsGenerator } from "@app/ports/generators/project-details-generator"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { ProjectDetails } from "@app/types/project-details"
 import { Project } from "@domain/project/project"
 import { Task } from "@domain/task/task"
 
-export class AIAssistantService {
+export class ProjectDetailsService {
 	constructor(
 		private readonly projectRepository: ProjectRepository,
 		private readonly projectDetailsGenerator: ProjectDetailsGenerator
 	) {}
 
-	async updateProjectDetails(task: Task): Promise<Project> {
+	async ensureProjectDetailsFromTask(task: Task): Promise<Project> {
 		const project = await this.projectRepository.get(task.projectId)
 		if (!project) {
 			throw new Error("Project not found")
