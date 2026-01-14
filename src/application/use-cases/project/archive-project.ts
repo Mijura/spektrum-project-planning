@@ -8,7 +8,6 @@ export class ArchiveProject implements ArchiveProjectUseCase {
 	async execute(projectId: string): Promise<Project> {
 		const project: Project = await this.projectRepository.get(projectId)
 		project.archive()
-		const archivedProject: Project = await this.projectRepository.save(project)
-		return archivedProject
+		return await this.projectRepository.save(project)
 	}
 }

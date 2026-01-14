@@ -7,7 +7,6 @@ export class FetchProjects implements FetchProjectsUseCase {
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
 	async execute(ownerId: string): Promise<Project[]> {
-		const projects: Project[] = await this.projectRepository.getAllByStatus(ownerId, ProjectStatus.ACTIVE)
-		return projects
+		return await this.projectRepository.getAllByStatus(ownerId, ProjectStatus.ACTIVE)
 	}
 }

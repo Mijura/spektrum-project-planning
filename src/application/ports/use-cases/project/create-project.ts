@@ -1,5 +1,4 @@
 import { Project } from "@domain/project/project"
-import { EntryPoint } from "@jigjoy-io/project-deployment-client"
 
 export interface CreateProjectUseCase {
 	/**

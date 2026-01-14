@@ -1,19 +1,14 @@
 import { Project } from "@domain/project/project"
 import { CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
-import { AICodingClient } from "@jigjoy-io/ai-coding-client"
-import {
-	DeployModuleCommand,
-	EntryPoint,
-	EnvironmentType,
-	ProjectDeploymentClient,
-} from "@jigjoy-io/project-deployment-client"
+import { AICodingService } from "@app/ports/services/ai-coding-service"
+import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
 
 export class CreateProject implements CreateProjectUseCase {
 	constructor(
 		private readonly projectRepository: ProjectRepository,
-		private readonly aiCodingClient: AICodingClient,
-		private readonly projectDeploymentClient: ProjectDeploymentClient,
+		private readonly aiCodingService: AICodingService,
+		private readonly projectDeploymentService: ProjectDeploymentService,
 	) {}
 
 	async execute(owner: string): Promise<{ project: Project; entryPoint: EntryPoint }> {
@@ -21,22 +16,13 @@ export class CreateProject implements CreateProjectUseCase {
 			// Create a new project with a unique ID
 			const project: Project = Project.create("My Project", "Empty project...", owner)
 
-			const initializedModulePromise = this.aiCodingClient.initializeReactModule(project.id)
-			const cloudProfilePromise = this.projectDeploymentClient.createCloudProfile(project.id)
+			const initializedModulePromise = this.aiCodingService.initializeReactModule(project.id)
+			const cloudProfilePromise = this.projectDeploymentService.createCloudProfile(project.id)
 			const saveProjectPromise = this.projectRepository.save(project)
 
 			const [module] = await Promise.all([initializedModulePromise, saveProjectPromise, cloudProfilePromise])
 
-			const deploymentRequest: DeployModuleCommand = {
-				projectId: project.id,
-				moduleId: module.id,
-				moduleType: module.type,
-				versionControlId: module.repositoryId,
-				environmentType: EnvironmentType.DEV,
-				setAsEntryPoint: true,
-			}
-
-			const entryPoint: EntryPoint = await this.projectDeploymentClient.deployModule(deploymentRequest)
+			const entryPoint: EntryPoint = await this.projectDeploymentService.deployModule(project.id, module)
 
 			return { project, entryPoint }
 		} catch (error) {

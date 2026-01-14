@@ -1,11 +1,11 @@
 import { CreateTaskUseCase } from "@app/ports/use-cases/task/create-task"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { AIAssistantService } from "@app/services/ai-assistant-service"
+import { ProjectDetailsService } from "@app/services/project-details-service"
 import { Task } from "@domain/task/task"
 
 export class CreateTask implements CreateTaskUseCase {
 	constructor(
-		private readonly aiAssistantService: AIAssistantService,
+		private readonly projectDetailsService: ProjectDetailsService,
 		private readonly taskRepository: TaskRepository,
 	) {}
 
@@ -14,11 +14,9 @@ export class CreateTask implements CreateTaskUseCase {
 			// Create a new task
 			const task: Task = Task.create("User", projectId, title, description)
 
-			await this.aiAssistantService.updateProjectDetails(task)
-			// Persist the task in the database
-			const savedTask: Task = await this.taskRepository.save(task)
+			await this.projectDetailsService.ensureProjectDetailsFromTask(task)
 
-			return savedTask
+			return await this.taskRepository.save(task)
 		} catch (error) {
 			console.error("Error creating new task:", error)
 			throw new Error("Failed to create new task.")

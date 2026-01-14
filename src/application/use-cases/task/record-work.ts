@@ -13,20 +13,17 @@ export class RecordWork implements RecordWorkUseCase {
 		type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK,
 	): Promise<Task> {
 		const task = await this.taskRepository.get(taskId)
+
 		if (!task) {
 			throw new Error("Task not found")
 		}
+
 		if (type === ActivityType.STARTED_WORK) {
 			task.startedWork(workerId, message)
 		} else if (type === ActivityType.FINISHED_WORK) {
 			task.finishedWork(workerId, message)
 		}
 
-		console.log("Task to save:", task)
-
-		const savedTask = await this.taskRepository.save(task)
-
-		console.log("Saved task:", savedTask)
-		return savedTask
+		return await this.taskRepository.save(task)
 	}
 }

@@ -1,4 +1,4 @@
-export type ProjectDetails = {
+type ProjectDetails = {
 	name: string
 	description: string
 }
