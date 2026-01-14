@@ -33,7 +33,8 @@ import { TaskGenerator } from "@app/ports/generators/task-generator"
 import { MosaicProjectDetailsGenerator } from "./generators/project-details-generator"
 import { MosaicTaskGenerator } from "@infra/generators/task-generator"
 import { AICodingService } from "@app/ports/ai-coding-service/ai-coding-service"
-import { JigJoyAICodingService } from "@infra/services/coding-service"
+import { JigJoyAICodingService } from "@infra/services/ai-coding-service"
+
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
 export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
