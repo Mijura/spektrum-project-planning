@@ -1,9 +1,9 @@
-import { TasksGenerator } from "@app/ports/ai-assistant-service/tasks-generator"
+import { AITaskGenerator } from "@app/ports/ai-assistant-service/ai-task-generator"
 import { Agent, Command } from "@jigjoy-io/mosaic"
 import { Task } from "@domain/task/task"
 import z from "zod"
 
-export class JigJoyTasksGenerator implements TasksGenerator {
+export class MosaicTaskGenerator implements AITaskGenerator {
 	name: string = "Product Owner"
 
 	outputSchema = z.object({
@@ -19,7 +19,7 @@ export class JigJoyTasksGenerator implements TasksGenerator {
 		comment: z.string().describe("A comment to be added to the task"),
 	})
 
-	async generateTasks(projectId: string, projectDescription: string): Promise<Task[]> {
+	async generateTaskList(projectId: string, projectDescription: string): Promise<Task[]> {
 		const prompt = `
         # 🛠️ System Prompt: Product Feature Creator Agent
 

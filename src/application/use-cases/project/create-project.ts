@@ -1,18 +1,18 @@
 import { Project } from "@domain/project/project"
 import { CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
-import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import {
 	DeployModuleCommand,
 	EntryPoint,
 	EnvironmentType,
 	ProjectDeploymentClient,
 } from "@jigjoy-io/project-deployment-client"
+import { AICodingService } from "@app/ports/ai-coding-service/ai-coding-service"
 
 export class CreateProject implements CreateProjectUseCase {
 	constructor(
 		private readonly projectRepository: ProjectRepository,
-		private readonly aiCodingClient: AICodingClient,
+		private readonly aiCodingService: AICodingService,
 		private readonly projectDeploymentClient: ProjectDeploymentClient,
 	) {}
 
@@ -21,7 +21,7 @@ export class CreateProject implements CreateProjectUseCase {
 			// Create a new project with a unique ID
 			const project: Project = Project.create("My Project", "Empty project...", owner)
 
-			const initializedModulePromise = this.aiCodingClient.initializeReactModule(project.id)
+			const initializedModulePromise = this.aiCodingService.initializeReactModule(project.id)
 			const cloudProfilePromise = this.projectDeploymentClient.createCloudProfile(project.id)
 			const saveProjectPromise = this.projectRepository.save(project)
 
