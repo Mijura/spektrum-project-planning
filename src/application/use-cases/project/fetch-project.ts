@@ -1,8 +1,8 @@
-import { FetchProjectPort } from "@app/ports/use-cases/project/fetch-project"
+import { FetchProjectUseCase } from "@app/ports/use-cases/project/fetch-project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { Project } from "@domain/project/project"
 
-export class FetchProjectUseCase implements FetchProjectPort {
+export class FetchProject implements FetchProjectUseCase {
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
 	async execute(projectId: string): Promise<Project> {

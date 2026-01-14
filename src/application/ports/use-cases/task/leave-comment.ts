@@ -1,6 +1,6 @@
 import { Task } from "@domain/task/task"
 
-export interface LeaveCommentPort {
+export interface LeaveCommentUseCase {
 	/**
 	 * Leaves a comment on a task and saves it to the database.
 	 * @param taskId - The ID of the task to leave a comment on.

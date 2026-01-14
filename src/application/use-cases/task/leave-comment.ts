@@ -1,8 +1,8 @@
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { LeaveCommentPort } from "@app/ports/use-cases/task/leave-comment"
+import { LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
 import { Task } from "@domain/task/task"
 
-export class LeaveCommentUseCase implements LeaveCommentPort {
+export class LeaveComment implements LeaveCommentUseCase {
 	constructor(private readonly taskRepository: TaskRepository) {}
 
 	async execute(taskId: string, commentText: string, authorId: string): Promise<Task> {

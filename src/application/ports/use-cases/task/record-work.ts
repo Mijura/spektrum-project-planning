@@ -1,7 +1,7 @@
 import { Task } from "@domain/task/task"
 import { ActivityType } from "@jigjoy-io/task-contracts"
 
-export interface RecordWorkPort {
+export interface RecordWorkUseCase {
 	/**
 	 * Records work on a task.
 	 * @param taskId - The ID of the task.

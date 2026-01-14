@@ -3,9 +3,9 @@ import { Task as TaskDTO } from "@jigjoy-io/task-contracts"
 import { TaskMapper } from "@infra/http/mappers/task-mapper"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { RecordWorkPort } from "@app/ports/use-cases/task/record-work"
+import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
 
-export function createRecordWorkHandler(recordWork: RecordWorkPort) {
+export function createRecordWorkHandler(recordWorkUseCase: RecordWorkUseCase) {
 	return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 		try {
 			if (!body) throw new ValidationError("No request body provided")
@@ -22,7 +22,7 @@ export function createRecordWorkHandler(recordWork: RecordWorkPort) {
 				"and type:",
 				type,
 			)
-			const task: Task = await recordWork.execute(taskId, workerId, message, type)
+			const task: Task = await recordWorkUseCase.execute(taskId, workerId, message, type)
 			const taskDTO: TaskDTO = TaskMapper.toDTO(task)
 
 			return Responses._200(taskDTO)

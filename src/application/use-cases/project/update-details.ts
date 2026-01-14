@@ -1,8 +1,8 @@
 import { Project } from "@domain/project/project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
-import { UpdateProjectDetailsPort } from "@app/ports/use-cases/project/update-details"
+import { UpdateProjectDetailsUseCase } from "@app/ports/use-cases/project/update-details"
 
-export class UpdateProjectDetailsUseCase implements UpdateProjectDetailsPort {
+export class UpdateProjectDetails implements UpdateProjectDetailsUseCase {
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
 	async execute(projectId: string, newName: string, newDescription: string): Promise<Project> {

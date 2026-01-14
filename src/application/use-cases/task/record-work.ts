@@ -1,9 +1,9 @@
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { RecordWorkPort } from "@app/ports/use-cases/task/record-work"
+import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
 import { Task } from "@domain/task/task"
 import { ActivityType } from "@jigjoy-io/task-contracts"
 
-export class RecordWorkUseCase implements RecordWorkPort {
+export class RecordWork implements RecordWorkUseCase {
 	constructor(private readonly taskRepository: TaskRepository) {}
 
 	async execute(

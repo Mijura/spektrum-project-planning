@@ -1,6 +1,6 @@
 import { Project } from "@domain/project/project"
 
-export interface FetchProjectsPort {
+export interface FetchProjectsUseCase {
 	/**
 	 * Fetches all projects for a given owner ID.
 	 * @param ownerId - The ID of the owner to fetch projects for.

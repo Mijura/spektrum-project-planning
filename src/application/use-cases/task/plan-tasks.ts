@@ -1,8 +1,8 @@
-import { PlanTasksPort } from "@app/ports/use-cases/task/plan-tasks"
+import { PlanTasksUseCase } from "@app/ports/use-cases/task/plan-tasks"
 import { Task } from "@domain/task/task"
 import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
 
-export class PlanTasksUseCase implements PlanTasksPort {
+export class PlanTasks implements PlanTasksUseCase {
 	constructor(private readonly aiAssistantService: AIAssistantServicePort) {}
 
 	async execute(projectId: string, projectDescription: string): Promise<Task[]> {

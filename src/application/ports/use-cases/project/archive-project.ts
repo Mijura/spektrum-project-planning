@@ -1,6 +1,6 @@
 import { Project } from "@domain/project/project"
 
-export interface ArchiveProjectPort {
+export interface ArchiveProjectUseCase {
 	/**
 	 * Archives a project.
 	 * @param projectId - The ID of the project to archive.

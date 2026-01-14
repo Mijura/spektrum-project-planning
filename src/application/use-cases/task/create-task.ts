@@ -1,9 +1,9 @@
-import { CreateTaskPort } from "@app/ports/use-cases/task/create-task"
+import { CreateTaskUseCase } from "@app/ports/use-cases/task/create-task"
 import { Task } from "@domain/task/task"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
 
-export class CreateTaskUseCase implements CreateTaskPort {
+export class CreateTask implements CreateTaskUseCase {
 	constructor(
 		private readonly aiAssistantService: AIAssistantServicePort,
 		private readonly taskRepository: TaskRepository,
