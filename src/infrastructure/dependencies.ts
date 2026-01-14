@@ -11,10 +11,8 @@ import { UpdateTaskTitle } from "@app/use-cases/task/update-title"
 import { PlanTasks } from "@app/use-cases/task/plan-tasks"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { AIAssistantService } from "@infra/services/ai-asisstant-service"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
-import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
 import { LeaveComment } from "@app/use-cases/task/leave-comment"
 import { RecordWork } from "@app/use-cases/task/record-work"
 import { CreateProject } from "@app/use-cases/project/create-project"
@@ -30,12 +28,19 @@ import { UpdateTaskDescriptionUseCase } from "@app/ports/use-cases/task/update-d
 import { UpdateProjectDetailsUseCase } from "@app/ports/use-cases/project/update-details"
 import { LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
 import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
+import { AIAssistantService } from "@app/services/ai-assistant-service"
+import { ProjectDetailsGenerator } from "@app/ports/ai-assistant-service/project-details-generator"
+import { TasksGenerator } from "@app/ports/ai-assistant-service/tasks-generator"
+import { JigJoyProjectDetailsGenerator } from "./services/project-details-generator"
+import { JigJoyTasksGenerator } from "./services/tasks-generator"
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
 export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
 
 // Services
-const aiAssistantService: AIAssistantServicePort = new AIAssistantService(projectRepository, taskRepository)
+export const projectDetailsGenerator: ProjectDetailsGenerator = new JigJoyProjectDetailsGenerator()
+export const tasksGenerator: TasksGenerator = new JigJoyTasksGenerator()
+export const aiAssistantService: AIAssistantService = new AIAssistantService(projectRepository, taskRepository, projectDetailsGenerator, tasksGenerator)
 
 // SDK Clients
 const aiCodingEndpoint = process.env.AI_CODING_ENDPOINT || ""
