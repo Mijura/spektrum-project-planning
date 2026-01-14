@@ -1,8 +1,10 @@
-import { Task } from "@domain/task/task"
-import { z } from "zod"
+import { ProjectDetailsGenerator } from "@app/ports/ai-assistant-service/project-details-generator"
+import { ProjectDetails } from "@app/types/project-details"
 import { Agent, Command } from "@jigjoy-io/mosaic"
+import { Task } from "@domain/task/task"
+import z from "zod"
 
-export class ProjectDetailsGenerator {
+export class JigJoyProjectDetailsGenerator implements ProjectDetailsGenerator {
 	async generateProjectDetails(task: Task): Promise<{ name: string; description: string }> {
 		const outputSchema = z.object({
 			name: z.string().describe("Short and concise title of the project."),
@@ -34,7 +36,7 @@ export class ProjectDetailsGenerator {
 		}
 
 		const agent = new Agent(command)
-		const projectDetails: { name: string; description: string } = await agent.act()
+		const projectDetails: ProjectDetails = await agent.act()
 		return projectDetails
 	}
 }

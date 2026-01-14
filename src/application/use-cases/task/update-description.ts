@@ -1,8 +1,8 @@
 import { Task } from "@domain/task/task"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { UpdateTaskDescriptionPort } from "@app/ports/use-cases/task/update-description"
+import { UpdateTaskDescriptionUseCase } from "@app/ports/use-cases/task/update-description"
 
-export class UpdateTaskDescriptionUseCase implements UpdateTaskDescriptionPort {
+export class UpdateTaskDescription implements UpdateTaskDescriptionUseCase {
 	constructor(private readonly taskRepository: TaskRepository) {}
 
 	async execute(taskId: string, newDescription: string): Promise<Task> {

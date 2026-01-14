@@ -1,8 +1,9 @@
-import { Task } from "@domain/task/task"
+import { TasksGenerator } from "@app/ports/ai-assistant-service/tasks-generator"
 import { Agent, Command } from "@jigjoy-io/mosaic"
+import { Task } from "@domain/task/task"
 import z from "zod"
 
-export class TaskPlanner {
+export class JigJoyTasksGenerator implements TasksGenerator {
 	name: string = "Product Owner"
 
 	outputSchema = z.object({
@@ -116,7 +117,6 @@ export class TaskPlanner {
 		const output = await agent.act()
 		const createdTasks: Task[] = []
 		for (const generatedTask of output.tasks) {
-			// TODO: Add priority to the task
 			const t = Task.create("Product Owner", projectId, generatedTask.title, generatedTask.description)
 			createdTasks.push(t)
 		}

@@ -1,5 +1,5 @@
 import { Project } from "@domain/project/project"
-import { CreateProjectPort } from "@app/ports/use-cases/project/create-project"
+import { CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import {
@@ -9,7 +9,7 @@ import {
 	ProjectDeploymentClient,
 } from "@jigjoy-io/project-deployment-client"
 
-export class CreateProjectUseCase implements CreateProjectPort {
+export class CreateProject implements CreateProjectUseCase {
 	constructor(
 		private readonly projectRepository: ProjectRepository,
 		private readonly aiCodingClient: AICodingClient,

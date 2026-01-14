@@ -1,6 +1,6 @@
 import { Task } from "@domain/task/task"
 
-export interface PlanTasksPort {
+export interface PlanTasksUseCase {
 	/**
 	 * Plans tasks with AI for a given project.
 	 * @param projectId - The ID of the project to plan tasks for.

@@ -1,6 +1,6 @@
 import { Task } from "@domain/task/task"
 
-export interface FetchTasksPort {
+export interface FetchTasksUseCase {
 	/**
 	 * Fetches all tasks for a given project ID.
 	 * @param projectId - The ID of the project to fetch tasks for.

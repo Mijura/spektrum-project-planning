@@ -1,6 +1,6 @@
 import { Task } from "@domain/task/task"
 
-export interface UpdateTaskTitlePort {
+export interface UpdateTaskTitleUseCase {
 	/**
 	 * Updates the title of a task.
 	 * @param taskId - The ID of the task to update.

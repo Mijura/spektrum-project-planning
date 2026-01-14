@@ -1,46 +1,46 @@
-import { CreateProjectPort } from "@app/ports/use-cases/project/create-project"
-import { PlanTasksPort } from "@app/ports/use-cases/task/plan-tasks"
-import { UpdateProjectDetailsPort } from "@app/ports/use-cases/project/update-details"
-import { FetchProjectPort } from "@app/ports/use-cases/project/fetch-project"
-import { FetchProjectsPort } from "@app/ports/use-cases/project/fetch-projects"
-import { ArchiveProjectPort } from "@app/ports/use-cases/project/archive-project"
-
-import { FetchProjectsUseCase } from "@app/use-cases/project/fetch-projects"
-import { FetchProjectUseCase } from "@app/use-cases/project/fetch-project"
-import { CreateProjectUseCase } from "@app/use-cases/project/create-project"
-import { UpdateProjectDetailsUseCase } from "@app/use-cases/project/update-details"
-import { ArchiveProjectUseCase } from "@app/use-cases/project/archive-project"
-
+import { FetchProjects } from "@app/use-cases/project/fetch-projects"
+import { FetchProject } from "@app/use-cases/project/fetch-project"
+import { UpdateProjectDetails } from "@app/use-cases/project/update-details"
+import { ArchiveProject } from "@app/use-cases/project/archive-project"
 import { DynamoDBProjectRepository } from "@infra/repositories/project-repository"
 import { DynamoDBTaskRepository } from "@infra/repositories/task-repository"
-
-import { CreateTaskPort } from "@app/ports/use-cases/task/create-task"
-import { FetchTasksPort } from "@app/ports/use-cases/task/fetch-tasks"
-import { UpdateTaskTitlePort } from "@app/ports/use-cases/task/update-title"
-import { UpdateTaskDescriptionPort } from "@app/ports/use-cases/task/update-description"
-import { CreateTaskUseCase } from "@app/use-cases/task/create-task"
-import { FetchTasksUseCase } from "@app/use-cases/task/fetch-tasks"
-import { UpdateTaskDescriptionUseCase } from "@app/use-cases/task/update-description"
-import { UpdateTaskTitleUseCase } from "@app/use-cases/task/update-title"
-import { PlanTasksUseCase } from "@app/use-cases/task/plan-tasks"
-
+import { CreateTask } from "@app/use-cases/task/create-task"
+import { FetchTasks } from "@app/use-cases/task/fetch-tasks"
+import { UpdateTaskDescription } from "@app/use-cases/task/update-description"
+import { UpdateTaskTitle } from "@app/use-cases/task/update-title"
+import { PlanTasks } from "@app/use-cases/task/plan-tasks"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { AIAssistantService } from "@infra/services/ai-asisstant-service"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 import { ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
-import { AIAssistantServicePort } from "@app/ports/services/ai-asisstant-service"
-import { LeaveCommentUseCase } from "@app/use-cases/task/leave-comment"
-import { LeaveCommentPort } from "@app/ports/use-cases/task/leave-comment"
-import { RecordWorkPort } from "@app/ports/use-cases/task/record-work"
-import { RecordWorkUseCase } from "@app/use-cases/task/record-work"
-
+import { LeaveComment } from "@app/use-cases/task/leave-comment"
+import { RecordWork } from "@app/use-cases/task/record-work"
+import { CreateProject } from "@app/use-cases/project/create-project"
+import { CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
+import { PlanTasksUseCase } from "@app/ports/use-cases/task/plan-tasks"
+import { FetchProjectUseCase } from "@app/ports/use-cases/project/fetch-project"
+import { FetchProjectsUseCase } from "@app/ports/use-cases/project/fetch-projects"
+import { ArchiveProjectUseCase } from "@app/ports/use-cases/project/archive-project"
+import { CreateTaskUseCase } from "@app/ports/use-cases/task/create-task"
+import { FetchTasksUseCase } from "@app/ports/use-cases/task/fetch-tasks"
+import { UpdateTaskTitleUseCase } from "@app/ports/use-cases/task/update-title"
+import { UpdateTaskDescriptionUseCase } from "@app/ports/use-cases/task/update-description"
+import { UpdateProjectDetailsUseCase } from "@app/ports/use-cases/project/update-details"
+import { LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
+import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
+import { AIAssistantService } from "@app/services/ai-assistant-service"
+import { ProjectDetailsGenerator } from "@app/ports/ai-assistant-service/project-details-generator"
+import { TasksGenerator } from "@app/ports/ai-assistant-service/tasks-generator"
+import { JigJoyProjectDetailsGenerator } from "./services/project-details-generator"
+import { JigJoyTasksGenerator } from "./services/tasks-generator"
 // Repositories
 export const projectRepository: ProjectRepository = new DynamoDBProjectRepository()
 export const taskRepository: TaskRepository = new DynamoDBTaskRepository()
 
 // Services
-const aiAssistantService: AIAssistantServicePort = new AIAssistantService(projectRepository, taskRepository)
+export const projectDetailsGenerator: ProjectDetailsGenerator = new JigJoyProjectDetailsGenerator()
+export const tasksGenerator: TasksGenerator = new JigJoyTasksGenerator()
+export const aiAssistantService: AIAssistantService = new AIAssistantService(projectRepository, taskRepository, projectDetailsGenerator, tasksGenerator)
 
 // SDK Clients
 const aiCodingEndpoint = process.env.AI_CODING_ENDPOINT || ""
@@ -49,19 +49,19 @@ const projectDeploymentEndpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT || ""
 const projectDeploymentClient = new ProjectDeploymentClient(projectDeploymentEndpoint)
 
 // Use Cases
-export const createNewProject: CreateProjectPort = new CreateProjectUseCase(
+export const createNewProject: CreateProjectUseCase = new CreateProject(
 	projectRepository,
 	aiCodingClient,
 	projectDeploymentClient,
 )
-export const planTasks: PlanTasksPort = new PlanTasksUseCase(aiAssistantService)
-export const fetchProject: FetchProjectPort = new FetchProjectUseCase(projectRepository)
-export const fetchProjects: FetchProjectsPort = new FetchProjectsUseCase(projectRepository)
-export const archiveProject: ArchiveProjectPort = new ArchiveProjectUseCase(projectRepository)
-export const createTask: CreateTaskPort = new CreateTaskUseCase(aiAssistantService, taskRepository)
-export const fetchTasks: FetchTasksPort = new FetchTasksUseCase(taskRepository)
-export const updateTaskTitle: UpdateTaskTitlePort = new UpdateTaskTitleUseCase(taskRepository)
-export const updateTaskDescription: UpdateTaskDescriptionPort = new UpdateTaskDescriptionUseCase(taskRepository)
-export const updateProjectDetails: UpdateProjectDetailsPort = new UpdateProjectDetailsUseCase(projectRepository)
-export const leaveComment: LeaveCommentPort = new LeaveCommentUseCase(taskRepository)
-export const recordWork: RecordWorkPort = new RecordWorkUseCase(taskRepository)
+export const planTasks: PlanTasksUseCase = new PlanTasks(aiAssistantService)
+export const fetchProject: FetchProjectUseCase = new FetchProject(projectRepository)
+export const fetchProjects: FetchProjectsUseCase = new FetchProjects(projectRepository)
+export const archiveProject: ArchiveProjectUseCase = new ArchiveProject(projectRepository)
+export const createTask: CreateTaskUseCase = new CreateTask(aiAssistantService, taskRepository)
+export const fetchTasks: FetchTasksUseCase = new FetchTasks(taskRepository)
+export const updateTaskTitle: UpdateTaskTitleUseCase = new UpdateTaskTitle(taskRepository)
+export const updateTaskDescription: UpdateTaskDescriptionUseCase = new UpdateTaskDescription(taskRepository)
+export const updateProjectDetails: UpdateProjectDetailsUseCase = new UpdateProjectDetails(projectRepository)
+export const leaveComment: LeaveCommentUseCase = new LeaveComment(taskRepository)
+export const recordWork: RecordWorkUseCase = new RecordWork(taskRepository)

@@ -1,6 +1,6 @@
 import { Project } from "@domain/project/project"
 
-export interface UpdateProjectDetailsPort {
+export interface UpdateProjectDetailsUseCase {
 	/**
 	 * Updates the details of a project.
 	 * @param projectId - The ID of the project to update.

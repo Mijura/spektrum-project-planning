@@ -1,8 +1,8 @@
 import { Project } from "@domain/project/project"
-import { ArchiveProjectPort } from "@app/ports/use-cases/project/archive-project"
+import { ArchiveProjectUseCase } from "@app/ports/use-cases/project/archive-project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 
-export class ArchiveProjectUseCase implements ArchiveProjectPort {
+export class ArchiveProject implements ArchiveProjectUseCase {
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
 	async execute(projectId: string): Promise<Project> {

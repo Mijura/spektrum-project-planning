@@ -1,13 +1,17 @@
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { RecordWorkPort } from "@app/ports/use-cases/task/record-work"
+import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
 import { Task } from "@domain/task/task"
 import { ActivityType } from "@jigjoy-io/task-contracts"
 
-export class RecordWorkUseCase implements RecordWorkPort {
+export class RecordWork implements RecordWorkUseCase {
+	constructor(private readonly taskRepository: TaskRepository) {}
 
-    constructor(private readonly taskRepository: TaskRepository) {}
-    
-	async execute(taskId: string, workerId: string, message: string, type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK): Promise<Task> {
+	async execute(
+		taskId: string,
+		workerId: string,
+		message: string,
+		type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK,
+	): Promise<Task> {
 		const task = await this.taskRepository.get(taskId)
 		if (!task) {
 			throw new Error("Task not found")
@@ -18,11 +22,11 @@ export class RecordWorkUseCase implements RecordWorkPort {
 			task.finishedWork(workerId, message)
 		}
 
-        console.log("Task to save:", task)
+		console.log("Task to save:", task)
 
-        const savedTask = await this.taskRepository.save(task)
+		const savedTask = await this.taskRepository.save(task)
 
-        console.log("Saved task:", savedTask)
-        return savedTask
+		console.log("Saved task:", savedTask)
+		return savedTask
 	}
 }

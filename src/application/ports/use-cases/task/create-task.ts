@@ -1,6 +1,6 @@
 import { Task } from "@domain/task/task"
 
-export interface CreateTaskPort {
+export interface CreateTaskUseCase {
 	/**
 	 * Creates a new task.
 	 * @param projectId - The ID of the project to create the task for.

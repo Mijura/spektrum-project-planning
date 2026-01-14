@@ -1,7 +1,7 @@
 import { Task } from "@domain/task/task"
 import { ActivityType } from "@jigjoy-io/task-contracts"
 
-export interface RecordWorkPort {
+export interface RecordWorkUseCase {
 	/**
 	 * Records work on a task.
 	 * @param taskId - The ID of the task.
@@ -10,5 +10,10 @@ export interface RecordWorkPort {
 	 * @param type - The type of work to record.
 	 * @returns The task with the recorded activity.
 	 */
-	execute(taskId: string, workerId: string, message: string, type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK): Promise<Task>
+	execute(
+		taskId: string,
+		workerId: string,
+		message: string,
+		type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK,
+	): Promise<Task>
 }
