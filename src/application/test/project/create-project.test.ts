@@ -98,7 +98,6 @@ describe("Create Project", () => {
 	it("should use project-specific module when seeded", async () => {
 		// Arrange
 		const owner = "owner-123"
-		const projectId = "project-id-123"
 		const customModule: Module = {
 			id: "custom-module-id",
 			repositoryId: "custom-repo-id",
