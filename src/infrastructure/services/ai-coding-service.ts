@@ -1,4 +1,5 @@
 import { AICodingService } from "@app/ports/services/ai-coding-service"
+import { Module } from "@app/types/module"
 import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 
 export class JigJoyAICodingService implements AICodingService {
