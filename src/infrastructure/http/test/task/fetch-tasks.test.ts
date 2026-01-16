@@ -595,4 +595,51 @@ describe("Fetch Tasks Handler", () => {
 		expect(body[0].activities[2].type).toBe(ActivityType.COMMENT_LEFT)
 		expect(body[0].activities[3].type).toBe(ActivityType.STARTED_WORK)
 	})
+
+	it("should return 500 error when ActivityMapper encounters unsupported activity type", async () => {
+		// Create an activity with an invalid type to test the default case in ActivityMapper
+		const invalidActivity = Activity.rehydrate({
+			id: "activity-invalid",
+			type: "INVALID_TYPE" as ActivityType,
+			projectId: "test-project-id",
+			taskId: "task-1",
+			userId: "user-123",
+			metadata: {} as any,
+			occurredAt: "2024-01-01T00:00:00.000Z",
+		})
+
+		const mockTasks = [
+			Task.rehydrate({
+				id: "task-1",
+				created: "2024-01-01T00:00:00.000Z",
+				projectId: "test-project-id",
+				title: "Task 1",
+				description: "Description 1",
+				status: TaskStatus.TODO,
+				updated: null,
+				activities: [invalidActivity],
+			}),
+		]
+
+		const mockUseCase: FetchTasksUseCase = {
+			execute: async () => mockTasks,
+		}
+
+		handler = createFetchTasksHandler(mockUseCase)
+
+		const event = {
+			pathParameters: {
+				projectId: "test-project-id",
+			},
+		} as unknown as APIGatewayProxyEvent
+
+		// The handler should catch the error from ActivityMapper.toDTO default case
+		// and return a 500 response with generic error message
+		const result = await handler(event)
+
+		expect(result.statusCode).toBe(500)
+
+		const body = JSON.parse(result.body)
+		expect(body.errorMessage).toBe("Something went wrong")
+	})
 })

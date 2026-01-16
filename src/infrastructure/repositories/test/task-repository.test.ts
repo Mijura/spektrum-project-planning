@@ -92,6 +92,19 @@ describe("DynamoDB Task Repository", () => {
 		expect(activityLog[0].type).toEqual(ActivityType.TASK_CREATED)
 	})
 
+	it("should save and retrieve task with updated timestamp", async () => {
+		const task = Task.create("user-123", "project-456", "Test Task", "Test Description")
+		task.updateTitle("user-123", "Updated Title")
+		testTaskIds.push(task.id)
+
+		const saved = await repository.save(task)
+		expect(saved.updated).not.toBeNull()
+
+		const retrieved = await repository.get(task.id)
+		expect(retrieved?.updated).not.toBeNull()
+		expect(retrieved?.updated).toEqual(saved.updated)
+	})
+
 	it("should throw an error when retrieving a non-existent task", async () => {
 		const nonExistentId = "non-existent-id"
 
@@ -117,6 +130,21 @@ describe("DynamoDB Task Repository", () => {
 		expect(retrieved.map((t) => t.id)).toContain(task1.id)
 		expect(retrieved.map((t) => t.id)).toContain(task2.id)
 		expect(retrieved.every((t) => t.projectId === projectId)).toBe(true)
+	})
+
+	it("should retrieve single task for a project using getAll", async () => {
+		const projectId = "project-single"
+		const task = Task.create("user-123", projectId, "Single Task", "Description")
+		testTaskIds.push(task.id)
+
+		await repository.save(task)
+
+		const retrieved = await repository.getAll(projectId)
+
+		expect(retrieved).toBeDefined()
+		expect(retrieved.length).toBe(1)
+		expect(retrieved[0].id).toBe(task.id)
+		expect(retrieved[0].projectId).toBe(projectId)
 	})
 
 	it("should return empty array when no tasks exist for project", async () => {
@@ -181,6 +209,28 @@ describe("DynamoDB Task Repository", () => {
 
 		const activityLog = retrieved?.getActivityLog() || []
 		expect(activityLog.some((a) => a.type === ActivityType.FINISHED_WORK)).toBe(true)
+		expect(activityLog.filter((a) => a.type === ActivityType.STARTED_WORK).length).toBe(0)
+	})
+
+	it("should save and retrieve task with all activity types through mapper", async () => {
+		const task = Task.create("user-123", "project-456", "Test Task", "Test Description")
+		task.updateTitle("user-123", "Updated Title")
+		task.updateDescription("user-123", "Updated Description")
+		task.leaveComment("user-123", "A comment")
+		task.startedWork("worker-123", "Starting")
+		task.finishedWork("worker-123", "Finished")
+		testTaskIds.push(task.id)
+
+		await repository.save(task)
+		const retrieved = await repository.get(task.id)
+
+		const activityLog = retrieved?.getActivityLog() || []
+		expect(activityLog.some((a) => a.type === ActivityType.TASK_CREATED)).toBe(true)
+		expect(activityLog.some((a) => a.type === ActivityType.TITLE_UPDATED)).toBe(true)
+		expect(activityLog.some((a) => a.type === ActivityType.DESCRIPTION_UPDATED)).toBe(true)
+		expect(activityLog.some((a) => a.type === ActivityType.COMMENT_LEFT)).toBe(true)
+		expect(activityLog.some((a) => a.type === ActivityType.FINISHED_WORK)).toBe(true)
+		// STARTED_WORK should be replaced by FINISHED_WORK
 		expect(activityLog.filter((a) => a.type === ActivityType.STARTED_WORK).length).toBe(0)
 	})
 
