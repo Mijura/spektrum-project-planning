@@ -1,4 +1,5 @@
 import { AICodingService } from "@app/ports/services/ai-coding-service"
+import { Module, ModuleType } from "@app/types/module"
 
 export class InMemoryAICodingService implements AICodingService {
 	private byProjectId: Map<string, Module> = new Map()

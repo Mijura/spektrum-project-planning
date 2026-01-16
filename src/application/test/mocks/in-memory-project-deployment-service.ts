@@ -1,4 +1,5 @@
 import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
+import { Module } from "@app/types/module"
 
 export class InMemoryProjectDeploymentService implements ProjectDeploymentService {
 	private cloudProfiles: Set<string> = new Set()
