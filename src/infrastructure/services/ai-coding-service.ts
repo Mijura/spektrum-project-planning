@@ -4,7 +4,8 @@ import { AICodingClient } from "@jigjoy-io/ai-coding-client"
 export class JigJoyAICodingService implements AICodingService {
 	aiCodingClient: AICodingClient
 	constructor() {
-		this.aiCodingClient = new AICodingClient(process.env.AI_CODING_ENDPOINT || "")
+		const endpoint = process.env.AI_CODING_ENDPOINT as string
+		this.aiCodingClient = new AICodingClient(endpoint)
 	}
 
 	async initializeReactModule(projectId: string): Promise<Module> {

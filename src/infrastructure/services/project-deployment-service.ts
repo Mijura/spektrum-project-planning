@@ -1,14 +1,11 @@
 import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
+import { Module } from "@app/types/module"
 import { DeployModuleCommand, EnvironmentType, ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
 
 export class JigJoyProjectDeploymentService implements ProjectDeploymentService {
 	projectDeploymentClient: ProjectDeploymentClient
 	constructor() {
-		const endpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT
-		if (!endpoint) {
-			throw new Error("PROJECT_DEPLOYMENT_ENDPOINT is not set")
-		}
-
+		const endpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT as string
 		this.projectDeploymentClient = new ProjectDeploymentClient(endpoint)
 	}
 

@@ -114,31 +114,4 @@ export class ActivityMapper {
 	static toDTOs(activities: Activity<ActivityMetadata>[]): ActivityDTO[] {
 		return activities.map(this.toDTO)
 	}
-
-	static toDomain(data: ActivityDTO): Activity<ActivityMetadata> {
-		switch (data.type) {
-			case ActivityType.COMMENT_LEFT: {
-				return CommentLeft.rehydrate(data)
-			}
-			case ActivityType.DESCRIPTION_UPDATED: {
-				return DescriptionUpdated.rehydrate(data)
-			}
-			case ActivityType.FINISHED_WORK: {
-				return FinishedWork.rehydrate(data)
-			}
-			case ActivityType.STARTED_WORK: {
-				return StartedWork.rehydrate(data)
-			}
-			case ActivityType.TASK_CREATED: {
-				return TaskCreated.rehydrate(data)
-			}
-			case ActivityType.TITLE_UPDATED: {
-				return TitleUpdated.rehydrate(data)
-			}
-		}
-	}
-
-	static toDomains(data: ActivityDTO[]): Activity<ActivityMetadata>[] {
-		return data.map(this.toDomain)
-	}
 }
