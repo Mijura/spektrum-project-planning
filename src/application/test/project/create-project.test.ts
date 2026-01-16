@@ -8,6 +8,7 @@ import { AICodingService } from "@app/ports/services/ai-coding-service"
 import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
 import { Project } from "@domain/project/project"
 import { ProjectStatus } from "@domain/project/project-status"
+import { Module, ModuleType } from "@app/types/module"
 
 describe("Create Project", () => {
 	let createProjectUseCase: CreateProject
