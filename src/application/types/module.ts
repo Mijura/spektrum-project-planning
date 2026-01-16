@@ -1,8 +1,8 @@
-declare enum ModuleType {
+export declare enum ModuleType {
 	FRONTEND = "FRONTEND",
 }
 
-type Module = {
+export type Module = {
 	id: string
 	repositoryId: string
 	type: ModuleType
