@@ -29,7 +29,7 @@ describe("Mosaic Project Details Generator Integration Tests", () => {
 		// Validate reasonable length
 		expect(projectDetails.name.length).toBeLessThan(200)
 		expect(projectDetails.description.length).toBeLessThan(500)
-	})
+	}, 20_000)
 
 	it("should handle edge cases - minimal and complex task information", async () => {
 		// Test minimal information
@@ -54,5 +54,5 @@ describe("Mosaic Project Details Generator Integration Tests", () => {
 		expect(complexDetails.description.length).toBeGreaterThan(0)
 		expect(complexDetails.name.length).toBeLessThan(200)
 		expect(complexDetails.description.length).toBeLessThan(500)
-	})
+	}, 20_000)
 })

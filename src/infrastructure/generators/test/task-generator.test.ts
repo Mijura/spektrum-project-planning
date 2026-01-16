@@ -52,6 +52,6 @@ describe("Mosaic Task Generator Integration Tests", () => {
 			const activityLog = task.getActivityLog()
 			expect(activityLog.length).toBeGreaterThan(0) // Should have at least TASK_CREATED
 		}
-	})
+	}, 20_000)
 
 })
