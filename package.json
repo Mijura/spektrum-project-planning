@@ -25,7 +25,6 @@
 		"@jigjoy-io/project-deployment-client": "^0.0.8",
 		"@jigjoy-io/serverless-core": "^0.0.3",
 		"@jigjoy-io/task-contracts": "^0.0.2",
-		"socket.io": "^4.8.1",
 		"uuid": "^11.1.0",
 		"zod": "^4.1.13"
 	},
