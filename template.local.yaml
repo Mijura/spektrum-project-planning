@@ -1,0 +1,333 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: project-planning (LOCAL)
+
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
+
+Resources:
+  LocalApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: local
+      Cors:
+        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+        AllowHeaders: "'content-type'"
+        AllowOrigin: "'*'"
+
+  CreateProjectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/project/create-project.handler
+      Description: Create a new project (local)
+      Environment:
+        Variables:
+          PROJECT_TABLE: "Project"
+          AI_CODING_ENDPOINT: ""
+          PROJECT_DEPLOYMENT_ENDPOINT: ""
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /project
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/project/create-project.ts
+
+  UpdateProjectDetailsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/project/update-project-details.handler
+      Description: Update project details (local)
+      Environment:
+        Variables:
+          PROJECT_TABLE: "Project"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /project
+            Method: PUT
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/project/update-project-details.ts
+
+  FetchProjectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/project/fetch-project.handler
+      Description: Fetch a project by id (local)
+      Environment:
+        Variables:
+          PROJECT_TABLE: "Project"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /project/fetch/{projectId}
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/project/fetch-project.ts
+
+  FetchProjectsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/project/fetch-projects.handler
+      Description: Fetch all projects for an owner (local)
+      Environment:
+        Variables:
+          PROJECT_TABLE: "Project"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /project/fetch-all/{ownerId}
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/project/fetch-projects.ts
+
+  ArchiveProjectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/project/archive-project.handler
+      Description: Archive a project (local)
+      Environment:
+        Variables:
+          PROJECT_TABLE: "Project"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /project/archive
+            Method: PUT
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/project/archive-project.ts
+
+  PlanTasksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/task/plan-tasks.handler
+      MemorySize: 256
+      Timeout: 120
+      Description: Plan tasks using AI for a project (local)
+      Environment:
+        Variables:
+          PROJECT_TABLE: "Project"
+          TASK_TABLE: "Task"
+          OPENAI_API_KEY: ""
+          ANTHROPIC_API_KEY: ""
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /project/plan-tasks
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/plan-tasks.ts
+
+  CreateTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/task/create-task.handler
+      Description: Create a new task (local)
+      Environment:
+        Variables:
+          TASK_TABLE: "Task"
+          PROJECT_TABLE: "Project"
+          OPENAI_API_KEY: ""
+          ANTHROPIC_API_KEY: ""
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /task
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/create-task.ts
+
+  UpdateTaskTitleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/task/update-task-title.handler
+      Description: Update task title (local)
+      Environment:
+        Variables:
+          TASK_TABLE: "Task"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /task/title
+            Method: PUT
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/update-task-title.ts
+
+  UpdateTaskDescriptionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/task/update-task-description.handler
+      Description: Update task description (local)
+      Environment:
+        Variables:
+          TASK_TABLE: "Task"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /task/description
+            Method: PUT
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/update-task-description.ts
+
+  FetchTasksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/task/fetch-tasks.handler
+      Description: Fetch tasks for a project (local)
+      Environment:
+        Variables:
+          TASK_TABLE: "Task"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /task/fetch-all/{projectId}
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/fetch-tasks.ts
+
+  LeaveCommentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/task/leave-comment.handler
+      Description: Leave a comment on a task (local)
+      Environment:
+        Variables:
+          TASK_TABLE: "Task"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /task/leave-comment
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/leave-comment.ts
+
+  RecordWorkFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/infrastructure/http/handlers/task/record-work.handler
+      Description: Record work on a task (local)
+      Environment:
+        Variables:
+          TASK_TABLE: "Task"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LocalApi
+            Path: /task/record-work
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/record-work.ts
