@@ -6,10 +6,6 @@ describe("JigJoyAICodingService Integration Tests", () => {
 	const testProjectId = `test-project-${Date.now()}`
 
 	beforeAll(() => {
-		// Ensure the endpoint is configured
-		if (!process.env.AI_CODING_ENDPOINT) {
-			throw new Error("AI_CODING_ENDPOINT environment variable is not set")
-		}
 		service = new JigJoyAICodingService()
 	})
 

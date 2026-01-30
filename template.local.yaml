@@ -31,8 +31,7 @@ Resources:
       Environment:
         Variables:
           PROJECT_TABLE: "Project"
-          AI_CODING_ENDPOINT: ""
-          PROJECT_DEPLOYMENT_ENDPOINT: ""
+          JIGJOY_API_ENDPOINT: ""
       Events:
         Api:
           Type: Api
