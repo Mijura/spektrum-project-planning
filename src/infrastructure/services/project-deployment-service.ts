@@ -1,12 +1,13 @@
 import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
 import { Module } from "@app/types/module"
-import { DeployModuleCommand, EnvironmentType, ProjectDeploymentClient } from "@jigjoy-io/project-deployment-client"
+import { PlatformSDK } from "@jigjoy-io/platform-sdk"
+import { DeployModuleCommand, EnvironmentType } from "@jigjoy-io/project-deployment-client"
 
 export class JigJoyProjectDeploymentService implements ProjectDeploymentService {
-	projectDeploymentClient: ProjectDeploymentClient
+	jigjoyClient: PlatformSDK
 	constructor() {
-		const endpoint = process.env.PROJECT_DEPLOYMENT_ENDPOINT as string
-		this.projectDeploymentClient = new ProjectDeploymentClient(endpoint)
+		const endpoint = process.env.JIGJOY_API_ENDPOINT as string
+		this.jigjoyClient = new PlatformSDK(endpoint)
 	}
 
 	async deployModule(projectId: string, module: Module): Promise<EntryPoint> {
@@ -19,11 +20,11 @@ export class JigJoyProjectDeploymentService implements ProjectDeploymentService 
 			setAsEntryPoint: true,
 		}
 
-		const entryPoint = await this.projectDeploymentClient.deployModule(deploymentRequest)
+		const entryPoint = await this.jigjoyClient.deployment.deployModule(deploymentRequest)
 		return entryPoint
 	}
 
 	async createCloudProfile(projectId: string): Promise<void> {
-		return await this.projectDeploymentClient.createCloudProfile(projectId)
+		return await this.jigjoyClient.deployment.createCloudProfile(projectId)
 	}
 }

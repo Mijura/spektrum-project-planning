@@ -1,15 +1,15 @@
 import { AICodingService } from "@app/ports/services/ai-coding-service"
 import { Module } from "@app/types/module"
-import { AICodingClient } from "@jigjoy-io/ai-coding-client"
+import { PlatformSDK } from "@jigjoy-io/platform-sdk"
 
 export class JigJoyAICodingService implements AICodingService {
-	aiCodingClient: AICodingClient
+	jigjoyClient: PlatformSDK
 	constructor() {
-		const endpoint = process.env.AI_CODING_ENDPOINT as string
-		this.aiCodingClient = new AICodingClient(endpoint)
+		const endpoint = process.env.JIGJOY_API_ENDPOINT as string
+		this.jigjoyClient = new PlatformSDK(endpoint)
 	}
 
 	async initializeReactModule(projectId: string): Promise<Module> {
-		return await this.aiCodingClient.initializeReactModule(projectId)
+		return await this.jigjoyClient.ai.initalizeModule(projectId)
 	}
 }
