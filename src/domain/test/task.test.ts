@@ -8,7 +8,7 @@ import {
 	CommentLeftMetadata,
 	StartedWorkMetadata,
 	FinishedWorkMetadata,
-} from "@jigjoy-io/task-contracts"
+} from "@jigjoy-ai/task-contracts"
 import { TaskCreated } from "@domain/task/activity/activities/task-created"
 import { CommentLeft } from "@domain/task/activity/activities/comment-left"
 import { TitleUpdated } from "@domain/task/activity/activities/title-updated"

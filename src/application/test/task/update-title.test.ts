@@ -3,7 +3,7 @@ import { UpdateTaskTitle } from "@app/use-cases/task/update-title"
 import { InMemoryTaskRepository } from "@app/test/mocks/in-memory-task-repository"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { Task } from "@domain/task/task"
-import { ActivityType, TitleUpdatedMetadata } from "@jigjoy-io/task-contracts"
+import { ActivityType, TitleUpdatedMetadata } from "@jigjoy-ai/task-contracts"
 import { TitleUpdated } from "@domain/task/activity/activities/title-updated"
 
 describe("Update Task Title", () => {

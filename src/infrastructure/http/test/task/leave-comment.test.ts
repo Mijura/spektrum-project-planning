@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach } from "@rstest/core"
 import { LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
 import { createLeaveCommentHandler } from "@infra/http/factories/task/leave-comment"
 import { Task } from "@domain/task/task"
-import { TaskStatus } from "@jigjoy-io/task-contracts"
+import { TaskStatus } from "@jigjoy-ai/task-contracts"
 
 describe("Leave Comment Handler", () => {
 	let handler: (event: APIGatewayProxyEvent) => Promise<any>

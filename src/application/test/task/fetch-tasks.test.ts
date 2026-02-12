@@ -3,7 +3,7 @@ import { FetchTasks } from "@app/use-cases/task/fetch-tasks"
 import { InMemoryTaskRepository } from "@app/test/mocks/in-memory-task-repository"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { Task } from "@domain/task/task"
-import { TaskStatus, ActivityType } from "@jigjoy-io/task-contracts"
+import { TaskStatus, ActivityType } from "@jigjoy-ai/task-contracts"
 
 describe("Fetch Tasks", () => {
 	let fetchTasksUseCase: FetchTasks

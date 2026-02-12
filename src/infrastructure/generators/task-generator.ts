@@ -1,5 +1,5 @@
 import { TaskGenerator } from "@app/ports/generators/task-generator"
-import { Agent, Command } from "@jigjoy-io/mosaic"
+import { Agent, Command } from "@mozaik-ai/core"
 import { Task } from "@domain/task/task"
 import z from "zod"
 

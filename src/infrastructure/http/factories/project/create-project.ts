@@ -1,8 +1,8 @@
 import { ProjectMapper } from "@infra/http/mappers/project-mapper"
 import { CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
 import { Project } from "@domain/project/project"
-import { EntryPoint } from "@jigjoy-io/project-deployment-client"
-import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { EntryPoint } from "@jigjoy-ai/project-deployment-client"
+import { errorHandler, Responses, ValidationError } from "@jigjoy-ai/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createCreateProjectHandler(createNewProjectUseCase: CreateProjectUseCase) {

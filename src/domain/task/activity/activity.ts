@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid"
-import { ActivityMetadata, ActivityType } from "@jigjoy-io/task-contracts"
+import { ActivityMetadata, ActivityType } from "@jigjoy-ai/task-contracts"
 
 export class Activity<T extends ActivityMetadata> {
 	constructor(

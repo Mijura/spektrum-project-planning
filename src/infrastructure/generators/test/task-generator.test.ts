@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "@rstest/core"
 import { MosaicTaskGenerator } from "@infra/generators/task-generator"
 import { Task } from "@domain/task/task"
-import { TaskStatus } from "@jigjoy-io/task-contracts"
+import { TaskStatus } from "@jigjoy-ai/task-contracts"
 
 describe("Mosaic Task Generator Integration Tests", () => {
 	let generator: MosaicTaskGenerator

@@ -3,7 +3,7 @@ import { UpdateTaskDescription } from "@app/use-cases/task/update-description"
 import { InMemoryTaskRepository } from "@app/test/mocks/in-memory-task-repository"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { Task } from "@domain/task/task"
-import { ActivityType, DescriptionUpdatedMetadata } from "@jigjoy-io/task-contracts"
+import { ActivityType, DescriptionUpdatedMetadata } from "@jigjoy-ai/task-contracts"
 import { DescriptionUpdated } from "@domain/task/activity/activities/description-updated"
 
 describe("Update Task Description", () => {

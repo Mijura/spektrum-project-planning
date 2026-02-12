@@ -1,6 +1,6 @@
 import { AICodingService } from "@app/ports/services/ai-coding-service"
 import { Module } from "@app/types/module"
-import { PlatformSDK } from "@jigjoy-io/platform-sdk"
+import { PlatformSDK } from "@jigjoy-ai/platform-sdk"
 
 export class JigJoyAICodingService implements AICodingService {
 	jigjoyClient: PlatformSDK

@@ -4,7 +4,7 @@ import { CreateProjectUseCase } from "@app/ports/use-cases/project/create-projec
 import { createCreateProjectHandler } from "@infra/http/factories/project/create-project"
 import { Project } from "@domain/project/project"
 import { ProjectStatus } from "@domain/project/project-status"
-import { EntryPoint } from "@jigjoy-io/project-deployment-client"
+import { EntryPoint } from "@jigjoy-ai/project-deployment-client"
 
 describe("Create Project Handler", () => {
 	let handler: (event: APIGatewayProxyEvent) => Promise<any>

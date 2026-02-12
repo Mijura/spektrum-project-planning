@@ -3,7 +3,7 @@ import { RecordWork } from "@app/use-cases/task/record-work"
 import { InMemoryTaskRepository } from "@app/test/mocks/in-memory-task-repository"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { Task } from "@domain/task/task"
-import { TaskStatus, ActivityType, StartedWorkMetadata, FinishedWorkMetadata, Activity } from "@jigjoy-io/task-contracts"
+import { TaskStatus, ActivityType, StartedWorkMetadata, FinishedWorkMetadata, Activity } from "@jigjoy-ai/task-contracts"
 import { StartedWork } from "@domain/task/activity/activities/started-work"
 import { FinishedWork } from "@domain/task/activity/activities/finished-work"
 

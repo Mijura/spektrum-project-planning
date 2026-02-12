@@ -7,7 +7,7 @@ import { ProjectDetailsService } from "@app/services/project-details-service"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { Task } from "@domain/task/task"
-import { TaskStatus, ActivityType } from "@jigjoy-io/task-contracts"
+import { TaskStatus, ActivityType } from "@jigjoy-ai/task-contracts"
 import { Project } from "@domain/project/project"
 
 describe("Create Task", () => {

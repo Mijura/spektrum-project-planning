@@ -1,7 +1,7 @@
 import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
 import { Module } from "@app/types/module"
-import { PlatformSDK } from "@jigjoy-io/platform-sdk"
-import { DeployModuleCommand, EnvironmentType } from "@jigjoy-io/project-deployment-client"
+import { PlatformSDK } from "@jigjoy-ai/platform-sdk"
+import { DeployModuleCommand, EnvironmentType } from "@jigjoy-ai/project-deployment-client"
 
 export class JigJoyProjectDeploymentService implements ProjectDeploymentService {
 	jigjoyClient: PlatformSDK

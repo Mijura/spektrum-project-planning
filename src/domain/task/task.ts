@@ -4,7 +4,7 @@ import { TaskCreated } from "./activity/activities/task-created"
 import { CommentLeft } from "./activity/activities/comment-left"
 import { TitleUpdated } from "./activity/activities/title-updated"
 import { DescriptionUpdated } from "./activity/activities/description-updated"
-import { TaskStatus, ActivityMetadata, ActivityType } from "@jigjoy-io/task-contracts"
+import { TaskStatus, ActivityMetadata, ActivityType } from "@jigjoy-ai/task-contracts"
 import { StartedWork } from "./activity/activities/started-work"
 import { FinishedWork } from "./activity/activities/finished-work"
 

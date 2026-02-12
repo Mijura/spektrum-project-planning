@@ -1,5 +1,5 @@
 import { Task } from "@domain/task/task"
-import { ActivityType } from "@jigjoy-io/task-contracts"
+import { ActivityType } from "@jigjoy-ai/task-contracts"
 
 export interface RecordWorkUseCase {
 	/**

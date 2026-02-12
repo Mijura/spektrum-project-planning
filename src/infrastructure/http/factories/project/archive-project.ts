@@ -2,7 +2,7 @@ import { ProjectDTO } from "@infra/http/dtos/project"
 import { ProjectMapper } from "@infra/http/mappers/project-mapper"
 import { ArchiveProjectUseCase } from "@app/ports/use-cases/project/archive-project"
 import { Project } from "@domain/project/project"
-import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { errorHandler, Responses, ValidationError } from "@jigjoy-ai/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createArchiveProjectHandler(archiveProjectUseCase: ArchiveProjectUseCase) {

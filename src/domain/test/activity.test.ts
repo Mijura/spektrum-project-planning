@@ -1,6 +1,6 @@
 import { describe, it, expect } from "@rstest/core"
 import { Activity } from "@domain/task/activity/activity"
-import { ActivityType, ActivityMetadata } from "@jigjoy-io/task-contracts"
+import { ActivityType, ActivityMetadata } from "@jigjoy-ai/task-contracts"
 
 describe("Activity", () => {
 	describe("rehydrate", () => {

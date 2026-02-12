@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach } from "@rstest/core"
 import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
 import { createRecordWorkHandler } from "@infra/http/factories/task/record-work"
 import { Task } from "@domain/task/task"
-import { TaskStatus, ActivityType } from "@jigjoy-io/task-contracts"
+import { TaskStatus, ActivityType } from "@jigjoy-ai/task-contracts"
 
 describe("Record Work Handler", () => {
 	let handler: (event: APIGatewayProxyEvent) => Promise<any>

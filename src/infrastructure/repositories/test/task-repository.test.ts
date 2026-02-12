@@ -3,7 +3,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, DeleteCommand } from "@aws-sdk/lib-dynamodb"
 import { DynamoDBTaskRepository } from "@infra/repositories/task-repository"
 import { Task } from "@domain/task/task"
-import { TaskStatus, ActivityType } from "@jigjoy-io/task-contracts"
+import { TaskStatus, ActivityType } from "@jigjoy-ai/task-contracts"
 
 describe("DynamoDB Task Repository", () => {
 	let repository: DynamoDBTaskRepository

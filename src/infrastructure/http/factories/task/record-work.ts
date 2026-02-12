@@ -1,7 +1,7 @@
 import { Task } from "@domain/task/task"
-import { Task as TaskDTO } from "@jigjoy-io/task-contracts"
+import { Task as TaskDTO } from "@jigjoy-ai/task-contracts"
 import { TaskMapper } from "@infra/http/mappers/task-mapper"
-import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { errorHandler, Responses, ValidationError } from "@jigjoy-ai/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
 

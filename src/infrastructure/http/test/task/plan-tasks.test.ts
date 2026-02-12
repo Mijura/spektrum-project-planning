@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach } from "@rstest/core"
 import { PlanTasksUseCase } from "@app/ports/use-cases/task/plan-tasks"
 import { createPlanTasksHandler } from "@infra/http/factories/task/plan-tasks"
 import { Task } from "@domain/task/task"
-import { TaskStatus } from "@jigjoy-io/task-contracts"
+import { TaskStatus } from "@jigjoy-ai/task-contracts"
 
 describe("Plan Tasks Handler", () => {
 	let handler: (event: APIGatewayProxyEvent) => Promise<any>

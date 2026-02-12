@@ -9,7 +9,7 @@ import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { TaskGenerator } from "@app/ports/generators/task-generator"
 import { Task } from "@domain/task/task"
-import { TaskStatus } from "@jigjoy-io/task-contracts"
+import { TaskStatus } from "@jigjoy-ai/task-contracts"
 import { Project } from "@domain/project/project"
 
 describe("Plan Tasks", () => {

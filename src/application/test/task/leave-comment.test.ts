@@ -3,7 +3,7 @@ import { LeaveComment } from "@app/use-cases/task/leave-comment"
 import { InMemoryTaskRepository } from "@app/test/mocks/in-memory-task-repository"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { Task } from "@domain/task/task"
-import { ActivityType, CommentLeftMetadata } from "@jigjoy-io/task-contracts"
+import { ActivityType, CommentLeftMetadata } from "@jigjoy-ai/task-contracts"
 import { CommentLeft } from "@domain/task/activity/activities/comment-left"
 
 describe("Leave Comment", () => {

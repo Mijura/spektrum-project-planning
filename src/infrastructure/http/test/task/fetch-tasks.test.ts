@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach } from "@rstest/core"
 import { FetchTasksUseCase } from "@app/ports/use-cases/task/fetch-tasks"
 import { createFetchTasksHandler } from "@infra/http/factories/task/fetch-tasks"
 import { Task } from "@domain/task/task"
-import { TaskStatus, ActivityType } from "@jigjoy-io/task-contracts"
+import { TaskStatus, ActivityType } from "@jigjoy-ai/task-contracts"
 import { Activity } from "@domain/task/activity/activity"
 
 describe("Fetch Tasks Handler", () => {

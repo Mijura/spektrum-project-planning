@@ -2,7 +2,7 @@ import { ProjectDTO } from "@infra/http/dtos/project"
 import { ProjectMapper } from "@infra/http/mappers/project-mapper"
 import { FetchProjectsUseCase } from "@app/ports/use-cases/project/fetch-projects"
 import { Project } from "@domain/project/project"
-import { errorHandler, Responses, ValidationError } from "@jigjoy-io/serverless-core"
+import { errorHandler, Responses, ValidationError } from "@jigjoy-ai/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createFetchProjectsHandler(fetchProjectsUseCase: FetchProjectsUseCase) {

@@ -1,4 +1,4 @@
-import { ActivityType, DescriptionUpdatedMetadata } from "@jigjoy-io/task-contracts"
+import { ActivityType, DescriptionUpdatedMetadata } from "@jigjoy-ai/task-contracts"
 import { Activity } from "@domain/task/activity/activity"
 import { Task } from "@domain/task/task"
 

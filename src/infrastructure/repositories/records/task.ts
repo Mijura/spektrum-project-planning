@@ -1,4 +1,4 @@
-import { ActivityMetadata, ActivityType, TaskStatus } from "@jigjoy-io/task-contracts"
+import { ActivityMetadata, ActivityType, TaskStatus } from "@jigjoy-ai/task-contracts"
 
 export type ActivityRecord = {
 	id: string
