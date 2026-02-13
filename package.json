@@ -23,7 +23,7 @@
 		"@jigjoy-ai/platform-sdk": "^0.0.9",
 		"@jigjoy-ai/serverless-core": "^0.0.5",
 		"@jigjoy-ai/task-contracts": "^0.0.3",
-		"@mozaik-ai/core": "^0.7.1",
+		"@mozaik-ai/core": "^0.8.4",
 		"uuid": "^11.1.0",
 		"zod": "^4.1.13"
 	},
