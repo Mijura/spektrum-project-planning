@@ -19,6 +19,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/project/create-project.handler
       Description: Create a new project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
@@ -37,6 +40,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/project/update-project-details.handler
       Description: Update project details
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
@@ -54,6 +60,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/project/fetch-project.handler
       Description: Fetch a project by id
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
@@ -71,6 +80,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/project/fetch-projects.handler
       Description: Fetch all projects for an owner
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
@@ -88,6 +100,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/project/archive-project.handler
       Description: Archive a project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
@@ -107,6 +122,11 @@ Resources:
       MemorySize: 256
       Timeout: 120
       Description: Plan tasks using AI for a project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
@@ -127,6 +147,11 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/task/create-task.handler
       Description: Create a new task
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
@@ -147,6 +172,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/task/update-task-title.handler
       Description: Update task title
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
@@ -164,6 +192,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/task/update-task-description.handler
       Description: Update task description
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
@@ -181,6 +212,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/task/fetch-tasks.handler
       Description: Fetch tasks for a project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
@@ -198,6 +232,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/task/leave-comment.handler
       Description: Leave a comment on a task
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
@@ -215,6 +252,9 @@ Resources:
     Properties:
       Handler: src/infrastructure/http/handlers/task/record-work.handler
       Description: Record work on a task
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
@@ -230,7 +270,7 @@ Resources:
   ProjectTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: Project
+      TableName: !Sub "${AWS::StackName}-Project"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: id
@@ -261,7 +301,7 @@ Resources:
   TaskTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: Task
+      TableName: !Sub "${AWS::StackName}-Task"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: id
