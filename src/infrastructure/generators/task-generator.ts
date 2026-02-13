@@ -1,5 +1,5 @@
 import { TaskGenerator } from "@app/ports/generators/task-generator"
-import { Agent, Command } from "@mozaik-ai/core"
+import { MozaikAgent, MozaikRequest } from "@mozaik-ai/core"
 import { Task } from "@domain/task/task"
 import z from "zod"
 
@@ -104,17 +104,17 @@ export class MosaicTaskGenerator implements TaskGenerator {
 
         ---
         `
-		const command: Command = {
+		const request: MozaikRequest = {
 			model: "gpt-5.1",
 			task: prompt,
 			structuredOutput: this.outputSchema,
 		}
 
-		const agent = new Agent(command)
+		const agent = new MozaikAgent(request)
 
 		const output = await agent.act()
 		const createdTasks: Task[] = []
-		for (const generatedTask of output.tasks) {
+		for (const generatedTask of output.data.tasks) {
 			const t = Task.create("Product Owner", projectId, generatedTask.title, generatedTask.description)
 			createdTasks.push(t)
 		}

@@ -1,5 +1,5 @@
 import { ProjectDetailsGenerator } from "@app/ports/generators/project-details-generator"
-import { Agent, Command } from "@mozaik-ai/core"
+import { MozaikAgent, MozaikRequest } from "@mozaik-ai/core"
 import { Task } from "@domain/task/task"
 import z from "zod"
 
@@ -28,14 +28,14 @@ export class MosaicProjectDetailsGenerator implements ProjectDetailsGenerator {
             }
         `
 
-		const command: Command = {
+		const request: MozaikRequest = {
 			model: "gpt-5.1",
 			task: prompt,
 			structuredOutput: outputSchema,
 		}
 
-		const agent = new Agent(command)
-		const projectDetails: ProjectDetails = await agent.act()
-		return projectDetails
+		const agent = new MozaikAgent(request)
+		const result = await agent.act()
+		return result.data as ProjectDetails
 	}
 }
