@@ -1,9 +1,9 @@
 version = 0.1
 
 [default.deploy.parameters]
-stack_name = "spektrum-project-planning"
+stack_name = "project-planning"
 resolve_s3 = true
-s3_prefix = "spektrum-project-planning"
+s3_prefix = "project-planning"
 region = "eu-west-1"
 profile = "spektrum-dev"
 confirm_changeset = true

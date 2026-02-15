@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: >
-  project-planning
+  Project Planning is a project and task management service for the Spektrum AI coding platform.
 
 Transform:
   - AWS::Serverless-2016-10-31
