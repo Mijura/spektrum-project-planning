@@ -26,6 +26,7 @@ Resources:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
           JIGJOY_API_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:JigJoyApiEndpoint}}"
+          INTERNAL_SERVICE_TOKEN: "{{resolve:secretsmanager:vars:SecretString:InternalServiceToken}}"
     Metadata:
       BuildMethod: esbuild
       BuildProperties:

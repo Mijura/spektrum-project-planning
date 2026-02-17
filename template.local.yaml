@@ -32,6 +32,7 @@ Resources:
         Variables:
           PROJECT_TABLE: "Project"
           JIGJOY_API_ENDPOINT: ""
+          INTERNAL_SERVICE_TOKEN: ""
       Events:
         Api:
           Type: Api
