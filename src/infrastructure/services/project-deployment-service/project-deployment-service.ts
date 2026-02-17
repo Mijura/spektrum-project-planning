@@ -7,7 +7,10 @@ export class JigJoyProjectDeploymentService implements ProjectDeploymentService 
 	spektrumClient: SpektrumClient
 	constructor() {
 		const endpoint = process.env.JIGJOY_API_ENDPOINT as string
-		this.spektrumClient = new SpektrumClient(endpoint, { kind: "internal", token: process.env.INTERNAL_SERVICE_TOKEN as string })
+		this.spektrumClient = new SpektrumClient(endpoint, {
+			kind: "internal",
+			token: process.env.INTERNAL_SERVICE_TOKEN as string,
+		})
 	}
 
 	async deployModule(projectId: string, module: Module): Promise<EntryPoint> {
