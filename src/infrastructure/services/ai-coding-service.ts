@@ -1,15 +1,15 @@
 import { AICodingService } from "@app/ports/services/ai-coding-service"
 import { Module } from "@app/types/module"
-import { PlatformSDK } from "@jigjoy-ai/platform-sdk"
+import { SpektrumClient } from "@jigjoy-ai/spektrum-client"
 
 export class JigJoyAICodingService implements AICodingService {
-	jigjoyClient: PlatformSDK
+	spektrumClient: SpektrumClient
 	constructor() {
 		const endpoint = process.env.JIGJOY_API_ENDPOINT as string
-		this.jigjoyClient = new PlatformSDK(endpoint)
+		this.spektrumClient = new SpektrumClient(endpoint, { kind: "internal", token: process.env.INTERNAL_SERVICE_TOKEN as string })
 	}
 
 	async initializeReactModule(projectId: string): Promise<Module> {
-		return await this.jigjoyClient.ai.initalizeModule(projectId)
+		return await this.spektrumClient.ai.initalizeModule(projectId)
 	}
 }
