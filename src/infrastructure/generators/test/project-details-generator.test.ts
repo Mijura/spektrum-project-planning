@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "@rstest/core"
-import { MosaicProjectDetailsGenerator } from "@infra/generators/project-details-generator"
+import { MosaicProjectDetailsGenerator } from "@infra/generators/project-details-generator/project-details-generator"
 import { Task } from "@domain/task/task"
 
 describe("Mosaic Project Details Generator Integration Tests", () => {
@@ -10,7 +10,12 @@ describe("Mosaic Project Details Generator Integration Tests", () => {
 	})
 
 	it("should generate valid project details with correct structure and format", async () => {
-		const task = Task.create("user-123", "project-456", "Create a note-taking app", "Build a simple app to take notes")
+		const task = Task.create(
+			"user-123",
+			"project-456",
+			"Create a note-taking app",
+			"Build a simple app to take notes",
+		)
 
 		const projectDetails = await generator.generateProjectDetails(task)
 

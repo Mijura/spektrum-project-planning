@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from "@rstest/core"
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, DeleteCommand } from "@aws-sdk/lib-dynamodb"
-import { DynamoDBTaskRepository } from "@infra/repositories/task-repository"
+import { DynamoDBTaskRepository } from "@infra/repositories/task-repository/task-repository"
 import { Task } from "@domain/task/task"
 import { TaskStatus, ActivityType } from "@jigjoy-ai/task-contracts"
 

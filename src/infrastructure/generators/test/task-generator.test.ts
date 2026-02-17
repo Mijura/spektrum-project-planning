@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "@rstest/core"
-import { MosaicTaskGenerator } from "@infra/generators/task-generator"
+import { MosaicTaskGenerator } from "@infra/generators/task-generator/task-generator"
 import { Task } from "@domain/task/task"
 import { TaskStatus } from "@jigjoy-ai/task-contracts"
 
@@ -53,5 +53,4 @@ describe("Mosaic Task Generator Integration Tests", () => {
 			expect(activityLog.length).toBeGreaterThan(0) // Should have at least TASK_CREATED
 		}
 	}, 20_000)
-
 })

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from "@rstest/core"
-import { JigJoyProjectDeploymentService } from "@infra/services/project-deployment-service"
+import { JigJoyProjectDeploymentService } from "@infra/services/project-deployment-service/project-deployment-service"
 
 describe("JigJoyProjectDeploymentService Integration Tests", () => {
 	let service: JigJoyProjectDeploymentService
