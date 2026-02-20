@@ -8,6 +8,11 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 export function createFetchProjectsHandler(fetchProjectsUseCase: FetchProjectsUseCase) {
 	return async function fetchProjectsHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 		try {
+
+			const userId = event.headers?.["x-user-id"] || event.headers?.["X-User-Id"]
+
+			console.log(`userId: ${userId}`)
+			
 			const ownerId = event.pathParameters?.ownerId
 			if (!ownerId) throw new ValidationError("Missing path parameter: ownerId")
 
