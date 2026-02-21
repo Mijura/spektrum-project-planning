@@ -6,15 +6,13 @@ import { errorHandler, Responses, ValidationError } from "@jigjoy-ai/serverless-
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createCreateProjectHandler(createNewProjectUseCase: CreateProjectUseCase) {
-	return async function createProjectHandler({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+	return async function createProjectHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 		try {
-			if (!body) throw new ValidationError("No page body")
+			const userId = event.headers?.["x-user-id"] || event.headers?.["X-User-Id"]
 
-			const { owner } = JSON.parse(body)
+			if (!userId) throw new ValidationError("Missing header: x-user-id or X-User-Id")
 
-			if (!owner) throw new ValidationError("Missing path parameter: owner")
-
-			const result: { project: Project; entryPoint: EntryPoint } = await createNewProjectUseCase.execute(owner)
+			const result: { project: Project; entryPoint: EntryPoint } = await createNewProjectUseCase.execute(userId)
 
 			return Responses._201({
 				project: ProjectMapper.toDto(result.project),

@@ -6,13 +6,17 @@ import { Task as TaskDTO } from "@jigjoy-ai/task-contracts"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createLeaveCommentHandler(leaveCommentUseCase: LeaveCommentUseCase) {
-	return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+	return async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 		try {
-			if (!body) throw new ValidationError("No request body provided")
+			if (!event.body) throw new ValidationError("No request body provided")
 
-			const { taskId, commentText, authorId } = JSON.parse(body)
+			const { taskId, commentText } = JSON.parse(event.body)
 
-			const task: Task = await leaveCommentUseCase.execute(taskId, commentText, authorId)
+			const userId = event.headers?.["x-user-id"] || event.headers?.["X-User-Id"]
+
+			if (!userId) throw new ValidationError("Missing header: x-user-id or X-User-Id")
+
+			const task: Task = await leaveCommentUseCase.execute(taskId, commentText, userId)
 			const taskDTO: TaskDTO = TaskMapper.toDTO(task)
 			return Responses._200(taskDTO)
 		} catch (error) {
