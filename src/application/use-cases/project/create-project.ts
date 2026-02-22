@@ -1,9 +1,9 @@
 import { Project } from "@domain/project/project"
-import { CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
+import { CreateProjectResponse, CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { AICodingService } from "@app/ports/services/ai-coding-service"
 import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
-import { AuthContext, requireUserId } from "@heksagon/app"
+import { AuthContext, requireAuthenticated, requireUserId } from "@heksagon/app"
 
 export class CreateProject implements CreateProjectUseCase {
 	constructor(
@@ -12,7 +12,9 @@ export class CreateProject implements CreateProjectUseCase {
 		private readonly projectDeploymentService: ProjectDeploymentService,
 	) {}
 
-	async execute(authContext: AuthContext): Promise<{ project: Project; entryPoint: EntryPoint }> {
+	async execute(params: void, authContext: AuthContext): Promise<CreateProjectResponse> {
+		requireAuthenticated(authContext)
+
 		const userId = requireUserId(authContext)
 		const project: Project = Project.create("My Project", "Empty project...", userId)
 
