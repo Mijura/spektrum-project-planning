@@ -1,7 +1,7 @@
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { LeaveCommentParams, LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
 import { Task } from "@domain/task/task"
-import { AuthContext, requireUserId } from "@jigjoy-ai/auth-context"
+import { AuthContext, requireUserId } from "@heksagon/app"
 
 export class LeaveComment implements LeaveCommentUseCase {
 	constructor(private readonly taskRepository: TaskRepository) {}
