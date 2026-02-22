@@ -1,10 +1,8 @@
 import { Project } from "@domain/project/project"
+import { AuthenticatedUseCase } from "@heksagon/app"
 
-export interface ArchiveProjectUseCase {
-	/**
-	 * Archives a project.
-	 * @param projectId - The ID of the project to archive.
-	 * @returns The archived Project object.
-	 */
-	execute(projectId: string): Promise<Project>
+export type ArchiveProjectParams = {
+	projectId: string
 }
+
+export type ArchiveProjectUseCase = AuthenticatedUseCase<ArchiveProjectParams, Project>

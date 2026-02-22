@@ -1,10 +1,8 @@
 import { Project } from "@domain/project/project"
+import { AuthenticatedUseCase } from "@heksagon/app"
 
-export interface FetchProjectUseCase {
-	/**
-	 * Fetches a project by its ID.
-	 * @param projectId - The ID of the project to fetch.
-	 * @returns The fetched Project object.
-	 */
-	execute(projectId: string): Promise<Project>
+export type FetchProjectParams = {
+	projectId: string
 }
+
+export type FetchProjectUseCase = AuthenticatedUseCase<FetchProjectParams, Project>

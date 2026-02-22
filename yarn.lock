@@ -719,6 +719,18 @@
   resolved "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.12.tgz"
   integrity sha512-uqZMTLr/zR/ed4jIGnwSLkaHmPjOjJvnm6TVVitAa08SLS9Z0VM8wIRx7gWbJB5/J54YuIMInDquWyYvQLZkgw==
 
+"@heksagon/app@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.npmjs.org/@heksagon/app/-/app-0.0.6.tgz"
+  integrity sha512-R7rx2uRTULIvTPwaZ3a/P892nCHXVEoZ8yQVoBxk9KSp451l7Buip7Re/v0ve8X59G/99QC5dChwJuZSlTXAkw==
+
+"@heksagon/http@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.npmjs.org/@heksagon/http/-/http-0.0.3.tgz"
+  integrity sha512-kxp1w4NZcJN9lhE0ygFMmFj0WlRpImAtkV51aGJrG9KF6rrzrRW+vEnvWttZ2kKLHRQxue1y29mWhm/q+M7UXg==
+  dependencies:
+    "@heksagon/app" "^0.0.6"
+
 "@jigjoy-ai/account-and-billing-client@^0.5.1":
   version "0.5.1"
   resolved "https://npm.pkg.github.com/download/@jigjoy-ai/account-and-billing-client/0.5.1/749d3dc604d6d7fc0dca669dda5b29ca7c8994c3"

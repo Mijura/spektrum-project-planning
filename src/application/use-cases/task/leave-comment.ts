@@ -1,16 +1,21 @@
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
+import { LeaveCommentParams, LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
 import { Task } from "@domain/task/task"
+import { AuthContext, requireUserId } from "@jigjoy-ai/auth-context"
 
 export class LeaveComment implements LeaveCommentUseCase {
 	constructor(private readonly taskRepository: TaskRepository) {}
 
-	async execute(taskId: string, commentText: string, authorId: string): Promise<Task> {
+	async execute(params: LeaveCommentParams, authContext: AuthContext): Promise<Task> {
+		const userId = requireUserId(authContext)
+		const { taskId, commentText } = params
+
 		const task: Task | null = await this.taskRepository.get(taskId)
 		if (!task) {
 			throw new Error("Task not found")
 		}
-		task.leaveComment(authorId, commentText)
+
+		task.leaveComment(userId, commentText)
 
 		return await this.taskRepository.save(task)
 	}

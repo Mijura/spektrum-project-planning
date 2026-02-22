@@ -1,10 +1,11 @@
 import { Project } from "@domain/project/project"
+import { AuthContext } from "@heksagon/app"
 
 export interface FetchProjectsUseCase {
 	/**
-	 * Fetches all projects for a given owner ID.
-	 * @param ownerId - The ID of the owner to fetch projects for.
+	 * Fetches all projects for the authenticated user.
+	 * @param authContext - The authentication context.
 	 * @returns A list of Project objects.
 	 */
-	execute(ownerId: string): Promise<Project[]>
+	execute(authContext: AuthContext): Promise<Project[]>
 }
