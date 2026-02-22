@@ -1,7 +1,8 @@
-import { CreateTaskUseCase } from "@app/ports/use-cases/task/create-task"
+import { CreateTaskParams, CreateTaskUseCase } from "@app/ports/use-cases/task/create-task"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { ProjectDetailsService } from "@app/services/project-details-service"
 import { Task } from "@domain/task/task"
+import { AuthContext, requireAuthenticated } from "@heksagon/app"
 
 export class CreateTask implements CreateTaskUseCase {
 	constructor(
@@ -9,7 +10,11 @@ export class CreateTask implements CreateTaskUseCase {
 		private readonly taskRepository: TaskRepository,
 	) {}
 
-	async execute(projectId: string, title: string, description: string): Promise<Task> {
+	async execute(params: CreateTaskParams, authContext: AuthContext): Promise<Task> {
+		requireAuthenticated(authContext)
+
+		const { projectId, title, description } = params
+
 		const task: Task = Task.create("User", projectId, title, description)
 
 		await this.projectDetailsService.ensureProjectDetailsFromTask(task)

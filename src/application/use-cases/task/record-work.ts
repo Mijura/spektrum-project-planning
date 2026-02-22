@@ -1,17 +1,17 @@
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
+import { RecordWorkParams, RecordWorkUseCase } from "@app/ports/use-cases/task/record-work"
 import { Task } from "@domain/task/task"
+import { AuthContext, requireAuthenticated } from "@heksagon/app"
 import { ActivityType } from "@jigjoy-ai/task-contracts"
 
 export class RecordWork implements RecordWorkUseCase {
 	constructor(private readonly taskRepository: TaskRepository) {}
 
-	async execute(
-		taskId: string,
-		workerId: string,
-		message: string,
-		type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK,
-	): Promise<Task> {
+	async execute(params: RecordWorkParams, authContext: AuthContext): Promise<Task> {
+		requireAuthenticated(authContext)
+
+		const { taskId, workerId, message, type } = params
+
 		const task = await this.taskRepository.get(taskId)
 
 		if (!task) {

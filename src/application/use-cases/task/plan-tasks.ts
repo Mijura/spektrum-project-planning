@@ -1,8 +1,9 @@
 import { ProjectDetailsService } from "@app/services/project-details-service"
-import { PlanTasksUseCase } from "@app/ports/use-cases/task/plan-tasks"
+import { PlanTasksParams, PlanTasksUseCase } from "@app/ports/use-cases/task/plan-tasks"
 import { Task } from "@domain/task/task"
 import { TaskGenerator } from "@app/ports/generators/task-generator"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
+import { AuthContext, requireAuthenticated } from "@heksagon/app"
 
 export class PlanTasks implements PlanTasksUseCase {
 	constructor(
@@ -11,7 +12,11 @@ export class PlanTasks implements PlanTasksUseCase {
 		private readonly taskGenerator: TaskGenerator,
 	) {}
 
-	async execute(projectId: string, projectDescription: string): Promise<Task[]> {
+	async execute(params: PlanTasksParams, authContext: AuthContext): Promise<Task[]> {
+		requireAuthenticated(authContext)
+
+		const { projectId, projectDescription } = params
+
 		console.log("Planning tasks with AI")
 		const task = Task.create("Product Owner", projectId, "Plan Tasks", projectDescription)
 		await this.projectDetailsService.ensureProjectDetailsFromTask(task)

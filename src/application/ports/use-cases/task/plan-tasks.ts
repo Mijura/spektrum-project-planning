@@ -1,11 +1,9 @@
 import { Task } from "@domain/task/task"
+import { AuthenticatedUseCase } from "@heksagon/app"
 
-export interface PlanTasksUseCase {
-	/**
-	 * Plans tasks with AI for a given project.
-	 * @param projectId - The ID of the project to plan tasks for.
-	 * @param projectDescription - The description of the project to plan tasks for.
-	 * @returns A list of Task objects.
-	 */
-	execute(projectId: string, projectDescription: string): Promise<Task[]>
+export type PlanTasksParams = {
+	projectId: string
+	projectDescription: string
 }
+
+export type PlanTasksUseCase = AuthenticatedUseCase<PlanTasksParams, Task[]>

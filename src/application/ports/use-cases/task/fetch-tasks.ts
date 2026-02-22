@@ -1,10 +1,8 @@
 import { Task } from "@domain/task/task"
+import { AuthenticatedUseCase } from "@heksagon/app"
 
-export interface FetchTasksUseCase {
-	/**
-	 * Fetches all tasks for a given project ID.
-	 * @param projectId - The ID of the project to fetch tasks for.
-	 * @returns A list of Task objects.
-	 */
-	execute(projectId: string): Promise<Task[]>
+export type FetchTasksParams = {
+	projectId: string
 }
+
+export type FetchTasksUseCase = AuthenticatedUseCase<FetchTasksParams, Task[]>

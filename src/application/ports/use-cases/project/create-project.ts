@@ -6,4 +6,4 @@ export type CreateProjectResponse = {
 	entryPoint: EntryPoint
 }
 
-export type CreateProjectUseCase = AuthenticatedUseCase<void, CreateProjectResponse>
+export type CreateProjectUseCase = AuthenticatedUseCase<null, CreateProjectResponse>

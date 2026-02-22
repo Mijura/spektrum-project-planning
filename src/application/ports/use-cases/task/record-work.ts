@@ -1,19 +1,12 @@
 import { Task } from "@domain/task/task"
+import { AuthenticatedUseCase } from "@heksagon/app"
 import { ActivityType } from "@jigjoy-ai/task-contracts"
 
-export interface RecordWorkUseCase {
-	/**
-	 * Records work on a task.
-	 * @param taskId - The ID of the task.
-	 * @param workerId - The worker to record work.
-	 * @param message - The message to record.
-	 * @param type - The type of work to record.
-	 * @returns The task with the recorded activity.
-	 */
-	execute(
-		taskId: string,
-		workerId: string,
-		message: string,
-		type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK,
-	): Promise<Task>
+export type RecordWorkParams = {
+	taskId: string
+	workerId: string
+	message: string
+	type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK
 }
+
+export type RecordWorkUseCase = AuthenticatedUseCase<RecordWorkParams, Task>

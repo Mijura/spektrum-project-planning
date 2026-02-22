@@ -12,7 +12,7 @@ export class CreateProject implements CreateProjectUseCase {
 		private readonly projectDeploymentService: ProjectDeploymentService,
 	) {}
 
-	async execute(params: void, authContext: AuthContext): Promise<CreateProjectResponse> {
+	async execute(params: null, authContext: AuthContext): Promise<CreateProjectResponse> {
 		requireAuthenticated(authContext)
 
 		const userId = requireUserId(authContext)
