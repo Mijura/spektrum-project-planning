@@ -2,6 +2,8 @@ import { ProjectDeploymentService } from "@app/ports/services/project-deployment
 import { Module } from "@app/types/module"
 import { SpektrumClient } from "@jigjoy-ai/spektrum-client"
 import { DeployModuleCommand, EnvironmentType } from "@jigjoy-ai/project-deployment-client"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
 export class JigJoyProjectDeploymentService implements ProjectDeploymentService {
 	spektrumClient: SpektrumClient
@@ -13,7 +15,7 @@ export class JigJoyProjectDeploymentService implements ProjectDeploymentService 
 		})
 	}
 
-	async deployModule(projectId: string, module: Module): Promise<EntryPoint> {
+	async deployModule(projectId: string, module: Module, auth: Auth<UserData>): Promise<EntryPoint> {
 		const deploymentRequest: DeployModuleCommand = {
 			projectId: projectId,
 			moduleId: module.id,
@@ -23,11 +25,11 @@ export class JigJoyProjectDeploymentService implements ProjectDeploymentService 
 			setAsEntryPoint: true,
 		}
 
-		const entryPoint = await this.spektrumClient.deployment.deployModule(deploymentRequest)
+		const entryPoint = await this.spektrumClient.deployment.deployModule(deploymentRequest, auth)
 		return entryPoint
 	}
 
-	async createCloudProfile(projectId: string): Promise<void> {
-		return await this.spektrumClient.deployment.createCloudProfile(projectId)
+	async createCloudProfile(projectId: string, auth: Auth<UserData>): Promise<void> {
+		return await this.spektrumClient.deployment.createCloudProfile(projectId, auth)
 	}
 }

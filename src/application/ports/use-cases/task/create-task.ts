@@ -1,5 +1,6 @@
 import { Task } from "@domain/task/task"
 import { AuthenticatedUseCase } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
 export type CreateTaskParams = {
 	projectId: string
@@ -7,4 +8,4 @@ export type CreateTaskParams = {
 	description: string
 }
 
-export type CreateTaskUseCase = AuthenticatedUseCase<CreateTaskParams, Task>
+export type CreateTaskUseCase = AuthenticatedUseCase<UserData, CreateTaskParams, Task>

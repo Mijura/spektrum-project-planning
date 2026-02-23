@@ -1,21 +1,22 @@
-import { UpdateTaskDescriptionUseCase } from "@app/ports/use-cases/task/update-description"
+import { UpdateTaskDescriptionParams, UpdateTaskDescriptionUseCase } from "@app/ports/use-cases/task/update-description"
 import { Task } from "@domain/task/task"
+import { Auth } from "@heksagon/app"
+import { extractAuthData } from "@heksagon/http"
 import { TaskMapper } from "@infra/http/mappers/task-mapper"
+import { UserData } from "@jigjoy-ai/auth"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-ai/serverless-core"
 import { Task as TaskDTO } from "@jigjoy-ai/task-contracts"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 
 export function createUpdateTaskDescriptionHandler(updateTaskDescriptionUseCase: UpdateTaskDescriptionUseCase) {
-	return async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+	return async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 		try {
-			if (!body) throw new ValidationError("No page body")
+			if (!event.body) throw new ValidationError("No page body")
 
-			const taskDTO: TaskDTO = JSON.parse(body)
+			const auth: Auth<UserData> = extractAuthData(event)
+			const params: UpdateTaskDescriptionParams = JSON.parse(event.body)
 
-			const taskId = taskDTO.id
-			const newDescription = taskDTO.description
-
-			const updatedTask: Task = await updateTaskDescriptionUseCase.execute(taskId, newDescription)
+			const updatedTask: Task = await updateTaskDescriptionUseCase.execute(auth, params)
 			const updatedTaskDTO: TaskDTO = TaskMapper.toDTO(updatedTask)
 			return Responses._200(updatedTaskDTO)
 		} catch (error) {

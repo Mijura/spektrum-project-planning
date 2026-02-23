@@ -1,13 +1,14 @@
 import { Task } from "@domain/task/task"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
 import { UpdateTaskTitleParams, UpdateTaskTitleUseCase } from "@app/ports/use-cases/task/update-title"
-import { AuthContext, requireAuthenticated } from "@heksagon/app"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
 export class UpdateTaskTitle implements UpdateTaskTitleUseCase {
 	constructor(private readonly taskRepository: TaskRepository) {}
 
-	async execute(params: UpdateTaskTitleParams, authContext: AuthContext): Promise<Task> {
-		requireAuthenticated(authContext)
+	async execute(auth: Auth<UserData>, params: UpdateTaskTitleParams): Promise<Task> {
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
 
 		const { taskId, newTitle } = params
 

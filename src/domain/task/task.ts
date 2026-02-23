@@ -50,8 +50,8 @@ export class Task {
 		this.activities.push(DescriptionUpdated.create(userId, this, newDescription))
 	}
 
-	leaveComment(authorId: string, commentText: string) {
-		const commentActivity = CommentLeft.create(this, authorId, commentText)
+	leaveComment(authorName: string, commentText: string) {
+		const commentActivity = CommentLeft.create(this, authorName, commentText)
 		this.updated = new Date().toISOString()
 		this.activities.push(commentActivity)
 	}

@@ -1,5 +1,6 @@
 import { Task } from "@domain/task/task"
 import { AuthenticatedUseCase } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 import { ActivityType } from "@jigjoy-ai/task-contracts"
 
 export type RecordWorkParams = {
@@ -9,4 +10,4 @@ export type RecordWorkParams = {
 	type: ActivityType.STARTED_WORK | ActivityType.FINISHED_WORK
 }
 
-export type RecordWorkUseCase = AuthenticatedUseCase<RecordWorkParams, Task>
+export type RecordWorkUseCase = AuthenticatedUseCase<UserData, RecordWorkParams, Task>
