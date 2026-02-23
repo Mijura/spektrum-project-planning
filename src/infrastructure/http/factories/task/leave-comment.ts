@@ -1,7 +1,9 @@
 import { LeaveCommentParams, LeaveCommentUseCase } from "@app/ports/use-cases/task/leave-comment"
 import { Task } from "@domain/task/task"
+import { Auth } from "@heksagon/app"
 import { TaskMapper } from "@infra/http/mappers/task-mapper"
-import { AuthContext, extractAuthContext } from "@jigjoy-ai/auth-context"
+import { UserData } from "@jigjoy-ai/auth"
+import { extractAuthData } from "@heksagon/http"
 import { errorHandler, Responses, ValidationError } from "@jigjoy-ai/serverless-core"
 import { Task as TaskDTO } from "@jigjoy-ai/task-contracts"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
@@ -11,15 +13,10 @@ export function createLeaveCommentHandler(leaveCommentUseCase: LeaveCommentUseCa
 		try {
 			if (!event.body) throw new ValidationError("No request body provided")
 
-			const { taskId, commentText } = JSON.parse(event.body)
+			const auth: Auth<UserData> = extractAuthData(event)
+			const params: LeaveCommentParams = JSON.parse(event.body)
 
-			const authContext: AuthContext = extractAuthContext(event.headers)
-
-			const params: LeaveCommentParams = {
-				taskId,
-				commentText,
-			}
-			const task: Task = await leaveCommentUseCase.execute(params, authContext)
+			const task: Task = await leaveCommentUseCase.execute(auth, params)
 			const taskDTO: TaskDTO = TaskMapper.toDTO(task)
 			return Responses._200(taskDTO)
 		} catch (error) {

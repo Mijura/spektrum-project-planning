@@ -1,18 +1,17 @@
 import { ProjectMapper } from "@infra/http/mappers/project-mapper"
-import { CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
-import { Project } from "@domain/project/project"
-import { EntryPoint } from "@jigjoy-ai/project-deployment-client"
-import { errorHandler, Responses, ValidationError } from "@jigjoy-ai/serverless-core"
+import { CreateProjectResponse, CreateProjectUseCase } from "@app/ports/use-cases/project/create-project"
+import { errorHandler, Responses } from "@jigjoy-ai/serverless-core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
+import { extractAuthData } from "@heksagon/http"
 
 export function createCreateProjectHandler(createNewProjectUseCase: CreateProjectUseCase) {
 	return async function createProjectHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 		try {
-			const userId = event.headers?.["x-user-id"] || event.headers?.["X-User-Id"]
+			const auth: Auth<UserData> = extractAuthData(event)
 
-			if (!userId) throw new ValidationError("Missing header: x-user-id or X-User-Id")
-
-			const result: { project: Project; entryPoint: EntryPoint } = await createNewProjectUseCase.execute(userId)
+			const result: CreateProjectResponse = await createNewProjectUseCase.execute(auth)
 
 			return Responses._201({
 				project: ProjectMapper.toDto(result.project),

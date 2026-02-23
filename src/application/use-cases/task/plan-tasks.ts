@@ -3,7 +3,8 @@ import { PlanTasksParams, PlanTasksUseCase } from "@app/ports/use-cases/task/pla
 import { Task } from "@domain/task/task"
 import { TaskGenerator } from "@app/ports/generators/task-generator"
 import { TaskRepository } from "@app/ports/repositories/task-repository"
-import { AuthContext, requireAuthenticated } from "@heksagon/app"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
 export class PlanTasks implements PlanTasksUseCase {
 	constructor(
@@ -12,8 +13,8 @@ export class PlanTasks implements PlanTasksUseCase {
 		private readonly taskGenerator: TaskGenerator,
 	) {}
 
-	async execute(params: PlanTasksParams, authContext: AuthContext): Promise<Task[]> {
-		requireAuthenticated(authContext)
+	async execute(auth: Auth<UserData>, params: PlanTasksParams): Promise<Task[]> {
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
 
 		const { projectId, projectDescription } = params
 

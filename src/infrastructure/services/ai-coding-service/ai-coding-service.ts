@@ -1,5 +1,7 @@
 import { AICodingService } from "@app/ports/services/ai-coding-service"
 import { Module } from "@app/types/module"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 import { SpektrumClient } from "@jigjoy-ai/spektrum-client"
 
 export class JigJoyAICodingService implements AICodingService {
@@ -12,7 +14,7 @@ export class JigJoyAICodingService implements AICodingService {
 		})
 	}
 
-	async initializeReactModule(projectId: string): Promise<Module> {
-		return await this.spektrumClient.ai.initalizeModule(projectId)
+	async initializeReactModule(projectId: string, auth: Auth<UserData>): Promise<Module> {
+		return await this.spektrumClient.ai.initalizeModule(projectId, auth)
 	}
 }

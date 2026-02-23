@@ -3,7 +3,8 @@ import { CreateProjectResponse, CreateProjectUseCase } from "@app/ports/use-case
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { AICodingService } from "@app/ports/services/ai-coding-service"
 import { ProjectDeploymentService } from "@app/ports/services/project-deployment-service"
-import { AuthContext, requireAuthenticated, requireUserId } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
+import { Auth } from "@heksagon/app"
 
 export class CreateProject implements CreateProjectUseCase {
 	constructor(
@@ -12,20 +13,23 @@ export class CreateProject implements CreateProjectUseCase {
 		private readonly projectDeploymentService: ProjectDeploymentService,
 	) {}
 
-	async execute(params: null, authContext: AuthContext): Promise<CreateProjectResponse> {
-		requireAuthenticated(authContext)
+	async execute(auth: Auth<UserData>): Promise<CreateProjectResponse> {
 
-		const userId = requireUserId(authContext)
-		const project: Project = Project.create("My Project", "Empty project...", userId)
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
+		const project: Project = Project.create("My Project", "Empty project...", auth.data.userId)
 
-		const initializedModulePromise = this.aiCodingService.initializeReactModule(project.id)
-		const cloudProfilePromise = this.projectDeploymentService.createCloudProfile(project.id)
+		const initializedModulePromise = this.aiCodingService.initializeReactModule(project.id, auth)
+		const cloudProfilePromise = this.projectDeploymentService.createCloudProfile(project.id, auth)
 		const saveProjectPromise = this.projectRepository.save(project)
 
 		const [module] = await Promise.all([initializedModulePromise, saveProjectPromise, cloudProfilePromise])
 
-		const entryPoint: EntryPoint = await this.projectDeploymentService.deployModule(project.id, module)
+		const entryPoint: EntryPoint = await this.projectDeploymentService.deployModule(project.id, module, auth)
 
-		return { project, entryPoint }
+		const response: CreateProjectResponse = {
+			project,
+			entryPoint,
+		}
+		return response
 	}
 }

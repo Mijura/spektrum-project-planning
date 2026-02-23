@@ -1,13 +1,15 @@
 import { Project } from "@domain/project/project"
 import { ProjectRepository } from "@app/ports/repositories/project-repository"
 import { UpdateProjectDetailsParams, UpdateProjectDetailsUseCase } from "@app/ports/use-cases/project/update-details"
-import { AuthContext, requireAuthenticated } from "@heksagon/app"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
 export class UpdateProjectDetails implements UpdateProjectDetailsUseCase {
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
-	async execute(params: UpdateProjectDetailsParams, authContext: AuthContext): Promise<Project> {
-		requireAuthenticated(authContext)
+	async execute(auth: Auth<UserData>, params: UpdateProjectDetailsParams): Promise<Project> {
+
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
 
 		const { projectId, newName, newDescription } = params
 
