@@ -15,7 +15,7 @@ export function createFetchProjectHandler(fetchProjectUseCase: FetchProjectUseCa
 
 			if (!projectId) throw new ValidationError("Missing path parameter: projectId")
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 
 			const params: FetchProjectParams = {
 				projectId,

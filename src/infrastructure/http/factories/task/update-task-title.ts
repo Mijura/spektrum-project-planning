@@ -13,7 +13,7 @@ export function createUpdateTaskTitleHandler(updateTaskTitleUseCase: UpdateTaskT
 		try {
 			if (!event.body) throw new ValidationError("No page body")
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 			const params: UpdateTaskTitleParams = JSON.parse(event.body)
 
 			const updatedTask: Task = await updateTaskTitleUseCase.execute(auth, params)

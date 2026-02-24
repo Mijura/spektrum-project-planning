@@ -13,7 +13,7 @@ export function createUpdateTaskDescriptionHandler(updateTaskDescriptionUseCase:
 		try {
 			if (!event.body) throw new ValidationError("No page body")
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 			const params: UpdateTaskDescriptionParams = JSON.parse(event.body)
 
 			const updatedTask: Task = await updateTaskDescriptionUseCase.execute(auth, params)

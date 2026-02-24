@@ -13,7 +13,7 @@ export function createUpdateProjectDetailsHandler(updateProjectDetailsUseCase: U
 		try {
 			if (!event.body) throw new ValidationError("No page body")
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 			const params: UpdateProjectDetailsParams = JSON.parse(event.body)
 
 			const project: Project = await updateProjectDetailsUseCase.execute(auth, params)

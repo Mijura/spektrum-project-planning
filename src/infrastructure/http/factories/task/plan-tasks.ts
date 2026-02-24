@@ -13,7 +13,7 @@ export function createPlanTasksHandler(planTasksUseCase: PlanTasksUseCase) {
 		try {
 			if (!event.body) throw new ValidationError("No request body provided")
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 			const params: PlanTasksParams = JSON.parse(event.body)
 
 			const tasks: Task[] = await planTasksUseCase.execute(auth, params)
