@@ -9,7 +9,7 @@ import { extractAuthData } from "@heksagon/http"
 export function createCreateProjectHandler(createNewProjectUseCase: CreateProjectUseCase) {
 	return async function createProjectHandler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
 		try {
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 
 			const result: CreateProjectResponse = await createNewProjectUseCase.execute(auth)
 

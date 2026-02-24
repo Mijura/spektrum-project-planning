@@ -13,7 +13,7 @@ export function createLeaveCommentHandler(leaveCommentUseCase: LeaveCommentUseCa
 		try {
 			if (!event.body) throw new ValidationError("No request body provided")
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 			const params: LeaveCommentParams = JSON.parse(event.body)
 
 			const task: Task = await leaveCommentUseCase.execute(auth, params)

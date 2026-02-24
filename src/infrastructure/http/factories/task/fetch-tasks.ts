@@ -17,7 +17,7 @@ export function createFetchTasksHandler(fetchTasksUseCase: FetchTasksUseCase) {
 
 			console.log(`Fetching all tasks for project: ${projectId}`)
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 
 			const params: FetchTasksParams = {
 				projectId,

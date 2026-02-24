@@ -13,7 +13,7 @@ export function createCreateTaskHandler(createTaskUseCase: CreateTaskUseCase) {
 		try {
 			if (!event.body) throw new ValidationError("No page body")
 
-			const auth: Auth<UserData> = extractAuthData(event)
+			const auth: Auth<UserData> = extractAuthData(event.headers)
 			const params: CreateTaskParams = JSON.parse(event.body)
 
 			const task: Task = await createTaskUseCase.execute(auth, params)
