@@ -19,10 +19,10 @@ export class CreateProject implements CreateProjectUseCase {
 		const project: Project = Project.create("My Project", "Empty project...", auth.data.userId)
 
 		const initializedModulePromise = this.aiCodingService.initializeReactModule(project.id, auth)
-		const cloudProfilePromise = this.projectDeploymentService.createCloudProfile(project.id, auth)
+		//const cloudProfilePromise = this.projectDeploymentService.createCloudProfile(project.id, auth)
 		const saveProjectPromise = this.projectRepository.save(project)
 
-		const [module] = await Promise.all([initializedModulePromise, saveProjectPromise, cloudProfilePromise])
+		const [module] = await Promise.all([initializedModulePromise, saveProjectPromise])
 
 		const entryPoint: EntryPoint = await this.projectDeploymentService.deployModule(project.id, module, auth)
 
