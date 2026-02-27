@@ -12,3 +12,12 @@ image_repositories = []
 
 [default.global.parameters]
 region = "eu-west-1"
+
+[prod.deploy.parameters]
+stack_name = "project-planning"
+resolve_s3 = true
+s3_prefix = "project-planning"
+region = "eu-west-1"
+capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
+confirm_changeset = true
+image_repositories = []
