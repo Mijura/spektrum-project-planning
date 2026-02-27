@@ -1,14 +1,17 @@
 version = 0.1
 
-[default.deploy.parameters]
+[dev.deploy.parameters]
 stack_name = "project-planning"
 resolve_s3 = true
 s3_prefix = "project-planning"
 region = "eu-west-1"
-profile = "spektrum-dev"
-confirm_changeset = true
 capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
 image_repositories = []
 
-[default.global.parameters]
+[prod.deploy.parameters]
+stack_name = "project-planning"
+resolve_s3 = true
+s3_prefix = "project-planning"
 region = "eu-west-1"
+capabilities = "CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND"
+image_repositories = []
