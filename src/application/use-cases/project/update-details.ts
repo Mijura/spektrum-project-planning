@@ -1,31 +1,29 @@
-import { Project } from "@domain/entities/project"
-import { ProjectRepository } from "@domain/ports/repositories/project-repository"
-import { UpdateProjectDetails } from "@domain/use-cases/project/update-details"
+import { Project } from "@domain/project/project"
+import { ProjectRepository } from "@app/ports/repositories/project-repository"
+import { UpdateProjectDetailsParams, UpdateProjectDetailsUseCase } from "@app/ports/use-cases/project/update-details"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
-export class UpdateProjectDetailsUseCase implements UpdateProjectDetails {
-    constructor(
-        private readonly projectRepository: ProjectRepository
-    ) {}
+export class UpdateProjectDetails implements UpdateProjectDetailsUseCase {
+	constructor(private readonly projectRepository: ProjectRepository) {}
 
-    async execute(projectId: string, name: string, description: string): Promise<Project> {
-        try {
-            
-            console.log(`Updating project details for project ${projectId}`)
-            const project: Project | null = await this.projectRepository.get(projectId)
+	async execute(auth: Auth<UserData>, params: UpdateProjectDetailsParams): Promise<Project> {
 
-            if (!project) {
-                throw new Error("Project not found.")
-            }
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
 
-            // Update project details
-            project.setName(name)
-            project.setDescription(description)
+		const { projectId, newName, newDescription } = params
 
-            // Persist the project in the database
-            return await this.projectRepository.save(project)
-        } catch (error) {
-            console.error("Error during project details update:", error)
-            throw new Error("Failed to update project details.")
-        }
-    }
-} 
+		console.log(`Updating project details for project ${projectId}`)
+		const project: Project | null = await this.projectRepository.get(projectId)
+
+		if (!project) {
+			throw new Error("Project not found.")
+		}
+
+		// Update project details
+		project.setName(newName)
+		project.setDescription(newDescription)
+
+		return await this.projectRepository.save(project)
+	}
+}

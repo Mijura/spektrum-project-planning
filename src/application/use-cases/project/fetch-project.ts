@@ -1,12 +1,16 @@
+import { FetchProjectParams, FetchProjectUseCase } from "@app/ports/use-cases/project/fetch-project"
+import { ProjectRepository } from "@app/ports/repositories/project-repository"
+import { Project } from "@domain/project/project"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
-import { FetchProject } from "@domain/use-cases/project/fetch-project"
-import { ProjectRepository } from "@domain/ports/repositories/project-repository"
-import { Project } from "@domain/entities/project"
-
-export class FetchProjectUseCase implements FetchProject {
+export class FetchProject implements FetchProjectUseCase {
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
-	async execute(projectId: string): Promise<Project> {
+	async execute(auth: Auth<UserData>, params: FetchProjectParams): Promise<Project> {
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
+
+		const { projectId } = params
 		return await this.projectRepository.get(projectId)
 	}
 }

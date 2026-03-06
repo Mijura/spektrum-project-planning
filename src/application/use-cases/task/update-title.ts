@@ -1,31 +1,29 @@
-import { Task } from "@domain/entities/task"
-import { TaskDto } from "@application/dto/task"
-import { TaskRepository } from "@domain/ports/repositories/task-repository"
-import { UpdateTaskTitle } from "@domain/use-cases/task/update-title"
+import { Task } from "@domain/task/task"
+import { TaskRepository } from "@app/ports/repositories/task-repository"
+import { UpdateTaskTitleParams, UpdateTaskTitleUseCase } from "@app/ports/use-cases/task/update-title"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
-export class UpdateTaskTitleUseCase implements UpdateTaskTitle{
-	constructor(
-		private readonly taskRepository: TaskRepository
-	) {}
+export class UpdateTaskTitle implements UpdateTaskTitleUseCase {
+	constructor(private readonly taskRepository: TaskRepository) {}
 
-	async execute(taskDto: TaskDto): Promise<Task> {
-		try {
-			// fetch the old task and update it
-			console.log(`Updating task title for task ${taskDto.id} to ${taskDto.title}.`)
-            const task: Task | null = await this.taskRepository.get(taskDto.id)
+	async execute(auth: Auth<UserData>, params: UpdateTaskTitleParams): Promise<Task> {
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
 
-            if (!task) {
-                throw new Error("Task not found.")
-            }
+		const { taskId, newTitle } = params
 
-			// TODO: Get the user id from the context
-			task.updateTitle("User", taskDto.title)
+		// fetch the old task and update it
+		console.log(`Updating task title for task ${taskId} to ${newTitle}.`)
+		const task: Task | null = await this.taskRepository.get(taskId)
 
-			// Persist the task in the database
-			return await this.taskRepository.save(task)
-		} catch (error) {
-			console.error("Error during task title update:", error)
-			throw new Error("Failed to edit task title.")
+		if (!task) {
+			throw new Error("Task not found.")
 		}
+
+		// TODO: Get the user id from the context
+		task.updateTitle("User", newTitle)
+
+		// Persist the task in the database
+		return await this.taskRepository.save(task)
 	}
 }

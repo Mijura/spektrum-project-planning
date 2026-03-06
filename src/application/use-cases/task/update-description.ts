@@ -1,32 +1,28 @@
-import { Task } from "@domain/entities/task"
-import { TaskDto } from "@application/dto/task"
-import { TaskRepository } from "@domain/ports/repositories/task-repository"
-import { UpdateTaskDescription } from "@domain/use-cases/task/update-description"
+import { Task } from "@domain/task/task"
+import { TaskRepository } from "@app/ports/repositories/task-repository"
+import { UpdateTaskDescriptionParams, UpdateTaskDescriptionUseCase } from "@app/ports/use-cases/task/update-description"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
-export class UpdateTaskDescriptionUseCase implements UpdateTaskDescription{
-	constructor(
-		private readonly taskRepository: TaskRepository
-	) {}
+export class UpdateTaskDescription implements UpdateTaskDescriptionUseCase {
+	constructor(private readonly taskRepository: TaskRepository) {}
 
-	async execute(taskDto: TaskDto): Promise<Task> {
-		try {
-			// fetch the old task and update it
-			console.log(`Updating task description for task ${taskDto.id} to ${taskDto.description}.`)
-            const task: Task | null = await this.taskRepository.get(taskDto.id)
+	async execute(auth: Auth<UserData>, params: UpdateTaskDescriptionParams): Promise<Task> {
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
 
-            if (!task) {
-                throw new Error("Task not found.")
-            }
+		const { taskId, newDescription } = params
 
-			// TODO: Get the user id from the context
-            task.updateDescription("User", taskDto.description)
+		// fetch the old task and update it
+		console.log(`Updating task description for task ${taskId} to ${newDescription}.`)
+		const task: Task | null = await this.taskRepository.get(taskId)
 
-
-			// Persist the task in the database
-			return await this.taskRepository.save(task)
-		} catch (error) {
-			console.error("Error during task description update:", error)
-			throw new Error("Failed to edit task description.")
+		if (!task) {
+			throw new Error("Task not found.")
 		}
+
+		// TODO: Get the user id from the context
+		task.updateDescription("User", newDescription)
+
+		return await this.taskRepository.save(task)
 	}
 }

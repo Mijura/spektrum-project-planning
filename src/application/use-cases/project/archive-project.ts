@@ -1,12 +1,17 @@
-import { Project } from "@domain/entities/project"
-import { ArchiveProject } from "@domain/use-cases/project/archive-project"
-import { ProjectRepository } from "@domain/ports/repositories/project-repository"
+import { Project } from "@domain/project/project"
+import { ArchiveProjectParams, ArchiveProjectUseCase } from "@app/ports/use-cases/project/archive-project"
+import { ProjectRepository } from "@app/ports/repositories/project-repository"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
-export class ArchiveProjectUseCase implements ArchiveProject {
+export class ArchiveProject implements ArchiveProjectUseCase {
 	constructor(private readonly projectRepository: ProjectRepository) {}
 
-	async execute(projectId: string): Promise<Project> {
-		const project = await this.projectRepository.get(projectId)
+	async execute(auth: Auth<UserData>, params: ArchiveProjectParams): Promise<Project> {
+
+		console.log(`Autd data: ${JSON.stringify(auth.data)}`)
+
+		const project: Project = await this.projectRepository.get(params.projectId)
 		project.archive()
 		return await this.projectRepository.save(project)
 	}

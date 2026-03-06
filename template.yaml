@@ -1,28 +1,32 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
+AWSTemplateFormatVersion: "2010-09-09"
 Description: >
-  project-planning
+  Project Planning is a project and task management service for the Spektrum AI coding platform.
+
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 100
 
 Resources:
   CreateProjectFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/create-project.createProjectHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/project/create-project.handler
       Description: Create a new project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/{ownerId}
-            Method: POST
+          JIGJOY_API_ENDPOINT: "{{resolve:secretsmanager:vars:SecretString:JigJoyApiEndpoint}}"
+          INTERNAL_SERVICE_TOKEN: "{{resolve:secretsmanager:vars:SecretString:InternalServiceToken}}"
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -30,27 +34,19 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/create-project.ts
+          - src/infrastructure/http/handlers/project/create-project.ts
 
   UpdateProjectDetailsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/update-project-details.updateProjectDetailsHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/project/update-project-details.handler
       Description: Update project details
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/
-            Method: PUT
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -58,27 +54,19 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/update-project-details.ts
+          - src/infrastructure/http/handlers/project/update-project-details.ts
 
   FetchProjectFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/fetch-project.fetchProjectHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/project/fetch-project.handler
       Description: Fetch a project by id
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/fetch/{projectId}
-            Method: GET
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -86,27 +74,19 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/fetch-project.ts
+          - src/infrastructure/http/handlers/project/fetch-project.ts
 
   FetchProjectsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/fetch-projects.fetchProjectsHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/project/fetch-projects.handler
       Description: Fetch all projects for an owner
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/fetch-all/{ownerId}
-            Method: GET
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -114,27 +94,19 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/fetch-projects.ts
+          - src/infrastructure/http/handlers/project/fetch-projects.ts
 
   ArchiveProjectFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/project/archive-project.archiveProjectHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/project/archive-project.handler
       Description: Archive a project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/archive
-            Method: PUT
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -142,28 +114,26 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/project/archive-project.ts
+          - src/infrastructure/http/handlers/project/archive-project.ts
 
-  PlanTasksWithAIFunction:
+  PlanTasksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/plan-tasks-with-ai.planTasksWithAIHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
+      Handler: src/infrastructure/http/handlers/task/plan-tasks.handler
       MemorySize: 256
       Timeout: 120
       Description: Plan tasks using AI for a project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           PROJECT_TABLE: !Ref ProjectTable
           TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /project/plan-tasks-with-ai
-            Method: POST
+          OPENAI_API_KEY: "{{resolve:secretsmanager:vars:SecretString:OpenAIAPIKey}}"
+          ANTHROPIC_API_KEY: "{{resolve:secretsmanager:vars:SecretString:AnthropicAPIKey}}"
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -171,27 +141,24 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/plan-tasks-with-ai.ts
+          - src/infrastructure/http/handlers/task/plan-tasks.ts
 
   CreateTaskFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/create-task.createTaskHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/task/create-task.handler
       Description: Create a new task
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task
-            Method: POST
+          PROJECT_TABLE: !Ref ProjectTable
+          OPENAI_API_KEY: "{{resolve:secretsmanager:vars:SecretString:OpenAIAPIKey}}"
+          ANTHROPIC_API_KEY: "{{resolve:secretsmanager:vars:SecretString:AnthropicAPIKey}}"
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -199,27 +166,19 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/create-task.ts
+          - src/infrastructure/http/handlers/task/create-task.ts
 
   UpdateTaskTitleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/update-task-title.updateTaskTitleHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/task/update-task-title.handler
       Description: Update task title
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task/title
-            Method: PUT
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -227,27 +186,19 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/update-task-title.ts
+          - src/infrastructure/http/handlers/task/update-task-title.ts
 
   UpdateTaskDescriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/update-task-description.updateTaskDescriptionHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/task/update-task-description.handler
       Description: Update task description
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task/description
-            Method: PUT
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -255,27 +206,19 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/update-task-description.ts
+          - src/infrastructure/http/handlers/task/update-task-description.ts
 
   FetchTasksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/infrastructure/http/controllers/task/fetch-tasks.fetchTasksHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
+      Handler: src/infrastructure/http/handlers/task/fetch-tasks.handler
       Description: Fetch tasks for a project
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
       Environment:
         Variables:
           TASK_TABLE: !Ref TaskTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /task/fetch-all/{projectId}
-            Method: GET
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -283,12 +226,52 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/infrastructure/http/controllers/task/fetch-tasks.ts
+          - src/infrastructure/http/handlers/task/fetch-tasks.ts
+
+  LeaveCommentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/handlers/task/leave-comment.handler
+      Description: Leave a comment on a task
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
+      Environment:
+        Variables:
+          TASK_TABLE: !Ref TaskTable
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/leave-comment.ts
+
+  RecordWorkFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/infrastructure/http/handlers/task/record-work.handler
+      Description: Record work on a task
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TaskTable
+      Environment:
+        Variables:
+          TASK_TABLE: !Ref TaskTable
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/infrastructure/http/handlers/task/record-work.ts
 
   ProjectTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: Project
+      TableName: !Sub "${AWS::StackName}-Project"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: id
@@ -319,7 +302,7 @@ Resources:
   TaskTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: Task
+      TableName: !Sub "${AWS::StackName}-Task"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: id
@@ -338,8 +321,62 @@ Resources:
             ProjectionType: ALL
 
 Outputs:
-  ProjectApiGatewayUrl:
-    Description: "API Gateway URL for project management and planning"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  CreateProjectFunctionArn:
+    Value: !GetAtt CreateProjectFunction.Arn
     Export:
-      Name: ProjectApiGatewayUrl
+      Name: !Sub "${AWS::StackName}-CreateProjectFunctionArn"
+
+  UpdateProjectDetailsFunctionArn:
+    Value: !GetAtt UpdateProjectDetailsFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-UpdateProjectDetailsFunctionArn"
+
+  FetchProjectFunctionArn:
+    Value: !GetAtt FetchProjectFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-FetchProjectFunctionArn"
+
+  FetchProjectsFunctionArn:
+    Value: !GetAtt FetchProjectsFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-FetchProjectsFunctionArn"
+
+  ArchiveProjectFunctionArn:
+    Value: !GetAtt ArchiveProjectFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-ArchiveProjectFunctionArn"
+
+  PlanTasksFunctionArn:
+    Value: !GetAtt PlanTasksFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-PlanTasksFunctionArn"
+
+  CreateTaskFunctionArn:
+    Value: !GetAtt CreateTaskFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-CreateTaskFunctionArn"
+
+  UpdateTaskTitleFunctionArn:
+    Value: !GetAtt UpdateTaskTitleFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-UpdateTaskTitleFunctionArn"
+
+  UpdateTaskDescriptionFunctionArn:
+    Value: !GetAtt UpdateTaskDescriptionFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-UpdateTaskDescriptionFunctionArn"
+
+  FetchTasksFunctionArn:
+    Value: !GetAtt FetchTasksFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-FetchTasksFunctionArn"
+
+  LeaveCommentFunctionArn:
+    Value: !GetAtt LeaveCommentFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-LeaveCommentFunctionArn"
+
+  RecordWorkFunctionArn:
+    Value: !GetAtt RecordWorkFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-RecordWorkFunctionArn"

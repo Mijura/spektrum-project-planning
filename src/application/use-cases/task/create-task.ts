@@ -1,28 +1,25 @@
-import { CreateTask } from "@domain/use-cases/task/create-task"
-import { Task } from "@domain/entities/task"
-import { TaskRepository } from "@domain/ports/repositories/task-repository"
-import { MarketingService } from "@domain/ports/services/marketing-service"
+import { CreateTaskParams, CreateTaskUseCase } from "@app/ports/use-cases/task/create-task"
+import { TaskRepository } from "@app/ports/repositories/task-repository"
+import { ProjectDetailsService } from "@app/services/project-details-service"
+import { Task } from "@domain/task/task"
+import { Auth } from "@heksagon/app"
+import { UserData } from "@jigjoy-ai/auth"
 
-export class CreateTaskUseCase implements CreateTask {
+export class CreateTask implements CreateTaskUseCase {
 	constructor(
+		private readonly projectDetailsService: ProjectDetailsService,
 		private readonly taskRepository: TaskRepository,
-		private readonly marketingService: MarketingService,
-
 	) {}
 
-	async execute(projectId: string, title: string, description: string): Promise<Task> {
-		try {
-			// Create a new task
-			const task: Task = Task.create('User', projectId, title, description)
+	async execute(auth: Auth<UserData>, params: CreateTaskParams): Promise<Task> {
+		console.log(`Auth data: ${JSON.stringify(auth.data)}`)
 
-			await this.marketingService.updateProjectDetails(task)
-			// Persist the task in the database
-			const savedTask = await this.taskRepository.save(task)
-			
-			return savedTask
-		} catch (error) {
-			console.error("Error creating new task:", error)
-			throw new Error("Failed to create new task.")
-		}
+		const { projectId, title, description } = params
+
+		const task: Task = Task.create("User", projectId, title, description)
+
+		await this.projectDetailsService.ensureProjectDetailsFromTask(task)
+
+		return await this.taskRepository.save(task)
 	}
 }

@@ -1,0 +1,41 @@
+import { ProjectDetailsGenerator } from "@app/ports/generators/project-details-generator"
+import { MozaikAgent, MozaikRequest } from "@mozaik-ai/core"
+import { Task } from "@domain/task/task"
+import z from "zod"
+
+export class MosaicProjectDetailsGenerator implements ProjectDetailsGenerator {
+	async generateProjectDetails(task: Task): Promise<ProjectDetails> {
+		const outputSchema = z.object({
+			name: z.string().describe("Short and concise title of the project."),
+			description: z.string().describe("Project description withtout technical details in single sentence."),
+		})
+
+		const prompt = `
+                
+            ### **Your Task:**
+            1) Based on the task details, create a project name and description.
+    
+            ### **Task Details:** ${JSON.stringify(task)}
+
+
+            Important:
+                - Respond only in valid JSON. The JSON object you return should match the following schema.
+
+            ### **Output Example**
+            {
+                "name": "Simple Note-taking app",
+                "description": "A simple note-taking app that allows you to create, edit, and delete notes."
+            }
+        `
+
+		const request: MozaikRequest = {
+			model: "gpt-5.1",
+			task: prompt,
+			structuredOutput: outputSchema,
+		}
+
+		const agent = new MozaikAgent(request)
+		const result = await agent.act()
+		return result.data as ProjectDetails
+	}
+}
